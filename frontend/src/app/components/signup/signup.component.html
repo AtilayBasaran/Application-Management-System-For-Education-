@@ -13,7 +13,7 @@
       <input
         matInput
         type="password"
-        placeholder=""
+        placeholder="*******"
         formControlName="password"
       />
     </mat-form-field>
@@ -22,10 +22,11 @@
       <input
         matInput
         type="password"
-        placeholder=""
-        formControlName="password"
+        placeholder="*******"
+        formControlName="confirmPassword"
       />
     </mat-form-field>
+    
     <button
       color="accent"
       [disabled]="!signupForm.valid"
