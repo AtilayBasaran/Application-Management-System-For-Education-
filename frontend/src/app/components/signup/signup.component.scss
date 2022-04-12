@@ -6,4 +6,10 @@ mat-form-field {
     float: right;
     width: 200px;
   }
-  
+
+  .container{
+    max-width: 25%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+  }
