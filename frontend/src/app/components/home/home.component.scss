@@ -5,23 +5,29 @@
 .image{
     display: flex;
     height: 16rem;
-}
-.evaluate{
     margin: auto;
-    border: 1px solid black;
-    width: 25rem;
-    height: 10rem;
-    border-radius: 5%;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
+    padding-right: 3rem;
 }
-.evaluate,p{
-    text-align: center;
-    margin: auto;
-}
+
 .evaluate,p,a{
     text-decoration: none;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 1rem;
+    font-family: ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: black;
+    border-radius: 15px; 
+    justify-content: center; 
+    border: 2px solid #1A1A1A;
+    box-sizing: border-box;
+    display: inline-block;
+    line-height: normal;
+    padding: 16px 24px;
+    width: 100%;
+    text-align: center;
+}
+
+.evaluate,p,a:hover { 
+    color: black;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
 }

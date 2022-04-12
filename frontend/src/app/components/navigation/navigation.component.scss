@@ -3,7 +3,8 @@ mat-toolbar {
     flex-direction: row;
     justify-content: space-between;
     padding: 0 62px;
-    background: #FBB400;
+    background: rgb(121,152,196);
+    background: linear-gradient(90deg, rgba(121,152,196,1) 0%, rgba(251,180,0,1) 20%, rgba(251,180,0,1) 100%, rgba(73,110,166,1) 100%); 
     a {
         text-decoration: none;
 
