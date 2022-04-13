@@ -13,6 +13,9 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatListModule } from "@angular/material/list";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatTableModule } from "@angular/material/table";
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -39,7 +42,7 @@ import { SuccesRegisterComponent } from './components/succes-register/succes-reg
     EngApplicationComponent,
     NotFoundComponent,
     SuccessAppComponent,
-    SuccesRegisterComponent
+    SuccesRegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,9 @@ import { SuccesRegisterComponent } from './components/succes-register/succes-reg
     MatToolbarModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
