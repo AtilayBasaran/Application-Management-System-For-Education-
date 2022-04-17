@@ -18,7 +18,10 @@ router.post(
       .custom(async (email) => {
         const user = await User.find(email);
         if (user[0].length > 0) {
-          return Promise.reject('Email address already exist!');
+          res.status(400).json({
+            message: "Email is already in use!"
+          });
+          return;
         }
       })
       .normalizeEmail(),

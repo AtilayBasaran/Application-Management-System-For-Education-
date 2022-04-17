@@ -29,11 +29,7 @@ export class AuthService {
 
   signup(user: Omit<User, "id">): Observable<User> {
     return this.http
-      .post<User>(`${this.url}/signup`, user, this.httpOptions)
-      .pipe(
-        first(),
-        catchError(this.errorHandlerService.handleError<User>("signup"))
-      );
+      .post<User>(`${this.url}/signup`, user, this.httpOptions);
   }
 
   login(

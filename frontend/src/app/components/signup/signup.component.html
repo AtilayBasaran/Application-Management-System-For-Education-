@@ -1,5 +1,5 @@
 <div class="container">
-<form [formGroup]="signupForm" (ngSubmit)="signup()" novalidate>
+<form *ngIf="!isSuccessful" [formGroup]="signupForm" (ngSubmit)="signup()" novalidate>
     <mat-form-field>
       <mat-label>Name Surname</mat-label>
       <input matInput placeholder="Ex. Salih Coşkun" formControlName="name" />
@@ -7,6 +7,7 @@
     <mat-form-field>
       <mat-label>Email</mat-label>
       <input matInput placeholder="Ex. salih.coskun@isik.edu.tr" formControlName="email" />
+      <mat-error  *ngIf="!signupForm.get('email')?.errors?.required">Enter a valid e-mail</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Password</mat-label>
@@ -16,6 +17,7 @@
         placeholder="*******"
         formControlName="password"
       />
+      <mat-error  *ngIf="!signupForm.get('password')?.errors?.minLength">Password length must be bigger than 7</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Confirm Password</mat-label>
@@ -25,6 +27,7 @@
         placeholder="*******"
         formControlName="confirmPassword"
       />
+      <mat-error  *ngIf="!signupForm.get('confirmPassword')?.errors?.matchValidator">Passwords do not match </mat-error>
     </mat-form-field>
     
     <button
@@ -35,5 +38,11 @@
     >
       <span>Register</span>
     </button>
+    <div class="alert alert-warning" *ngIf="isSignUpFailed">
+      Signup failed!<br />{{ errorMessage }}
+    </div>
   </form>
+  <div class="alert alert-success" *ngIf="isSuccessful">
+    Your registration is successful!
+  </div>
 </div>

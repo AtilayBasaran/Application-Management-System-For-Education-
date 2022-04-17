@@ -23,6 +23,7 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { PostsComponent } from './components/posts/posts.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { TrApplicationComponent } from './components/tr-application/tr-application.component';
 import { EngApplicationComponent } from './components/eng-application/eng-application.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
@@ -37,6 +38,7 @@ import { SuccesRegisterComponent } from './components/succes-register/succes-reg
     LoginComponent,
     HomeComponent,
     PostsComponent,
+    ProfileComponent,
     FooterComponent,
     TrApplicationComponent,
     EngApplicationComponent,

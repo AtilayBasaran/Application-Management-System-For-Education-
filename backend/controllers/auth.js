@@ -6,12 +6,15 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 
-
-
 exports.signup = async (req, res, next) => {
     const errors = validationResult(req);
-  
-    if (!errors.isEmpty()) return;
+
+    const user = await User.find(req.body.email);
+        if (user[0].length > 0) {
+          res.status(401).json({
+            message: "Email is already in use!"
+          });
+        }
   
     const name = req.body.name;
     const email = req.body.email;
@@ -28,11 +31,13 @@ exports.signup = async (req, res, next) => {
   
       const result = await User.save(userDetails);
   
-      res.status(201).json({ message: 'User registered!' });
-      res.redirect('http://localhost:4200/login')
+      res.status(201).send({ message: 'User registered!' });
+      return;
     } catch (err) {
       if (!err.statusCode) {
-        err.statusCode = 500;
+        res.status(400).send({
+          message: "Failed!"
+        });
       }
       next(err);
     }
@@ -45,9 +50,9 @@ exports.signup = async (req, res, next) => {
       const user = await User.find(email);
   
       if (user[0].length !== 1) {
-        const error = new Error('A user with this email could not be found.');
-        error.statusCode = 401;
-        throw error;
+        res.status(400).send({
+          message: "Wrong email or password!"
+        });
       }
   
       const storedUser = user[0][0];
@@ -55,9 +60,10 @@ exports.signup = async (req, res, next) => {
       const isEqual = await bcrypt.compare(password, storedUser.password);
   
       if (!isEqual) {
-        const error = new Error('Wrong password!');
-        error.statusCode = 401;
-        throw error;
+        res.status(400).send({
+          message: "Wrong email or password!"
+        });
+        return;
       }
   
       const token = jwt.sign(

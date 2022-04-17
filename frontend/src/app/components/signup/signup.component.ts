@@ -11,6 +11,10 @@ import { AuthService } from "src/app/services/auth.service";
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
   formBuilder: FormBuilder;
+  isSuccessful = false;
+  isSignUpFailed = false;
+  errorMessage = '';
+
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -18,9 +22,23 @@ export class SignupComponent implements OnInit {
     this.signupForm = this.createFormGroup();
   }
 
+  onSubmit(): void {
+    this.authService.signup(this.signupForm.value).subscribe(
+      data => {
+        console.log(data);
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+      },
+      err => {
+        this.errorMessage = err.error.message;
+        this.isSignUpFailed = true;
+      }
+    );
+  }
+
   createFormGroup(): FormGroup {
     return new FormGroup({
-      name: new FormControl("", [Validators.required, Validators.minLength(2)]),
+      name: new FormControl("", [Validators.required, Validators.minLength(3)]),
       email: new FormControl("", [Validators.required, Validators.email]),
       password: new FormControl("", [
         Validators.required,
@@ -38,8 +56,20 @@ export class SignupComponent implements OnInit {
   signup(): void {
     this.authService
     .signup(this.signupForm.value)
-    .subscribe((msg) => {console.log(msg)});
+    .subscribe(
+      data => {
+        console.log(data);
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+        this.router.navigate(["login"]);
+      },
+      err => {
+        this.errorMessage = err.error.message;
+        this.isSignUpFailed = true;
+      }
+    );
   }
+  
 
   
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormControl, FormGroup, Validators, ReactiveFormsModule,AbstractControl, FormBuilder, } from "@angular/forms";
 
 import { AuthService } from "src/app/services/auth.service";
 
@@ -10,7 +10,7 @@ import { AuthService } from "src/app/services/auth.service";
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-
+  submitted = false;
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
