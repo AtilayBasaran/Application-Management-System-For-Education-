@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TrApplicationComponent } from './tr-application.component';
+import { RequestPageComponent } from './request-page.component';
 
-describe('TrApplicationComponent', () => {
-  let component: TrApplicationComponent;
-  let fixture: ComponentFixture<TrApplicationComponent>;
+describe('RequestPageComponent', () => {
+  let component: RequestPageComponent;
+  let fixture: ComponentFixture<RequestPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TrApplicationComponent ]
+      declarations: [ RequestPageComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TrApplicationComponent);
+    fixture = TestBed.createComponent(RequestPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

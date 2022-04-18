@@ -1,27 +1,18 @@
-<form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+<div class="container">
+  <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
     <mat-form-field>
       <mat-label>Email</mat-label>
       <input id="email" name="email" matInput placeholder="Ex. Jon" formControlName="email" />
-      <mat-error  *ngIf="!loginForm.get('email')?.errors?.required">You must insert valid e-mail </mat-error>
-      
+      <mat-error *ngIf="!loginForm.get('email')?.errors?.required">You must insert valid e-mail </mat-error>
+
     </mat-form-field>
     <mat-form-field>
       <mat-label>Password</mat-label>
-      <input
-        matInput
-        type="password"
-        placeholder="Ex. Jon"
-        formControlName="password"
-      />
-      <mat-error  *ngIf="!loginForm.get('password')?.errors?.minLength">Password length must be bigger than 7</mat-error>
+      <input matInput type="password" placeholder="Ex. Jon" formControlName="password" />
+      <mat-error *ngIf="!loginForm.get('password')?.errors?.minLength">Password length must be bigger than 7</mat-error>
     </mat-form-field>
-    <button
-      color="accent"
-      [disabled]="!loginForm.valid"
-      mat-raised-button
-      type="submit"
-    >
+    <button color="accent" [disabled]="!loginForm.valid" mat-raised-button type="submit">
       <span>Log in</span>
     </button>
   </form>
-  
+</div>

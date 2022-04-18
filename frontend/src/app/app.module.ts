@@ -16,19 +16,20 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
-import { HomeComponent } from './components/home/home.component';
-import { PostsComponent } from './components/posts/posts.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { TrApplicationComponent } from './components/tr-application/tr-application.component';
-import { EngApplicationComponent } from './components/eng-application/eng-application.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SuccessAppComponent } from './components/success-app/success-app.component';
 import { SuccesRegisterComponent } from './components/succes-register/succes-register.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
+import { RequestPageComponent } from './components/request-page/request-page.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { AgencyProfileComponent } from './components/agency-profile/agency-profile.component';
 
 @NgModule({
   declarations: [
@@ -36,15 +37,15 @@ import { SuccesRegisterComponent } from './components/succes-register/succes-reg
     NavigationComponent,
     SignupComponent,
     LoginComponent,
-    HomeComponent,
-    PostsComponent,
     ProfileComponent,
     FooterComponent,
-    TrApplicationComponent,
-    EngApplicationComponent,
     NotFoundComponent,
     SuccessAppComponent,
     SuccesRegisterComponent,
+    HomePageComponent,
+    RequestPageComponent,
+    SettingsComponent,
+    AgencyProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +62,7 @@ import { SuccesRegisterComponent } from './components/succes-register/succes-reg
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
