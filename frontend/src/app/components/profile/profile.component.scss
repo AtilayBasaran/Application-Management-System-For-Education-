@@ -1,0 +1,72 @@
+.title {
+    font-size: 3rem;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+.stat {
+    font-size: 2rem;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+.profile {
+    display: flex;
+    height: 500px;
+    width: 1500px;
+    margin: 2px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: peru;
+
+}
+
+.information {
+    display: inline-block;
+    height: 250px;
+    width: 750px;
+    margin: 50px;
+    float: left;
+}
+.name {
+    display: flex;
+    flex-direction: row;
+}
+.email {
+    display: flex;
+    flex-direction: row;
+}
+.degree {
+    display: flex;
+    flex-direction: row;
+}
+.changePass{
+    display: flex;
+    flex-direction: column;
+}
+
+.process {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.appDate{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.agencyInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.agencyName{
+    display: flex;
+    flex-direction: row;
+}
+.agencyEmail{
+    display: flex;
+    flex-direction: row;
+}
+.changeButton{
+    padding-top: 15px;
+    padding-left: 50px;
+}
