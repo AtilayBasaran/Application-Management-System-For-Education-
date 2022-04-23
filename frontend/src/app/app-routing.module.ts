@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: "applicationPage", component: RequestPageComponent},
   { path: "settings", component: SettingsComponent},
   { path: "agencyProfile", component: AgencyProfileComponent},
-  { path: "**", redirectTo: "" },
+  { path: "**", redirectTo: "notFound" },
 ];
 
 @NgModule({

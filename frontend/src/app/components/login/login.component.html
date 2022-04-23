@@ -1,5 +1,5 @@
 <div class="container">
-  <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+  <form *ngIf="!isLoggedIn" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
     <mat-form-field>
       <mat-label>Email</mat-label>
       <input id="email" name="email" matInput placeholder="Ex. Jon" formControlName="email" />
@@ -14,5 +14,8 @@
     <button color="accent" [disabled]="!loginForm.valid" mat-raised-button type="submit">
       <span>Log in</span>
     </button>
+    <div class="alert alert-warning" *ngIf="isLoginFailed">
+      Signup failed!<br />{{ errorMessage }}
+    </div>
   </form>
 </div>

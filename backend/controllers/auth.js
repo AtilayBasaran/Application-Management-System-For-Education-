@@ -13,7 +13,9 @@ exports.signup = async (req, res, next) => {
         if (user[0].length > 0) {
           res.status(401).json({
             message: "Email is already in use!"
+            
           });
+          return;
         }
   
     const name = req.body.name;
@@ -38,6 +40,7 @@ exports.signup = async (req, res, next) => {
         res.status(400).send({
           message: "Failed!"
         });
+        return;
       }
       next(err);
     }
@@ -53,6 +56,7 @@ exports.signup = async (req, res, next) => {
         res.status(400).send({
           message: "Wrong email or password!"
         });
+        return;
       }
   
       const storedUser = user[0][0];
@@ -74,7 +78,17 @@ exports.signup = async (req, res, next) => {
         'secretfortoken',
         { expiresIn: '1h' }
       );
-      res.status(200).json({ token: token, userId: storedUser.id });
+
+      // Frontta data olarak tuttuğu yer burdan geliyor eğer next err diye atarsam da error tutuyor ve ekrana bastırabiliyorum
+      // Bu şekilde currentuseri da güncellemiş oldum çünkü token yanında tuttuğum bilgilere burdan dönenlerle yaptım.
+      res.status(200).send(
+        {
+        id: user.id,
+        username: storedUser.name,
+        email: storedUser.email,
+        roles: storedUser.role,
+        accessToken: token}
+        );
     } catch (err) {
       if (!err.statusCode) {
         err.statusCode = 500;

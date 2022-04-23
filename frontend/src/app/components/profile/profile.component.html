@@ -1,63 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" *ngIf="currentUser">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
 
 <body>
-    <h1 class="title">Profile</h1>
-    <div class="profile">
-        <div class="information">
-            <div class="name">
-                <h1>Name:</h1>
-                <h1>Salih Coşkun</h1>
-            </div>
-            <div class="email">
-                <h1>Email:</h1>
-                <h1>salih.coskun@isik.edu.tr</h1>
-            </div>
-            <div class="degree">
-                <h1>Degree:</h1>
-                <h1>Bachelor</h1>
-            </div>
-            <form>
-                <div class="changePass">
-                    <h1>Change Password</h1>
-                    <input style="width: 10rem;" type="password">
-                    <h1>Confirm Password</h1>
-                    <input style="width: 10rem;" type="password">
-                    <div class="changeButton">
-                        <button>Change</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="information">
-            <h1 class="stat">Application Status</h1>
-            <div class="process">
-                <h1>Process:</h1>
-                <h1>Waiting</h1>
-            </div>
-            <div class="appDate">
-                <h1>Application Date:</h1>
-                <h1>07.03.2022</h1>
-            </div>
-            <div class="agencyInfo">
-                <div class="agencyEmail">
-                    <h1>Agency Email:</h1>
-                    <h1>coskunagency@gmail.com</h1>
-                </div>
-                <div class="agencyName">
-                    <h1>Agency Name:</h1>
-                    <h1>Coşkun Agency</h1>
-                </div>
-            </div>
-        </div>
+  <h1 class="title">Profile</h1>
+  <div class="profile">
+    <div class="information">
+      <div class="name">
+        <h1>Name:</h1>
+        <h1>{{currentUser.username}}</h1>
+      </div>
+      <div class="email">
+        <h1>Email:</h1>
+        <h1>{{currentUser.email}}</h1>
+      </div>
+      <div class="degree">
+        <h1>Degree:</h1>
+        <h1>Bachelor</h1>
+      </div>
+      <form [formGroup]="changePassForm" (ngSubmit)="changePassword()" novalidate>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input id="password" name="password" matInput type="password" formControlName="password"/>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput id = "passwordConfirm" type="password" formControlName="passwordConfirm"/>
+      </mat-form-field>
+      <button color="accent" mat-raised-button type="submit">
+        <span>Change</span>
+      </button>
+    </form>
     </div>
+    <div class="information">
+      <h1 class="stat">Application Status</h1>
+      <div class="process">
+        <h1>Process:</h1>
+        <h1>Waiting</h1>
+      </div>
+      <div class="appDate">
+        <h1>Application Date:</h1>
+        <h1>07.03.2022</h1>
+      </div>
+      <div class="agencyInfo">
+        <div class="agencyEmail">
+          <h1>Agency Email:</h1>
+          <h1>coskunagency@gmail.com</h1>
+        </div>
+        <div class="agencyName">
+          <h1>Agency Name:</h1>
+          <h1>Coşkun Agency</h1>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

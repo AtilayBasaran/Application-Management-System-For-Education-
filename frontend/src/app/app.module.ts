@@ -30,6 +30,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { RequestPageComponent } from './components/request-page/request-page.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AgencyProfileComponent } from './components/agency-profile/agency-profile.component';
+import { authInterceptorProviders } from './_helpers/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,7 @@ import { AgencyProfileComponent } from './components/agency-profile/agency-profi
     MatSortModule,
     MatTabsModule,
   ],
-  providers: [],
+  providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 
 const authRoutes = require('./routes/auth');
 
+const passRoutes = require('./routes/pass');
+
 const errorController = require('./controllers/error');
 
 const app = express();
@@ -20,13 +22,14 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     'Access-Control-Allow-Headers',
-    'Content-Type, Authorization'
+    'Content-Type, Authorization, x-access-token'
   );
 
   next();
 });
 
 app.use('/auth', authRoutes);
+app.use('/pass', passRoutes);
 
 app.use(errorController.get404);
 
