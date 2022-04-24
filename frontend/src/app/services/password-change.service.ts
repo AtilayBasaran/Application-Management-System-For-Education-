@@ -10,7 +10,6 @@ import { Observable, BehaviorSubject } from "rxjs";
 export class PasswordChangeService {
   currentUser: any;
   private url = "http://localhost:3000/pass";
- 
 
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
@@ -21,8 +20,20 @@ export class PasswordChangeService {
     private router: Router
   ) {}
   changePassword(email : String, password: String, passwordConfirm : String): Observable<any> {
-    console.log('servisin içi ')
+    console.log('Change Password Servisinin içi ')
     return this.http
       .post(`${this.url}/changepass`,{email,password,passwordConfirm}, this.httpOptions);
+  }
+
+  forgetPassword(email : String): Observable<any> {
+    console.log('Forget Password Servisinin içi ')
+    return this.http
+      .post(`${this.url}/forgetpass`,{email}, this.httpOptions);
+  }
+
+  newPassword(email : String,password: String, passwordConfirm : String): Observable<any> {
+    console.log('New Password Servisinin içi ')
+    return this.http
+      .post(`${this.url}/newpass`,{email,password,passwordConfirm}, this.httpOptions);
   }
 }

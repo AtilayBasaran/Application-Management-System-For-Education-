@@ -12,4 +12,12 @@ router.post(
     '/changepass', passController.changePass
 );
 
+router.post(
+    '/forgetpass', passController.forgetPass
+);
+
+router.post(
+    '/newpass', passController.newPass
+);
+
 module.exports = router;

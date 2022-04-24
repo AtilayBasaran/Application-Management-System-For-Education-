@@ -31,6 +31,12 @@ import { RequestPageComponent } from './components/request-page/request-page.com
 import { SettingsComponent } from './components/settings/settings.component';
 import { AgencyProfileComponent } from './components/agency-profile/agency-profile.component';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
+import { ForgetPassComponent } from './forget-pass/forget-pass.component';
+import { NewPassComponent } from './new-pass/new-pass.component';
+import { LoginGuardGuard } from './login-guard.guard';
+import { ProfileGuard } from './profile.guard';
+
+
 
 @NgModule({
   declarations: [
@@ -47,6 +53,8 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
     RequestPageComponent,
     SettingsComponent,
     AgencyProfileComponent,
+    ForgetPassComponent,
+    NewPassComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,7 +73,7 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
     MatSortModule,
     MatTabsModule,
   ],
-  providers: [authInterceptorProviders],
+  providers: [authInterceptorProviders,LoginGuardGuard,ProfileGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

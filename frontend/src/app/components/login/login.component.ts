@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
 import { TokenStorageService } from '../../services/token-storage.service';
 import { AuthService } from "src/app/services/auth.service";
 
@@ -49,7 +49,10 @@ export class LoginComponent implements OnInit {
           this.isLoggedIn  = true;
           this.isLoginFailed = false;
           this.roles = this.tokenStorage.getUser().roles;
-          this.reloadPage();
+          this.router.navigate(['profile'])
+          .then(() => {
+          window.location.reload();
+        });
         },
         err => {
           this.errorMessage = err.error.message;

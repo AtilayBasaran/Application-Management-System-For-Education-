@@ -11,18 +11,25 @@ import { RequestPageComponent } from './components/request-page/request-page.com
 import { ProfileComponent } from './components/profile/profile.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AgencyProfileComponent } from './components/agency-profile/agency-profile.component';
+import { ForgetPassComponent } from './forget-pass/forget-pass.component';
+import { NewPassComponent } from './new-pass/new-pass.component';
+import { LoginGuardGuard } from './login-guard.guard';
+import { ProfileGuard } from './profile.guard';
+
 
 const routes: Routes = [
   { path: "", component:  HomePageComponent},
-  { path: "login", component: LoginComponent },
-  { path: "signup", component: SignupComponent },
+  { path: "login", component: LoginComponent, canActivate: [LoginGuardGuard] },
+  { path: "signup", component: SignupComponent, canActivate: [LoginGuardGuard] },
   { path: "successRegister", component: SuccesRegisterComponent },
   { path: "successApp", component: SuccessAppComponent },
   { path: "notFound", component: NotFoundComponent},
-  { path: "profile", component: ProfileComponent},
+  { path: "profile", component: ProfileComponent, canActivate: [ProfileGuard]},
   { path: "applicationPage", component: RequestPageComponent},
   { path: "settings", component: SettingsComponent},
   { path: "agencyProfile", component: AgencyProfileComponent},
+  { path: "forgetPass", component: ForgetPassComponent},
+  { path: "newPass/:email", component: NewPassComponent},
   { path: "**", redirectTo: "notFound" },
 ];
 
