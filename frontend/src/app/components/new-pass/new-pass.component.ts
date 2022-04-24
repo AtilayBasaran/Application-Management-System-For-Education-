@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder, AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
-import { TokenStorageService } from '../services/token-storage.service';
-import { PasswordChangeService } from '../services/password-change.service';
+import { TokenStorageService } from '../../services/token-storage.service';
+import { PasswordChangeService } from '../../services/password-change.service';
 import { ActivatedRoute , Router} from "@angular/router";
 
 @Component({

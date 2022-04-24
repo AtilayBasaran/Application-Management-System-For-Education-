@@ -31,8 +31,8 @@ import { RequestPageComponent } from './components/request-page/request-page.com
 import { SettingsComponent } from './components/settings/settings.component';
 import { AgencyProfileComponent } from './components/agency-profile/agency-profile.component';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
-import { ForgetPassComponent } from './forget-pass/forget-pass.component';
-import { NewPassComponent } from './new-pass/new-pass.component';
+import { ForgetPassComponent } from './components/forget-pass/forget-pass.component';
+import { NewPassComponent } from './components/new-pass/new-pass.component';
 import { LoginGuardGuard } from './login-guard.guard';
 import { ProfileGuard } from './profile.guard';
 
