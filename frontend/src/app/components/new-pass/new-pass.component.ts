@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder, AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
-import { TokenStorageService } from '../../services/token-storage.service';
 import { PasswordChangeService } from '../../services/password-change.service';
 import { ActivatedRoute , Router} from "@angular/router";
 
@@ -37,7 +36,6 @@ export class NewPassComponent implements OnInit {
   }
 
   newPassword(): void {
-    console.log('Buraya geldim mi ?')
     console.log(this.email)
     this.passwordService
       .newPassword(this.email, this.newPassForm.value.password, this.newPassForm.value.passwordConfirm)

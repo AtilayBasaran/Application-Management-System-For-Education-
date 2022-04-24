@@ -2,15 +2,15 @@
   <form [formGroup]="newPassForm" (ngSubmit)="newPassword()" novalidate>
 
     <mat-form-field>
-      <mat-label>Email</mat-label>
+      <mat-label>Password</mat-label>
       <input matInput id="password" type="password" placeholder="*******" formControlName="password" />
       <mat-error *ngIf="!newPassForm.get('password')?.errors?.minLength">Password length must be bigger than 7 </mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Password</mat-label>
+      <mat-label>Password Confirm</mat-label>
       <input matInput type="password" placeholder="*******" formControlName="passwordConfirm" />
-      <mat-error *ngIf="!newPassForm.get('confirmPassword')?.errors?.matchValidator">Passwords does not match
+      <mat-error *ngIf="!newPassForm.get('confirmPassword')?.errors?.matchValidator">Passwords do not match
       </mat-error>
     </mat-form-field>
 

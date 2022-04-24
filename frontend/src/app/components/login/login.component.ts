@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
+import { Router} from "@angular/router";
 import { TokenStorageService } from '../../services/token-storage.service';
 import { AuthService } from "src/app/services/auth.service";
 
@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    console.log('login içine girdi')
     this.authService
       .login(this.loginForm.value.email, this.loginForm.value.password)
       .subscribe(

@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators, FormBuilder, AbstractControl, Valid
 import { TokenStorageService } from '../../services/token-storage.service';
 import { PasswordChangeService } from '../../services/password-change.service';
 import { ActivatedRoute , Router} from "@angular/router";
-import { EmailValidator } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -36,7 +35,6 @@ export class ProfileComponent implements OnInit {
   
 
   changePassword(): void {
-    console.log('Buraya geldim mi ?')
     const email = this.currentUser.email;
     console.log(this.changePassForm.value.password);
     console.log(email)

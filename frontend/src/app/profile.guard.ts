@@ -12,10 +12,8 @@ export class ProfileGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       if (this.tokenStorage.getToken()) {
-        console.log('neden buraya girdi')
         return true;
       } else {
-        console.log('yoksa burada mı ? ')
         this.router.navigate([""]);
         return false;
       }

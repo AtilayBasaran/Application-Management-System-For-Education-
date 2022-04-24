@@ -26,15 +26,12 @@ export class ForgetPassComponent implements OnInit {
   }
 
   forgetPass(): void {
-    console.log('login içine girdi')
     this.passwordService
       .forgetPassword(this.forgetForm.value.email)
       .subscribe(
         data => {
           console.log(data);
-
           this.isForgetFailed = false;
-
           this.router.navigate(['profile'])
           .then(() => {
           window.location.reload();
