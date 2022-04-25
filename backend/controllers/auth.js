@@ -18,7 +18,8 @@ exports.signup = async (req, res, next) => {
           return;
         }
   
-    const name = req.body.name;
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
     const email = req.body.email;
     const password = req.body.password;
   
@@ -26,7 +27,8 @@ exports.signup = async (req, res, next) => {
       const hashedPassword = await bcrypt.hash(password, 12);
   
       const userDetails = {
-        name: name,
+        firstname: firstname,
+        lastname: lastname,
         email: email,
         password: hashedPassword,
       };
@@ -84,7 +86,8 @@ exports.signup = async (req, res, next) => {
       res.status(200).send(
         {
         id: user.id,
-        username: storedUser.name,
+        firstname: storedUser.firstname,
+        lastname: storedUser.lastname,
         email: storedUser.email,
         roles: storedUser.role,
         accessToken: token}

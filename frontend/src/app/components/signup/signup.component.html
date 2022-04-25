@@ -1,14 +1,24 @@
 <div class="container">
 <form *ngIf="!isSuccessful" [formGroup]="signupForm" (ngSubmit)="signup()" novalidate>
+
     <mat-form-field>
-      <mat-label>Name Surname</mat-label>
-      <input matInput placeholder="Ex. Salih Coşkun" formControlName="name" />
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="Ex. Salih" formControlName="firstname" />
+      <mat-error  *ngIf="!signupForm.get('firstname')?.errors?.required">Firstname is Required</mat-error>
     </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Surname</mat-label>
+      <input matInput placeholder="Ex. Coşkun" formControlName="lastname" />
+      <mat-error  *ngIf="!signupForm.get('lastname')?.errors?.required">Surname is Required</mat-error>
+    </mat-form-field>
+
     <mat-form-field>
       <mat-label>Email</mat-label>
       <input matInput placeholder="Ex. salih.coskun@isik.edu.tr" formControlName="email" />
       <mat-error  *ngIf="!signupForm.get('email')?.errors?.required">Enter a valid e-mail</mat-error>
     </mat-form-field>
+
     <mat-form-field>
       <mat-label>Password</mat-label>
       <input
@@ -19,6 +29,7 @@
       />
       <mat-error  *ngIf="!signupForm.get('password')?.errors?.minLength">Password length must be bigger than 7</mat-error>
     </mat-form-field>
+
     <mat-form-field>
       <mat-label>Confirm Password</mat-label>
       <input
