@@ -48,10 +48,30 @@ export class LoginComponent implements OnInit {
           this.isLoggedIn  = true;
           this.isLoginFailed = false;
           this.roles = this.tokenStorage.getUser().roles;
-          this.router.navigate(['profile'])
+
+          if(this.roles == 'institute'){
+
+            this.router.navigate(['settings'])
+            .then(() => {
+            window.location.reload();
+          });
+
+          }else if(this.roles == 'headOfDept'){
+
+            this.router.navigate([''])
+            .then(() => {
+            window.location.reload();
+          });
+
+          }else{
+
+            this.router.navigate(['profile'])
           .then(() => {
           window.location.reload();
         });
+
+          }
+          
         },
         err => {
           this.errorMessage = err.error.message;

@@ -9,8 +9,9 @@ import { TokenStorageService } from '../../services/token-storage.service';
 export class NavigationComponent implements OnInit {
   isLoggedIn = false;
   showAdminBoard = false;
-  showModeratorBoard = false;
-  username?: string;
+  showHeadBoard = false;
+  showStudentBoard = false;
+  firstname?: string;
   roles = ''
 
   constructor(private tokenStorageService: TokenStorageService) { }
@@ -20,7 +21,16 @@ export class NavigationComponent implements OnInit {
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.roles = user.roles;
-      this.username = user.username;
+
+      console.log(user.roles)
+
+      if(user.roles == 'institute' ){
+        this.showAdminBoard = true;
+      }else if(user.roles == 'headOfDept'){
+        this.showHeadBoard = true;
+      }else{
+        this.showStudentBoard = true;
+      }
     }
     
   }

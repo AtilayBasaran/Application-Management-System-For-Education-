@@ -35,6 +35,7 @@ import { ForgetPassComponent } from './components/forget-pass/forget-pass.compon
 import { NewPassComponent } from './components/new-pass/new-pass.component';
 import { LoginGuardGuard } from './login-guard.guard';
 import { ProfileGuard } from './profile.guard';
+import { CreateApplicationComponent } from './components/create-application/create-application.component';
 
 
 
@@ -55,6 +56,7 @@ import { ProfileGuard } from './profile.guard';
     AgencyProfileComponent,
     ForgetPassComponent,
     NewPassComponent,
+    CreateApplicationComponent,
   ],
   imports: [
     BrowserModule,
