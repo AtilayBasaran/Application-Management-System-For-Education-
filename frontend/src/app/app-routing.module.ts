@@ -13,6 +13,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { AgencyProfileComponent } from './components/agency-profile/agency-profile.component';
 import { ForgetPassComponent } from './components/forget-pass/forget-pass.component';
 import { NewPassComponent } from './components/new-pass/new-pass.component';
+import { CreateApplicationComponent } from './components/create-application/create-application.component';
 import { LoginGuardGuard } from './login-guard.guard';
 import { ProfileGuard } from './profile.guard';
 
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: "applicationPage", component: RequestPageComponent},
   { path: "settings", component: SettingsComponent},
   { path: "agencyProfile", component: AgencyProfileComponent},
+  { path: "createApplication", component: CreateApplicationComponent},
   { path: "forgetPass", component: ForgetPassComponent},
   { path: "newPass/:email", component: NewPassComponent},
   { path: "**", redirectTo: "notFound" },
