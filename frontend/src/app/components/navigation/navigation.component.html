@@ -1,7 +1,7 @@
 <div id="app">
-  <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <a href="" class="navbar-brand">Isik Uni</a>
-    <ul class="navbar-nav mr-auto" routerLinkActive="active">
+  <nav class="navbar-navbar">
+    <img class="logo" src="assets/images/logo-eng.png">
+    <ul class="navbar-nav-mr-auto" routerLinkActive="active">
       <li class="nav-item" *ngIf="showAdminBoard">
         <a href="/settings" class="nav-link" routerLink="settings">Home</a>
       </li>
@@ -15,7 +15,7 @@
         <a href="/profile" class="nav-link" routerLink="profile">Home </a>
       </li>
     </ul>
-    <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
+    <ul class="navbar-nav-ml-auto" *ngIf="!isLoggedIn">
       <li class="nav-item">
         <a href="/register" class="nav-link" routerLink="signup">Sign Up</a>
       </li>
@@ -23,7 +23,7 @@
         <a href="/login" class="nav-link" routerLink="login">Login</a>
       </li>
     </ul>
-    <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
+    <ul class="navbar-nav-ml-auto" *ngIf="isLoggedIn">
       <li class="nav-item">
         <a href="/profile" class="nav-link" routerLink="profile">Profile</a>
       </li>
@@ -32,7 +32,4 @@
       </li>
     </ul>
   </nav>
-  <div class="container">
-    <router-outlet></router-outlet>
-  </div>
 </div>
