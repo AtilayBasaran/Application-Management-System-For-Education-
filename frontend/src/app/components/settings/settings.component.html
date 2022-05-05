@@ -33,13 +33,17 @@
                                 <ul class="table">
                                     <li class="table-header">
                                         <div class="col col-1">Course Name</div>
+                                        <div class="col col-1">Department Name</div>
                                         <div class="col col-2">Add Button</div>
                                     </li>
                                 </ul>
                                 <ul class="table">
                                     <li class="table-row">
-                                        <div class="col col-1"><textarea></textarea></div>
+                                        <form [formGroup]="courseForm" (ngSubmit)="addCourse()" novalidate>
+                                        <div class="col col-1"><textarea formControlName="courseName"></textarea></div>
+                                        <div class="col col-1"><textarea formControlName="deptName"></textarea></div>
                                         <a href=""><button class="btn">Add Course</button></a>
+                                    </form>
                                     </li>
                                 </ul>
                             </div>

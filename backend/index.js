@@ -8,6 +8,8 @@ const passRoutes = require('./routes/pass');
 
 const appRoutes = require('./routes/app');
 
+const settingsRoutes = require('./routes/settings');
+
 const errorController = require('./controllers/error');
 
 const app = express();
@@ -33,6 +35,7 @@ app.use((req, res, next) => {
 app.use('/auth', authRoutes);
 app.use('/pass', passRoutes);
 app.use('/app', appRoutes);
+app.use('/settings', settingsRoutes);
 
 app.use(errorController.get404);
 
