@@ -13,4 +13,8 @@ router.post(
     '/addCourse', settingsController.addCourse
 );
 
+router.get(
+    '/userDetails', settingsController.userDetails
+);
+
 module.exports = router;

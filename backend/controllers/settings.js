@@ -43,3 +43,38 @@ exports.addCourse = async (req, res, next) => {
     }
 
 };
+
+exports.userDetails = async (req, res, next) => {
+    console.log('buraya hiç ulaşıyor muyum ???? ')
+    try {
+        const userInfos = [];
+        pool.query(
+            "SELECT * FROM users ",
+            async (err, result) => {
+                
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        firstname: result[i].firstname,
+                        lastname: result[i].lastname,
+                        email: result[i].email,
+                        role: result[i].role,
+                    };
+                    userInfos.push(a);
+                }
+
+            console.log(userInfos),
+            res.status(201).send(userInfos)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Course Insertion Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};

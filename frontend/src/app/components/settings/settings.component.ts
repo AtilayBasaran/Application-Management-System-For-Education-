@@ -8,6 +8,11 @@ import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { SettingService } from 'src/app/services/setting.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/User';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs";
+
 
 export interface StudentTable {
   name: string;
@@ -48,13 +53,15 @@ export class SettingsComponent implements AfterViewInit {
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   expandedElement: StudentTable | null;
 
-  currentUser: any;
+  userInfos: any;
   courseForm: FormGroup;
-  errorMessage = '' ; 
+  errorMessage = '';
   isAddCourseFailed = false;
 
 
-  constructor(private token: TokenStorageService , private settingService: SettingService , private _liveAnnouncer: LiveAnnouncer , private router: Router) { }//buraya daha sonra database gelecek
+  constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient) {
+
+  }//buraya daha sonra database gelecek
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -72,9 +79,8 @@ export class SettingsComponent implements AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.currentUser = this.token.getUser();
+    this.userInfos = this.getUserInfos();
     this.courseForm = this.createFormGroup();
-    console.log(this.currentUser)
   }
 
   createFormGroup(): FormGroup {
@@ -86,19 +92,28 @@ export class SettingsComponent implements AfterViewInit {
     });
   }
 
+  getUserInfos() {
+    console.log('metodun içine girdim')
+    this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
+      this.userInfos = data;
+      console.log(data)
+
+      console.log('user infos')
+
+      console.log(this.userInfos)
+    });
+  }
+
   addCourse(): void {
-    const email = this.currentUser.email;
-    console.log(this.courseForm.value.courseName);
-    console.log(email)
     this.settingService
       .addCourse(this.courseForm.value.courseName, this.courseForm.value.deptName)
       .subscribe(
         data => {
           console.log(data);
           this.router.navigate(['successRegister'])
-          .then(() => {
-          window.location.reload();
-        });
+            .then(() => {
+              window.location.reload();
+            });
         },
         err => {
           this.errorMessage = err.error.message;
