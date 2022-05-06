@@ -30,7 +30,8 @@ export class CreateApplicationComponent implements OnInit {
     this.personalDetails = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
-      phone: ['', Validators.required]
+      phone: ['', Validators.required],
+      school: ['', Validators.required]
     });
 
     this.addressDetails = this.formBuilder.group({

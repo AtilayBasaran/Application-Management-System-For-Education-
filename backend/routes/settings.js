@@ -1,6 +1,8 @@
 const express = require('express');
 
-const { body } = require('express-validator');
+const {
+    body
+} = require('express-validator');
 
 const router = express.Router();
 
@@ -15,6 +17,19 @@ router.post(
 
 router.get(
     '/userDetails', settingsController.userDetails
+);
+
+
+router.get(
+    '/deleteUser/:userid', settingsController.deleteUser
+);
+
+router.get(
+    '/updateInstitute/:userid', settingsController.updateInstitute
+);
+
+router.get(
+    '/updateHeadOfDept/:userid', settingsController.updateHeadOfDept
 );
 
 module.exports = router;

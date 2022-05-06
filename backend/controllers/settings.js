@@ -45,15 +45,16 @@ exports.addCourse = async (req, res, next) => {
 };
 
 exports.userDetails = async (req, res, next) => {
-    console.log('buraya hiç ulaşıyor muyum ???? ')
+    
     try {
         const userInfos = [];
         pool.query(
-            "SELECT * FROM users ",
+            "SELECT * FROM users where is_delete = 0",
             async (err, result) => {
                 
                 for (var i = 0; i < result.length; i++) {
                     var a = {
+                        id: result[i].id,
                         firstname: result[i].firstname,
                         lastname: result[i].lastname,
                         email: result[i].email,
@@ -78,3 +79,78 @@ exports.userDetails = async (req, res, next) => {
     }
 
 };
+
+exports.deleteUser = async (req, res, next) => {
+    console.log('buraya hiç ulaşıyor muyum ???? ')
+
+    try {
+        const userid = req.params.userid;
+        console.log(userid);
+        db.execute(
+            'UPDATE users SET is_delete = ? WHERE id = ?;',
+            [1, userid]
+        );
+        res.status(201).send({
+            message: 'User deleted Succesfully'
+        });
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "User delete process Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+exports.updateInstitute = async (req, res, next) => {
+    try {
+        const userid = req.params.userid;
+        console.log(userid);
+        db.execute(
+            'UPDATE users SET role = ? WHERE id = ?;',
+            ['institute', userid]
+        );
+        res.status(201).send({
+            message: 'Role updated Succesfully'
+        });
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Role update process Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+exports.updateHeadOfDept = async (req, res, next) => {
+    try {
+        const userid = req.params.userid;
+        console.log(userid);
+        db.execute(
+            'UPDATE users SET role = ? WHERE id = ?;',
+            ['headOfDept', userid]
+        );
+        res.status(201).send({
+            message: 'Role updated Succesfully'
+        });
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Role update process Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+

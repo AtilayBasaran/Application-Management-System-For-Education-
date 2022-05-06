@@ -12,6 +12,7 @@ import { User } from 'src/app/models/User';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { ToastrService } from 'ngx-toastr';
 
 
 export interface StudentTable {
@@ -59,7 +60,7 @@ export class SettingsComponent implements AfterViewInit {
   isAddCourseFailed = false;
 
 
-  constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient) {
+  constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {
 
   }//buraya daha sonra database gelecek
 
@@ -93,7 +94,6 @@ export class SettingsComponent implements AfterViewInit {
   }
 
   getUserInfos() {
-    console.log('metodun içine girdim')
     this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
       this.userInfos = data;
       console.log(data)
@@ -104,22 +104,45 @@ export class SettingsComponent implements AfterViewInit {
     });
   }
 
+  deleteUser(userid : any) {
+    console.log(userid)
+    this.http.get('http://localhost:3000/settings/deleteUser/'+userid).subscribe(data => {
+      console.log(data)
+      console.log(this.userInfos)
+      this.ngOnInit()
+    });
+    this.toastr.success('User Deleted Successfully', 'Success')
+  }
+
+  updateInstitute(userid : any) {
+    this.http.get('http://localhost:3000/settings/updateInstitute/'+userid).subscribe(data => {
+      this.ngOnInit()
+    this.toastr.success('User Role Updated To Institute', 'Success')
+    });
+  }
+
+  updateHeadOfDept(userid : any) {
+    this.http.get('http://localhost:3000/settings/updateHeadOfDept/'+userid).subscribe(data => {
+      this.ngOnInit()
+    this.toastr.success('User Role Updated To Head Of Dept', 'Success')
+    });
+  }
+
   addCourse(): void {
     this.settingService
       .addCourse(this.courseForm.value.courseName, this.courseForm.value.deptName)
       .subscribe(
         data => {
           console.log(data);
-          this.router.navigate(['successRegister'])
-            .then(() => {
-              window.location.reload();
-            });
+          this.toastr.success('Course Added Successfully', 'Success')
+          this.ngOnInit()
         },
         err => {
           this.errorMessage = err.error.message;
           this.isAddCourseFailed = true;
         });
   }
+
 
 }
 

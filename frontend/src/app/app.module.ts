@@ -17,6 +17,8 @@ import { MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -74,6 +76,8 @@ import { CreateApplicationComponent } from './components/create-application/crea
     MatPaginatorModule,
     MatSortModule,
     MatTabsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [authInterceptorProviders,LoginGuardGuard,ProfileGuard],
   bootstrap: [AppComponent]

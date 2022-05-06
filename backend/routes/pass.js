@@ -1,6 +1,8 @@
 const express = require('express');
 
-const { body } = require('express-validator');
+const {
+    body
+} = require('express-validator');
 
 const router = express.Router();
 
@@ -19,5 +21,6 @@ router.post(
 router.post(
     '/newpass', passController.newPass
 );
+
 
 module.exports = router;

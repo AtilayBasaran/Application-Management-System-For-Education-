@@ -21,6 +21,10 @@
                     <div *ngIf="personal_step && personalDetails.controls.email.errors">
                         <div *ngIf="personal.email.errors?.required">Email is required</div>
                     </div>
+                    <input type="text" formControlName="school" name="school" placeholder="school" />
+                    <div *ngIf="personal_step && personalDetails.controls.school.errors">
+                        <div *ngIf="personal.school.errors?.required">school is required</div>
+                    </div>
                     <input type="text" formControlName="phone" name="phone" placeholder="Phone" />
                     <div *ngIf="personal_step && personalDetails.controls.phone.errors">
                         <div *ngIf="personal.phone.errors?.required">Phone is required</div>
