@@ -1,31 +1,29 @@
 <div id="app">
   <nav class="navbar-navbar">
     <img class="logo" src="assets/images/logo-eng.png">
-    <ul class="navbar-nav-mr-auto" routerLinkActive="active">
+    <ul class="navbar-nav-ml-auto" *ngIf="!isLoggedIn">
+      <li class="nav-item">
+        <a href="/login" class="nav-link" routerLink="login">Login</a>
+      </li>
+      <li class="nav-item">
+        <a href="/register" class="nav-link" routerLink="signup">Sign Up</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav-ml-auto" *ngIf="isLoggedIn">
       <li class="nav-item" *ngIf="showAdminBoard">
         <a href="/settings" class="nav-link" routerLink="settings">Home</a>
-      </li>
-      <li class="nav-item" *ngIf="showAdminBoard">
-        <a href="/settings" class="nav-link" routerLink="">Applications</a>
       </li>
       <li class="nav-item" *ngIf="showHeadBoard">
         <a href="/home" class="showHeadBoard" routerLink="">Home </a>
       </li>
       <li class="nav-item" *ngIf="showStudentBoard">
-        <a href="/profile" class="nav-link" routerLink="profile">Home </a>
+        <a href="/profile" class="nav-link" routerLink="createApplication">Application </a>
       </li>
-    </ul>
-    <ul class="navbar-nav-ml-auto" *ngIf="!isLoggedIn">
-      <li class="nav-item">
-        <a href="/register" class="nav-link" routerLink="signup">Sign Up</a>
-      </li>
-      <li class="nav-item">
-        <a href="/login" class="nav-link" routerLink="login">Login</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav-ml-auto" *ngIf="isLoggedIn">
       <li class="nav-item">
         <a href="/profile" class="nav-link" routerLink="profile">Profile</a>
+      </li>
+      <li class="nav-item" *ngIf="showAdminBoard">
+        <a href="/settings" class="nav-link" routerLink="">Applications</a>
       </li>
       <li class="nav-item">
         <a href class="nav-link" (click)="logout()">LogOut</a>
