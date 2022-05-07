@@ -15,10 +15,17 @@ router.post(
     '/addCourse', settingsController.addCourse
 );
 
+router.post(
+    '/changeCourseName', settingsController.changeCourseName
+);
+
 router.get(
     '/userDetails', settingsController.userDetails
 );
 
+router.get(
+    '/courseDetails', settingsController.courseDetails
+);
 
 router.get(
     '/deleteUser/:userid', settingsController.deleteUser

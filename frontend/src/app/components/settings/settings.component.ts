@@ -55,7 +55,9 @@ export class SettingsComponent implements AfterViewInit {
   expandedElement: StudentTable | null;
 
   userInfos: any;
+  courseInfos: any;
   courseForm: FormGroup;
+  courseNameForm: FormGroup;
   errorMessage = '';
   isAddCourseFailed = false;
 
@@ -81,7 +83,9 @@ export class SettingsComponent implements AfterViewInit {
 
   ngOnInit(): void {
     this.userInfos = this.getUserInfos();
+    this.courseInfos = this.getCourseInfos();
     this.courseForm = this.createFormGroup();
+    this.courseNameForm = this.createNameForm();
   }
 
   createFormGroup(): FormGroup {
@@ -93,6 +97,12 @@ export class SettingsComponent implements AfterViewInit {
     });
   }
 
+  createNameForm(): FormGroup {
+    return new FormGroup({
+      courseName: new FormControl("", [Validators.required])
+    });
+  }
+
   getUserInfos() {
     this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
       this.userInfos = data;
@@ -101,6 +111,17 @@ export class SettingsComponent implements AfterViewInit {
       console.log('user infos')
 
       console.log(this.userInfos)
+    });
+  }
+
+  getCourseInfos() {
+    this.http.get('http://localhost:3000/settings/courseDetails').subscribe(data => {
+      this.courseInfos = data;
+      console.log(data)
+
+      console.log('Course Details')
+
+      console.log(this.courseInfos)
     });
   }
 
@@ -135,6 +156,23 @@ export class SettingsComponent implements AfterViewInit {
         data => {
           console.log(data);
           this.toastr.success('Course Added Successfully', 'Success')
+          this.ngOnInit()
+        },
+        err => {
+          this.errorMessage = err.error.message;
+          this.isAddCourseFailed = true;
+        });
+  }
+
+  changeCourseName(courseId : any): void {
+    console.log(courseId)
+    console.log(this.courseNameForm.value.courseName)
+    this.settingService
+      .changeCourseName(courseId, this.courseNameForm.value.courseName)
+      .subscribe(
+        data => {
+          console.log(data);
+          this.toastr.success('Course Name Changed', 'Success')
           this.ngOnInit()
         },
         err => {

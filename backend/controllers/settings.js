@@ -154,3 +154,64 @@ exports.updateHeadOfDept = async (req, res, next) => {
 
 };
 
+exports.courseDetails = async (req, res, next) => {
+    
+    try {
+        const courseInfos = [];
+        pool.query(
+            "SELECT * FROM course ",
+            async (err, result) => {
+                
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        id: result[i].id,
+                        name: result[i].name,
+                        dept_name: result[i].dept_name,
+                    };
+                    courseInfos.push(a);
+                }
+
+            console.log(courseInfos),
+            res.status(201).send(courseInfos)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Course Information Cannot Take!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+exports.changeCourseName = async (req, res, next) => {
+    try {
+        const courseId = req.body.courseId;
+        const courseName = req.body.courseName;
+
+        console.log(courseId)
+        console.log(courseName)
+
+        db.execute(
+            'UPDATE course SET name = ? WHERE id = ?;',
+            [courseName, courseId]
+        );
+        res.status(201).send({
+            message: 'Course Name Changed Succesfully'
+        });
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Role update process Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
