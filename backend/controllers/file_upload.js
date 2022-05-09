@@ -1,5 +1,6 @@
 const uploadFile = require("../middleware/upload");
 const fs = require("fs");
+const fsPromises = require("fs/promises");
 const baseUrl = "http://localhost:3000/files/";
 
 const upload = async (req, res) => {
@@ -32,8 +33,9 @@ const upload = async (req, res) => {
 
 const getListFiles = (req, res) => {
     // body ya da path üzerinden bir okuma yapmam lazım
-    const directoryPath = __basedir + "/resources/static/assets/uploads/";
-    
+    const user_id = req.body.id;
+    const directoryPath = __basedir + "/resources/static/assets/uploads/" + user_id;
+
 
     fs.readdir(directoryPath, function (err, files) {
         if (err) {
@@ -48,6 +50,7 @@ const getListFiles = (req, res) => {
             fileInfos.push({
                 name: file,
                 url: baseUrl + file,
+                all_url: directoryPath+ '/' + file,
             });
         });
 
@@ -68,8 +71,32 @@ const download = (req, res) => {
     });
 };
 
+const deleteFiles = (req, res) => {
+    const url = req.body.document_url;
+    console.log(url)
+    
+        try {
+            fsPromises.unlink(url);
+            console.log('Successfully removed file!');
+            res.status(200).send({
+                message: "Successfully removed file! "
+            });
+
+        } catch (err) {
+            res.status(500).send({
+                message: "File remove failed. " + err,
+            });
+        }
+
+        
+        
+
+
+};
+
 module.exports = {
     upload,
     getListFiles,
     download,
+    deleteFiles,
 };

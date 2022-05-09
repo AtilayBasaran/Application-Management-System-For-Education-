@@ -23,5 +23,6 @@
     <li class="list-group-item">
       <a href="{{ file.url }}">{{ file.name }}</a>
     </li>
+    <button class="btn btn-success btn-sm" (click)="deleteFile(file.all_url)"></button>
   </ul>
 </div>

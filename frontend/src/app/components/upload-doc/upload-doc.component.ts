@@ -14,6 +14,7 @@ export class UploadFilesComponent implements OnInit {
   currentFile?: File;
   progress = 0;
   message = '';
+  errorMessage = '';
   fileInfos?: Observable<any>;
   currentUser: any;
 
@@ -23,6 +24,7 @@ export class UploadFilesComponent implements OnInit {
   ngOnInit(): void {
     this.fileInfos = this.uploadService.getFiles();
     this.currentUser = this.token.getUser();
+    console.log('çalıştı')
   }
 
 
@@ -61,4 +63,26 @@ export class UploadFilesComponent implements OnInit {
       this.selectedFiles = undefined;
     }
   }
+
+  deleteFile(document_url: any): void {
+    
+    this.uploadService
+      .deleteFiles(document_url)
+      .subscribe(
+        data => {
+          console.log('data içine mi geliyor')
+          
+        this.ngOnInit();
+        
+          console.log(data);
+          
+        },
+        err => {
+          this.errorMessage = err.error.message;
+        }
+        
+        );
+        console.log('Dışarı mı geliyor')
+  }
+
 }

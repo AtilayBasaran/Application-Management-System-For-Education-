@@ -9,7 +9,8 @@ const router = express.Router();
 const filesController = require('../controllers/file_upload');
 
 
-router.get("", filesController.getListFiles);
+router.post("", filesController.getListFiles);
+router.post("/delete", filesController.deleteFiles);
 router.get("/:name", filesController.download);
 
 module.exports = router;
