@@ -3,9 +3,13 @@ const fs = require("fs");
 const fsPromises = require("fs/promises");
 const baseUrl = "http://localhost:3000/files/";
 
+
 const upload = async (req, res) => {
     try {
         await uploadFile(req, res);
+
+        const user_id = req.params.user_id;
+        console.log('parametreye buradan ulaşabiliyor muyum ? ')
 
         if (req.file == undefined) {
             return res.status(400).send({
@@ -41,7 +45,7 @@ const getListFiles = (req, res) => {
             res.status(500).send({
                 message: "Unable to scan files!",
             });
-        }
+        }else{
 
         let fileInfos = [];
 
@@ -52,8 +56,8 @@ const getListFiles = (req, res) => {
                 all_url: directoryPath+ '/' + file,
             });
         });
-
         res.status(200).send(fileInfos);
+    }
     });
 };
 
