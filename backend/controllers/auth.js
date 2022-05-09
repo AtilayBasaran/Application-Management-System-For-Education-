@@ -85,7 +85,7 @@ exports.signup = async (req, res, next) => {
       // Bu şekilde currentuseri da güncellemiş oldum çünkü token yanında tuttuğum bilgilere burdan dönenlerle yaptım.
       res.status(200).send(
         {
-        id: user.id,
+        id: storedUser.id,
         firstname: storedUser.firstname,
         lastname: storedUser.lastname,
         email: storedUser.email,

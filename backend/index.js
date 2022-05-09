@@ -1,5 +1,7 @@
 const express = require('express');
 
+const cors = require("cors");
+
 const bodyParser = require('body-parser');
 
 const authRoutes = require('./routes/auth');
@@ -10,9 +12,16 @@ const appRoutes = require('./routes/app');
 
 const settingsRoutes = require('./routes/settings');
 
+const filesRoutes = require('./routes/files');
+
 const errorController = require('./controllers/error');
 
 const app = express();
+
+global.__basedir = __dirname;
+var corsOptions = {
+  origin: "http://localhost:3000"
+};
 
 const ports = process.env.PORT || 3000;
 
@@ -36,6 +45,12 @@ app.use('/auth', authRoutes);
 app.use('/pass', passRoutes);
 app.use('/app', appRoutes);
 app.use('/settings', settingsRoutes);
+app.use('/files', filesRoutes);
+
+
+const initRoutes = require("./routes/upload");
+
+initRoutes(app);
 
 app.use(errorController.get404);
 

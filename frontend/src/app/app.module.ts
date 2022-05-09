@@ -38,6 +38,7 @@ import { NewPassComponent } from './components/new-pass/new-pass.component';
 import { LoginGuardGuard } from './login-guard.guard';
 import { ProfileGuard } from './profile.guard';
 import { CreateApplicationComponent } from './components/create-application/create-application.component';
+import { UploadFilesComponent } from './components/upload-doc/upload-doc.component';
 
 
 
@@ -59,6 +60,7 @@ import { CreateApplicationComponent } from './components/create-application/crea
     ForgetPassComponent,
     NewPassComponent,
     CreateApplicationComponent,
+    UploadFilesComponent,
   ],
   imports: [
     BrowserModule,
