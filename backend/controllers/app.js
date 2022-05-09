@@ -58,12 +58,6 @@ exports.addEducational = async (req, res, next) => {
         var highest_qualification = req.body.highest_qualification;
         var total_marks = req.body.total_marks;
 
-        console.log('educational Info tarafı ------------')
-        console.log(university)
-        console.log(highest_qualification)
-        console.log(total_marks)
-        console.log('educational Info tarafı ------------')
-
         db.execute(
             'INSERT INTO educational_details (university, highQ, totalmarks) VALUES (?, ?, ?)',
             [university, highest_qualification, total_marks]
@@ -91,12 +85,6 @@ exports.addAddress = async (req, res, next) => {
         var address = req.body.address;
         var pincode = req.body.pincode;
 
-        console.log('address Info tarafı ------------')
-        console.log(city)
-        console.log(address)
-        console.log(pincode)
-        console.log('address Info tarafı ------------')
-
         db.execute(
             'INSERT INTO address_details (city, address, pincode) VALUES (?, ?, ?)',
             [city, address, pincode]
@@ -118,7 +106,6 @@ exports.addAddress = async (req, res, next) => {
 };
 
 exports.createMainApp = async (req, res, next) => {
-    console.log('içerdeyimmm');
     console.log(req.body.email);
 
     var dt = dateTime.create();

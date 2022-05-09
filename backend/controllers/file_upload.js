@@ -32,7 +32,6 @@ const upload = async (req, res) => {
 };
 
 const getListFiles = (req, res) => {
-    // body ya da path üzerinden bir okuma yapmam lazım
     const user_id = req.body.id;
     const directoryPath = __basedir + "/resources/static/assets/uploads/" + user_id;
 

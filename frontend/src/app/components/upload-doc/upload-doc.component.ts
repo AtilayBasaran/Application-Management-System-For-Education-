@@ -3,6 +3,7 @@ import { UploadFilesService } from 'src/app/services/upload-file.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { TokenStorageService } from '../../services/token-storage.service';
 import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-upload-doc',
@@ -18,13 +19,12 @@ export class UploadFilesComponent implements OnInit {
   fileInfos?: Observable<any>;
   currentUser: any;
 
-  constructor(private token: TokenStorageService ,private uploadService: UploadFilesService) { }
+  constructor(private token: TokenStorageService, private uploadService: UploadFilesService, private toastr: ToastrService) { }
 
 
   ngOnInit(): void {
     this.fileInfos = this.uploadService.getFiles();
     this.currentUser = this.token.getUser();
-    console.log('çalıştı')
   }
 
 
@@ -33,8 +33,6 @@ export class UploadFilesComponent implements OnInit {
   }
 
   upload(): void {
-    const user_id = this.currentUser.firstname;
-    console.log('BURADA '+user_id)
     this.progress = 0;
     if (this.selectedFiles) {
       const file: File | null = this.selectedFiles.item(0);
@@ -47,6 +45,7 @@ export class UploadFilesComponent implements OnInit {
             } else if (event instanceof HttpResponse) {
               this.message = event.body.message;
               this.fileInfos = this.uploadService.getFiles();
+              this.toastr.success('File Uploaded Successfully', 'Success')
             }
           },
           (err: any) => {
@@ -65,24 +64,24 @@ export class UploadFilesComponent implements OnInit {
   }
 
   deleteFile(document_url: any): void {
-    
+
     this.uploadService
       .deleteFiles(document_url)
       .subscribe(
         data => {
-          console.log('data içine mi geliyor')
-          
-        this.ngOnInit();
-        
+
+          this.toastr.success('File Deleted Successfully', 'Success')
+
+          this.ngOnInit();
+
           console.log(data);
-          
+
         },
         err => {
           this.errorMessage = err.error.message;
         }
-        
-        );
-        console.log('Dışarı mı geliyor')
+
+      );
   }
 
 }

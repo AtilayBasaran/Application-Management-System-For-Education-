@@ -5,17 +5,11 @@ const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const maxSize = 2 * 1024 * 1024;
 
-
-console.log('middleware içine giriyor mu ? ')
-
 let storage = multer.diskStorage({
 
     destination: (req, file, cb) => {
         console.log(req.params.user_id);
-        console.log('destination içi kontrolü : ');
-
         directoryPath = req.params.user_id;
-
 
         let reqPath = path.join(__dirname, '../');
         const a = reqPath;
