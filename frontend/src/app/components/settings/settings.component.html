@@ -73,7 +73,7 @@
                                     <li class="table-row" *ngFor="let course of courseInfos;">
                                         <div class="col col-1">{{course.name}}</div>
                                         <div class="col col-2">{{course.dept_name}}</div>
-                                        <a href=""><button class="btn-del">Delete</button></a>
+                                        <button class="btn-del" (click)="deleteCourse(course.id)" >Delete</button>
                                     </li>
                                 </ul>
                             </div>

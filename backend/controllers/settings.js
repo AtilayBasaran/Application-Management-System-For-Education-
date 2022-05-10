@@ -19,8 +19,6 @@ const pool = mysql.createPool({
 exports.addCourse = async (req, res, next) => {
 
     try {
-
-        console.log('buraya geldim mi ? ?')
         var courseName = req.body.courseName;
         var deptName = req.body.deptName;
 
@@ -81,8 +79,6 @@ exports.userDetails = async (req, res, next) => {
 };
 
 exports.deleteUser = async (req, res, next) => {
-    console.log('buraya hiç ulaşıyor muyum ???? ')
-
     try {
         const userid = req.params.userid;
         console.log(userid);
@@ -98,6 +94,31 @@ exports.deleteUser = async (req, res, next) => {
         if (!err.statusCode) {
             res.status(400).send({
                 message: "User delete process Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+exports.deleteCourse = async (req, res, next) => {
+
+    try {
+        const course_id = req.params.course_id;
+        console.log(course_id);
+        db.execute(
+            'DELETE FROM course WHERE id = ?;',
+            [course_id]
+        );
+        res.status(201).send({
+            message: 'Course deleted Succesfully'
+        });
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Course delete process Failed!"
             });
             return;
         }

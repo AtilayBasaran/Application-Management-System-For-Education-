@@ -135,6 +135,16 @@ export class SettingsComponent implements AfterViewInit {
     this.toastr.success('User Deleted Successfully', 'Success')
   }
 
+  deleteCourse(course_id : any) {
+    console.log(course_id)
+    this.http.get('http://localhost:3000/settings/deletecourse/'+course_id).subscribe(data => {
+      console.log(data)
+      console.log(this.userInfos)
+      this.ngOnInit()
+    });
+    this.toastr.success('Course Deleted Successfully', 'Success')
+  }
+
   updateInstitute(userid : any) {
     this.http.get('http://localhost:3000/settings/updateInstitute/'+userid).subscribe(data => {
       this.ngOnInit()

@@ -32,6 +32,10 @@ router.get(
 );
 
 router.get(
+    '/deleteCourse/:course_id', settingsController.deleteCourse
+);
+
+router.get(
     '/updateInstitute/:userid', settingsController.updateInstitute
 );
 
