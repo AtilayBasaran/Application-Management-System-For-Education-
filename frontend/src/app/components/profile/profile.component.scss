@@ -18,13 +18,16 @@
     background-color: peru;
 
 }
-
+.form-table{
+    display: flex;
+    flex-direction: column;
+    max-width: 35%;
+}
 .information {
     display: inline-block;
     height: 250px;
     width: 750px;
     margin: 50px;
-    float: left;
 }
 .name {
     display: flex;

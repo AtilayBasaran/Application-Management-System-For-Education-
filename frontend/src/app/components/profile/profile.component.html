@@ -23,10 +23,10 @@
       </div>
       <div class="degree">
         <h1>Degree:</h1>
-        <h1>Bachelor</h1>
+        <h1>{{currentUser.roles}}</h1>
       </div>
 
-      <form [formGroup]="changePassForm" (ngSubmit)="changePassword()" novalidate>
+      <form class="form-table" [formGroup]="changePassForm" (ngSubmit)="changePassword()" novalidate>
       <mat-form-field>
         <mat-label>Password</mat-label>
         <input id="password" name="password" matInput type="password" formControlName="password"/>

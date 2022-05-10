@@ -17,6 +17,17 @@
     flex-direction: column;
 }
 
+.table-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.table-form{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+
 .table-header {
     background-color: #ee0979;
     text-transform: uppercase;
@@ -28,11 +39,6 @@
 }
 
 .col {
-    display: flex;
-    margin: 1rem;
-}
-
-.table-row {
     display: flex;
     margin: 1rem;
 }

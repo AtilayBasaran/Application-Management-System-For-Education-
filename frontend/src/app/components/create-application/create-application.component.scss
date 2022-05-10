@@ -181,6 +181,32 @@ fieldset {
     animation-name: slidein;
 }
 
+.btn-success{
+    width: 5rem;
+    height: 2.5rem;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    border: 0 none;
+    border-radius: 25px;
+    background-color: #ee0979;
+}
+
+.btn-success:hover,
+.btn-success:focus{
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #ee0979;
+}
+
+.file-name{
+    text-decoration: none;
+    color: black;
+}
+
+.list-group-item{
+    display: flex;
+    justify-content: center;
+}
+
 @-webkit-keyframes slidein {
     from {
         margin-right: 100%;

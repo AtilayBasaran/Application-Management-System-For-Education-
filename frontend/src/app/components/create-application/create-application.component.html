@@ -57,12 +57,12 @@
                 <fieldset *ngIf="step == 3">
                     <div class="row">
                         <div class="col-8">
-                            <label class="btn btn-default p-0">
+                            <label class="btn-default">
                                 <input type="file" (change)="selectFile($event)" />
                             </label>
                         </div>
                         <div class="col-4">
-                            <button class="btn btn-success btn-sm" [disabled]="!selectedFiles" (click)="upload()">
+                            <button class="btn-success" [disabled]="!selectedFiles" (click)="upload()">
                                 Upload
                             </button>
                         </div>
@@ -79,9 +79,9 @@
                         <div class="card-header">List of Files</div>
                         <ul class="list-group list-group-flush" *ngFor="let file of fileInfos | async">
                             <li class="list-group-item">
-                                <a href="{{ file.url }}">{{ file.name }}</a>
+                                <a class="file-name" href="{{ file.url }}">{{ file.name }}</a>
                             </li>
-                            <button class="btn btn-success btn-sm" (click)="deleteFile(file.all_url)"></button>
+                            <button class="btn-success" (click)="deleteFile(file.all_url)">Delete</button>
                         </ul>
                     </div>
                     <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"
