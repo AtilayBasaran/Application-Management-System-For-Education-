@@ -1,34 +1,6 @@
 <mat-tab-group>
     <mat-tab label="Courses">
         <mat-tab-group>
-            <mat-tab label="Change Course Name">
-                <div class="homepage">
-                    <div class="form">
-                        <div class="genel">
-                            <div class="left_content">
-                                <ul class="table">
-                                    <li class="table-header">
-                                        <div class="col col-1">Course Name</div>
-                                        <div class="col col-2">Change Course Name</div>
-                                        <div class="col col-3">Department Name</div>
-                                        <div class="col col-4">Change</div>
-                                    </li>
-                                </ul>
-                                <ul class="table">
-                                    <li class="table-row" *ngFor="let course of courseInfos;">
-                                        <form class="table-form" [formGroup]="courseNameForm" (ngSubmit)="changeCourseName(course.id)" novalidate>
-                                        <div class="col col-1">{{course.name}}</div>
-                                        <div class="col col-2"><textarea  formControlName="courseName" ></textarea></div>
-                                        <div class="col col-3">{{course.dept_name}}</div>
-                                        <button class="btn">Change Name</button>
-                                    </form>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </mat-tab>
             <mat-tab label="Add New Course">
                 <div class="homepage">
                     <div class="form">
@@ -101,12 +73,14 @@
                                 </ul>
                                 <ul class="table">
                                     <li class="table-row" *ngFor="let user of userInfos;">
+                                        <div *ngIf="user.role!='student'" class="table-form">
                                         <div class="col col-1">{{user.firstname}}</div>
                                         <div class="col col-2">{{user.lastname}}</div>
                                         <div class="col col-3">{{user.email}}</div>
                                         <div class="col col-4">{{user.role}}</div>
                                         <button class="btn"  (click)="updateInstitute(user.id)">Institute</button>
                                         <button class="btn"  (click)="updateHeadOfDept(user.id)">HeadOfDept</button>
+                                    </div>
                                     </li>
                                 </ul>
                             </div>
@@ -130,11 +104,13 @@
                                 </ul>
                                 <ul class="table">
                                     <li class="table-row" *ngFor="let user of userInfos;">
+                                        <div *ngIf="user.role!='student'" class="table-form">
                                         <div class="col col-1">{{user.firstname}}</div>
                                         <div class="col col-2">{{user.lastname}}</div>
                                         <div class="col col-3">{{user.email}}</div>
                                         <div class="col col-4">{{user.role}}</div>
                                         <button class="btn-del" (click)="deleteUser(user.id)" >Delete</button>
+                                    </div>
                                     </li>
                                 </ul>
                             </div>

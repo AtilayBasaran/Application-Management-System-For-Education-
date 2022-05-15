@@ -18,10 +18,12 @@ export class CreateApplicationComponent implements OnInit {
   personalDetails!: FormGroup;
   addressDetails!: FormGroup;
   educationalDetails!: FormGroup;
+  degreeDetails!: FormGroup;
   personal_step = false;
   address_step = false;
   upload_step = false;
   education_step = false;
+  degree_step = false;
   step = 1;
   isErrorOccured = false;
   errorMessage = '';
@@ -43,7 +45,9 @@ export class CreateApplicationComponent implements OnInit {
       name: ['', Validators.required],
       email: ['', Validators.required],
       phone: ['', Validators.required],
-      school: ['', Validators.required]
+      adress: ['', Validators.required],
+      id: ['', Validators.required],
+      country: ['', Validators.required] 
     });
 
     this.addressDetails = this.formBuilder.group({
@@ -57,6 +61,10 @@ export class CreateApplicationComponent implements OnInit {
       university: ['', Validators.required],
       total_marks: ['', Validators.required]
     });
+
+    this.degreeDetails = this.formBuilder.group({
+      degreeName: ['', Validators.required]
+    })
   }
 
   get personal() { return this.personalDetails.controls; }
@@ -64,6 +72,8 @@ export class CreateApplicationComponent implements OnInit {
   get address() { return this.addressDetails.controls; }
 
   get education() { return this.educationalDetails.controls; }
+
+  get degree() { return this.degreeDetails.controls; }
 
   next() {
 
@@ -74,11 +84,16 @@ export class CreateApplicationComponent implements OnInit {
     }
 
     else if (this.step == 2) {
+      this.degree_step = true;
+      if (this.degreeDetails.invalid) { return }
+      this.step++;
+    }
+    else if (this.step == 3) {
       this.address_step = true;
       if (this.addressDetails.invalid) { return }
       this.step++;
     }
-    else if (this.step == 3) {
+    else if (this.step == 4) {
       this.upload_step = true;
       if (this.addressDetails.invalid) { return }
       this.step++;
@@ -91,19 +106,22 @@ export class CreateApplicationComponent implements OnInit {
     this.step--
 
     if (this.step == 1) {
-      this.address_step = false;
+      this.personal_step = false;
     }
     if (this.step == 2) {
-      this.upload_step = false;
+      this.degree_step = false;
     }
     if (this.step == 3) {
-      this.education_step = false;
+      this.address_step = false;
+    }
+    if (this.step == 4) {
+      this.upload_step = false;
     }
 
   }
 
   submit() {
-    if (this.step == 4) {
+    if (this.step == 5) {
       this.education_step = true;
       if (this.educationalDetails.invalid) { return }
       else {
@@ -146,6 +164,17 @@ export class CreateApplicationComponent implements OnInit {
           })
 
         this.applicationService
+          .addDegreeInfo(this.degreeDetails.value)
+          .subscribe(data => {
+            console.log(data);
+            this.isErrorOccured = false;
+          },
+          err => {
+            this.errorMessage = err.error.message;
+            this.isErrorOccured = true;
+          })
+
+          this.applicationService
           .addAddressInfo(this.addressDetails.value)
           .subscribe(data => {
             console.log(data);

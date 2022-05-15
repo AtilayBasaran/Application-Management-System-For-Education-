@@ -115,7 +115,7 @@
     color: white;
     text-transform: uppercase;
     font-size: 9px;
-    width: 24.33%;
+    width: 19.33%;
     float: left;
     position: relative;
     letter-spacing: 1px;
@@ -181,6 +181,14 @@ fieldset {
     animation-name: slidein;
 }
 
+.images{
+    width: 10%;
+}
+
+.size{
+    flex-direction: row;
+}
+
 .btn-success{
     width: 5rem;
     height: 2.5rem;
@@ -205,6 +213,15 @@ fieldset {
 .list-group-item{
     display: flex;
     justify-content: center;
+}
+
+.checkbox{
+    flex-direction: column;
+    display: flex;
+}
+
+.label{
+    color: black;
 }
 
 @-webkit-keyframes slidein {

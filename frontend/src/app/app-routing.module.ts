@@ -17,6 +17,7 @@ import { CreateApplicationComponent } from './components/create-application/crea
 import { UploadFilesComponent } from './components/upload-doc/upload-doc.component';
 import { LoginGuardGuard } from './login-guard.guard';
 import { ProfileGuard } from './profile.guard';
+import { HiProfileComponent } from './components/hi-profile/hi-profile.component';
 
 
 const routes: Routes = [
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: "forgetPass", component: ForgetPassComponent},
   { path: "newPass/:email", component: NewPassComponent},
   { path: "uploadFile", component: UploadFilesComponent},
+  { path: "hiProfile",component:HiProfileComponent},
   { path: "**", redirectTo: "notFound" },
 ];
 

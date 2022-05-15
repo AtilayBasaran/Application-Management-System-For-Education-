@@ -5,6 +5,7 @@ import { Observable, BehaviorSubject } from "rxjs";
 import { personalDetails } from '../models/PersonalDetails';
 import { educationalDetails } from '../models/EducationalDetails';
 import { addressDetails } from '../models/AddressDetails';
+import { degreeDetails } from '../models/DegreeDetails';
 
 
 
@@ -36,6 +37,11 @@ export class ApplicationService {
   addAddressInfo(addressInfo: Omit<addressDetails, "city">) : Observable<addressDetails>{
     return this.http
       .post<addressDetails>(`${this.url}/addAddress`, addressInfo, this.httpOptions);
+  }
+
+  addDegreeInfo(degreeInfo: Omit<degreeDetails, "degreeName">) : Observable<degreeDetails>{
+    return this.http
+      .post<degreeDetails>(`${this.url}/addDegree`, degreeInfo, this.httpOptions);
   }
 
   createMainApp(email : String) : Observable<any>{
