@@ -122,26 +122,26 @@ export class CreateApplicationComponent implements OnInit {
   next() {
 
     if (this.step == 1) {
-      this.personal_step = true;
-      if (this.personalDetails.invalid) { return }
-      this.step++
-    }
-
-    else if (this.step == 2) {
       this.degree_step = true;
       this.getProgramInfos(this.degreeType);
       console.log(this.programs);
       //if (this.degreeDetails.invalid) { return }
       this.step++;
     }
+
+    else if (this.step == 2) {
+      this.personal_step = true;
+      if (this.personalDetails.invalid) { return }
+      this.step++
+    }
     else if (this.step == 3) {
-      this.address_step = true;
-      if (this.addressDetails.invalid) { return }
+      this.education_step = true;
+      if (this.educationalDetails.invalid) { return }
       this.step++;
     }
     else if (this.step == 4) {
       this.upload_step = true;
-      if (this.addressDetails.invalid) { return }
+      //if (this.addressDetails.invalid) { return }
       this.step++;
     }
 
@@ -152,13 +152,13 @@ export class CreateApplicationComponent implements OnInit {
     this.step--
 
     if (this.step == 1) {
-      this.personal_step = false;
-    }
-    if (this.step == 2) {
       this.degree_step = false;
     }
+    if (this.step == 2) {
+      this.personal_step = false;
+    }
     if (this.step == 3) {
-      this.address_step = false;
+      this.education_step = false;
     }
     if (this.step == 4) {
       this.upload_step = false;
@@ -168,8 +168,8 @@ export class CreateApplicationComponent implements OnInit {
 
   submit() {
     if (this.step == 5) {
-      this.education_step = true;
-      if (this.educationalDetails.invalid) { return }
+      this.address_step = true;
+      if (this.addressDetails.invalid) { return }
       else {
 
         const email = this.currentUser.email;

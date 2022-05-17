@@ -12,7 +12,7 @@
           <li [ngClass]="step>=5 ? 'active' : 'inactive'">Educational Details</li>
         </ul>
         <!-- fieldsets -->
-        <fieldset *ngIf="step == 1">
+        <fieldset *ngIf="step == 2">
           <h2 class="fs-title">Personal Details</h2>
           <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': personal_step && personal.name.errors }"
             placeholder="Full Name" />
@@ -55,11 +55,24 @@
               <div *ngIf="personal.id.errors?.required">Passport is required</div>
             </div>
           </div>
+          <form>
+            <mat-form-field appearance="fill">
+              <mat-label>Program Type</mat-label>
+              <mat-select [(ngModel)]="selectedValue" name="program">
+                <mat-option *ngFor="let program of programs" [value]="program.name">
+                  {{program.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <p> Selected program: {{selectedValue}} </p>
+          </form>
+          <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"
+          value="Previous" />
           <input (click)="next()" type="button" name="next" class="next action-button" value="Next" />
         </fieldset>
       </form>
       <form [formGroup]="degreeDetails" id="msform">
-        <fieldset *ngIf="step == 2">
+        <fieldset *ngIf="step == 1">
           <h2 class="fs-title">Degree Details</h2>
 
           <mat-radio-group aria-labelledby="degree-radio-group-label" class="degree-radio-group"
@@ -94,17 +107,15 @@
           <div *ngIf="degree_step && degreeDetails.controls.degreeName3.errors">
             <div *ngIf="degree.degreeName.errors?.required">Degree is required</div>
           </div>
-          <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"
-            value="Previous" />
 
           <input *ngIf="isMakeChoice" (click)="next()" type="button" name="next" class="next action-button" value="Next"
             [disabled]="!isMakeChoice" mat-raised-button />
 
         </fieldset>
       </form>
-      <form [formGroup]="addressDetails" id="msform">
+      <form [formGroup]="educationalDetails" id="msform">
         <fieldset *ngIf="step == 3">
-          <h2 class="fs-title">Address Details</h2>
+          <h2 class="fs-title">Educational Details</h2>
           <mat-radio-group aria-labelledby="bluecard-radio-group-label" class="bluecard-radio-group"
             [(ngModel)]="isBlueCard" [ngModelOptions]="{standalone: true}">
 
@@ -128,30 +139,18 @@
             </mat-radio-button>
           </mat-radio-group>
 
-          <form>
-
-            <mat-form-field appearance="fill">
-              <mat-label>Program Type</mat-label>
-              <mat-select [(ngModel)]="selectedValue" name="program">
-                <mat-option *ngFor="let program of programs" [value]="program.name">
-                  {{program.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <p> Selected program: {{selectedValue}} </p>
-          </form>
-
-          <input type="text" formControlName="city" placeholder="City" />
-          <div *ngIf="address_step && addressDetails.controls.city.errors">
-            <div *ngIf="address.city.errors?.required">City is required</div>
+          <input type="text" formControlName="highest_qualification" placeholder="Highest Qualification" />
+          <div *ngIf="education_step && educationalDetails.controls.highest_qualification.errors">
+            <div *ngIf="education.highest_qualification.errors?.required">Highest qualification is required
+            </div>
           </div>
-          <textarea rows="5" cols="5" formControlName="address" placeholder="address"></textarea>
-          <div *ngIf="address_step && addressDetails.controls.address.errors">
-            <div *ngIf="address.address.errors?.required">Address is required</div>
+          <input type="text" formControlName="university" placeholder="University" />
+          <div *ngIf="education_step && educationalDetails.controls.university.errors">
+            <div *ngIf="education.university.errors?.required">University is required</div>
           </div>
-          <input type="text" formControlName="pincode" placeholder="Pincode" />
-          <div *ngIf="address_step && addressDetails.controls.pincode.errors">
-            <div *ngIf="address.pincode.errors?.required">Pincode is required</div>
+          <input type="text" formControlName="total_marks" placeholder="Total Marks" />
+          <div *ngIf="education_step && educationalDetails.controls.total_marks.errors">
+            <div *ngIf="education.total_marks.errors?.required">Total marks is required</div>
           </div>
           <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"
             value="Previous" />
@@ -268,25 +267,12 @@
       </form>
 
 
-      <form [formGroup]="educationalDetails" id="msform">
+      <form [formGroup]="addressDetails" id="msform">
         <fieldset *ngIf="step == 5">
-          <h2 class="fs-title">Educational Details</h2>
-          <input type="text" formControlName="highest_qualification" placeholder="Highest Qualification" />
-          <div *ngIf="education_step && educationalDetails.controls.highest_qualification.errors">
-            <div *ngIf="education.highest_qualification.errors?.required">Highest qualification is required
-            </div>
-          </div>
-          <input type="text" formControlName="university" placeholder="University" />
-          <div *ngIf="education_step && educationalDetails.controls.university.errors">
-            <div *ngIf="education.university.errors?.required">University is required</div>
-          </div>
-          <input type="text" formControlName="total_marks" placeholder="Total Marks" />
-          <div *ngIf="education_step && educationalDetails.controls.total_marks.errors">
-            <div *ngIf="education.total_marks.errors?.required">Total marks is required</div>
-          </div>
+          <h2 class="fs-title">All Details</h2>
           <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"
-            value="Previous" />
-          <input (click)="submit()" type="submit" name="submit" class="submit action-button" value="Submit" />
+          value="Previous" />
+        <input (click)="submit()" type="submit" name="submit" class="submit action-button" value="Submit" />
         </fieldset>
       </form>
     </div>

@@ -44,6 +44,7 @@ import { CreateApplicationComponent } from './components/create-application/crea
 //import { UploadFilesComponent } from './components/upload-doc/upload-doc.component';
 import { HiProfileComponent } from './components/hi-profile/hi-profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProgramsComponent } from './components/programs/programs.component';
 
 
 
@@ -67,6 +68,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CreateApplicationComponent,
     //UploadFilesComponent,
     HiProfileComponent,
+    ProgramsComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,7 +91,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatTabsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    NgbModule
+    NgbModule,
   ],
   providers: [authInterceptorProviders,LoginGuardGuard,ProfileGuard],
   bootstrap: [AppComponent]
