@@ -41,8 +41,9 @@ import { NewPassComponent } from './components/new-pass/new-pass.component';
 import { LoginGuardGuard } from './login-guard.guard';
 import { ProfileGuard } from './profile.guard';
 import { CreateApplicationComponent } from './components/create-application/create-application.component';
-import { UploadFilesComponent } from './components/upload-doc/upload-doc.component';
+//import { UploadFilesComponent } from './components/upload-doc/upload-doc.component';
 import { HiProfileComponent } from './components/hi-profile/hi-profile.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -64,7 +65,7 @@ import { HiProfileComponent } from './components/hi-profile/hi-profile.component
     ForgetPassComponent,
     NewPassComponent,
     CreateApplicationComponent,
-    UploadFilesComponent,
+    //UploadFilesComponent,
     HiProfileComponent,
   ],
   imports: [
@@ -87,7 +88,8 @@ import { HiProfileComponent } from './components/hi-profile/hi-profile.component
     MatSortModule,
     MatTabsModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgbModule
   ],
   providers: [authInterceptorProviders,LoginGuardGuard,ProfileGuard],
   bootstrap: [AppComponent]

@@ -38,7 +38,8 @@
           <label id="example-radio-group-label">Nationalitiy</label>
           <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
             [(ngModel)]="favoriteSeason" [ngModelOptions]="{standalone: true}">
-            <mat-radio-button class="example-radio-button" *ngFor="let season of seasons" [value]="season" (click)="nationality(season)" >
+            <mat-radio-button class="example-radio-button" *ngFor="let season of seasons" [value]="season"
+              (click)="nationality(season)">
               {{season}}
             </mat-radio-button>
           </mat-radio-group>
@@ -61,33 +62,34 @@
         <fieldset *ngIf="step == 2">
           <h2 class="fs-title">Degree Details</h2>
 
-          <mat-radio-group aria-labelledby="degree-radio-group-label" class="degree-radio-group" [(ngModel)]="degreeType" [ngModelOptions]="{standalone: true}">
+          <mat-radio-group aria-labelledby="degree-radio-group-label" class="degree-radio-group"
+            [(ngModel)]="degreeType" [ngModelOptions]="{standalone: true}">
 
-          <div class="size">
-            <img class="images" src="assets/images/PhD.jpg">
-            <mat-radio-button class="degree-radio-button" value="Phd" (click) = "degreeChoose('Phd')">
-              PHD
-            </mat-radio-button>
-          </div>
-          <div *ngIf="degree_step && degreeDetails.controls.degreeName1.errors">
-            <div *ngIf="degree.degreeName.errors?.required">Degree is required</div>
-          </div>
-          <div class="size">
-            <img class="images" src="assets/images/Master.jpg">
-            <mat-radio-button class="degree-radio-button" value="Master" (click) = "degreeChoose('Master')" >
-              Master
-            </mat-radio-button>
-          </div>
-          <div *ngIf="degree_step && degreeDetails.controls.degreeName2.errors">
-            <div *ngIf="degree.degreeName.errors?.required">Degree is required</div>
-          </div>
-          <div class="size">
-            <img class="images" src="assets/images/Bachelor.jpg">
-            <mat-radio-button class="degree-radio-button" value="Bachelor" (click) = "degreeChoose('Bachelor')"  >
-              Bachelor
-            </mat-radio-button>
-          </div>
-        </mat-radio-group>
+            <div class="size">
+              <img class="images" src="assets/images/PhD.jpg">
+              <mat-radio-button class="degree-radio-button" value="Phd" (click)="degreeChoose('Phd')">
+                PHD
+              </mat-radio-button>
+            </div>
+            <div *ngIf="degree_step && degreeDetails.controls.degreeName1.errors">
+              <div *ngIf="degree.degreeName.errors?.required">Degree is required</div>
+            </div>
+            <div class="size">
+              <img class="images" src="assets/images/Master.jpg">
+              <mat-radio-button class="degree-radio-button" value="Master" (click)="degreeChoose('Master')">
+                Master
+              </mat-radio-button>
+            </div>
+            <div *ngIf="degree_step && degreeDetails.controls.degreeName2.errors">
+              <div *ngIf="degree.degreeName.errors?.required">Degree is required</div>
+            </div>
+            <div class="size">
+              <img class="images" src="assets/images/Bachelor.jpg">
+              <mat-radio-button class="degree-radio-button" value="Bachelor" (click)="degreeChoose('Bachelor')">
+                Bachelor
+              </mat-radio-button>
+            </div>
+          </mat-radio-group>
 
           <div *ngIf="degree_step && degreeDetails.controls.degreeName3.errors">
             <div *ngIf="degree.degreeName.errors?.required">Degree is required</div>
@@ -95,7 +97,8 @@
           <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"
             value="Previous" />
 
-          <input *ngIf="isMakeChoice" (click)="next()" type="button" name="next" class="next action-button" value="Next" [disabled]="!isMakeChoice" mat-raised-button />
+          <input *ngIf="isMakeChoice" (click)="next()" type="button" name="next" class="next action-button" value="Next"
+            [disabled]="!isMakeChoice" mat-raised-button />
 
         </fieldset>
       </form>
@@ -106,10 +109,10 @@
             [(ngModel)]="isBlueCard" [ngModelOptions]="{standalone: true}">
 
             <h4>Do you have blue card</h4>
-            <mat-radio-button class="bluecard-radio-button" value="yes" (click)="blueChoice('yes')" >
+            <mat-radio-button class="bluecard-radio-button" value="yes" (click)="blueChoice('yes')">
               Yes
             </mat-radio-button>
-            <mat-radio-button class="bluecard-radio-button" value="no" (click)="blueChoice('no')" >
+            <mat-radio-button class="bluecard-radio-button" value="no" (click)="blueChoice('no')">
               No
             </mat-radio-button>
           </mat-radio-group>
@@ -117,16 +120,16 @@
           <h4>Do you have Dual Citizenship</h4>
           <mat-radio-group aria-labelledby="citizenship-radio-group-label" class="citizenship-radio-group"
             [(ngModel)]="dualCitizen" [ngModelOptions]="{standalone: true}">
-            <mat-radio-button class="citizenship-radio-button" value="yes" (click)="dualCitizenship('yes')" >
+            <mat-radio-button class="citizenship-radio-button" value="yes" (click)="dualCitizenship('yes')">
               Yes
             </mat-radio-button>
-            <mat-radio-button class="citizenship-radio-button" value="no" (click)="dualCitizenship('no')" >
+            <mat-radio-button class="citizenship-radio-button" value="no" (click)="dualCitizenship('no')">
               No
             </mat-radio-button>
           </mat-radio-group>
 
           <form>
-            <h4>mat-select</h4>
+
             <mat-form-field appearance="fill">
               <mat-label>Program Type</mat-label>
               <mat-select [(ngModel)]="selectedValue" name="program">
@@ -161,17 +164,64 @@
         <fieldset *ngIf="step == 4">
           <div class="row">
             <p>
-              <ngb-alert [dismissible]="false">
-                <strong>Warning!</strong> Better check yourself, you're not looking too good.
+              <ngb-alert [dismissible]="false" type='primary'>
+                All undergraduate applicants are required to obtain the High School Diploma Equivalence Certificate for
+                registration. You may visit website for further information; https://edenklik.meb.gov.tr or please
+                contact the nearest Turkish Embassy/Consulate.
               </ngb-alert>
             </p>
+            <p>
+              <ngb-alert [dismissible]="false" type='primary'>
+                Diploma and Transcripts should be translated into English or Turkish, and should be certified by the
+                Notary/Noter.
+              </ngb-alert>
+            </p>
+            <p>
+              <ngb-alert [dismissible]="false">
+                (*) Mandatory Documents
+              </ngb-alert>
+            </p>
+
+            <form>
+              <mat-form-field appearance="fill">
+                <mat-label>Document Type</mat-label>
+                <mat-select [(ngModel)]="documentTitle" name="documentTitle">
+                  <mat-option value="Copy of Passport / ID Card (*)">
+                    Copy of Passport / ID Card (*)
+                  </mat-option>
+                  <mat-option value="Other Documents">
+                    Other Documents
+                  </mat-option>
+                  <mat-option value="English Language Proficiency Score">
+                    English Language Proficiency Score
+                  </mat-option>
+                  <mat-option value="Copy of Residence Permit">
+                    Copy of Residence Permit
+                  </mat-option>
+                  <mat-option value="Copy of Equivalence Certificate">
+                    Copy of Equivalence Certificate
+                  </mat-option>
+                  <mat-option value="High School Diploma">
+                    High School Diploma
+                  </mat-option>
+                  <mat-option value="Photograph for Student ID">
+                    Photograph for Student ID
+                  </mat-option>
+                  <mat-option value="Copy of International Exam Score">
+                    Copy of International Exam Score
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <p> Selected document: {{documentTitle}} </p>
+            </form>
+
             <div class="col-8">
               <label class="btn-default">
                 <input type="file" (change)="selectFile($event)" />
               </label>
             </div>
             <div class="col-4">
-              <button class="btn-success" [disabled]="!selectedFiles" (click)="upload()">
+              <button class="btn btn-primary" [disabled]="!selectedFiles" (click)="upload()">
                 Upload
               </button>
             </div>
@@ -186,12 +236,30 @@
           <div *ngIf="message" class="alert alert-secondary" role="alert">{{ message }}</div>
           <div class="card mt-3">
             <div class="card-header">List of Files</div>
-            <ul class="list-group list-group-flush" *ngFor="let file of fileInfos | async">
-              <li class="list-group-item">
-                <a class="file-name" href="{{ file.url }}">{{ file.name }}</a>
-              </li>
-              <button class="btn-success" (click)="deleteFile(file.all_url)">Delete</button>
-            </ul>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Title</th>
+                  <th scope="col">Document Name</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let file of fileInfos | async">
+                <tr>
+                  <td>
+                    <p>Sample Document Name</p>
+                  </td>
+                  <td>
+                    <a class="file-name" href="{{ file.url }}">{{ file.name }}</a>
+                  </td>
+                  <td>
+                    <button class="btn btn-primary" (click)="deleteFile(file.all_url)">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+
           </div>
           <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"
             value="Previous" />

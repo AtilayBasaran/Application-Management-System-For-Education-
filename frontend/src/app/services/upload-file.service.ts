@@ -8,8 +8,9 @@ import { TokenStorageService } from './token-storage.service';
 export class UploadFilesService {
   private baseUrl = 'http://localhost:3000';
   constructor(private token: TokenStorageService ,private http: HttpClient) { }
-  upload(file: File): Observable<HttpEvent<any>> {
+  upload(file: File , documentTitle : string): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
+    formData.append('documentTitle', documentTitle)
     const currentUser = this.token.getUser();
     formData.append('file', file);
     const req = new HttpRequest('POST', `${this.baseUrl}/upload/${currentUser.id}`, formData, {

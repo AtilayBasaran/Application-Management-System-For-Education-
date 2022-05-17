@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+/*import { Component, OnInit } from '@angular/core';
 import { UploadFilesService } from 'src/app/services/upload-file.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { TokenStorageService } from '../../services/token-storage.service';
@@ -85,3 +85,4 @@ export class UploadFilesComponent implements OnInit {
   }
 
 }
+*/

@@ -39,6 +39,7 @@ export class CreateApplicationComponent implements OnInit {
 
 
   favoriteSeason: string;
+  documentTitle: string;
   programs : any;
   seasons: string[] = ['T.C', 'International'];
   degreeType: string;
@@ -293,7 +294,7 @@ export class CreateApplicationComponent implements OnInit {
       const file: File | null = this.selectedFiles.item(0);
       if (file) {
         this.currentFile = file;
-        this.uploadService.upload(this.currentFile).subscribe(
+        this.uploadService.upload(this.currentFile, this.documentTitle).subscribe(
           (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round(100 * event.loaded / event.total);
