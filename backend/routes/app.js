@@ -22,4 +22,8 @@ router.post(
     '/createMainApp', appController.createMainApp
 );
 
+router.post(
+    '/getProgramInfo', appController.getProgramInfo
+);
+
 module.exports = router;

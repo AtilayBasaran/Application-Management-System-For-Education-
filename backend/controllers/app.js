@@ -136,3 +136,40 @@ exports.createMainApp = async (req, res, next) => {
     });
 
 };
+
+
+exports.getProgramInfo = async (req, res, next) => {
+    degree = req.body.degree;
+    
+    try {
+        const programInfos = [];
+        pool.query(
+            "SELECT * FROM programs where degree = ?",
+            [degree],
+            async (err, result) => {
+                
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        id: result[i].id,
+                        name: result[i].name,
+                        faculty: result[i].faculty,
+                    };
+                    programInfos.push(a);
+                }
+
+            console.log(programInfos),
+            res.status(201).send(programInfos)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Program Information Cannot Take!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};

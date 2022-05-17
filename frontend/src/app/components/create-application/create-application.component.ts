@@ -1,12 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { UploadFilesService } from 'src/app/services/upload-file.service';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ApplicationService } from "src/app/services/application.service";
 import { TokenStorageService } from '../../services/token-storage.service';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from "@angular/router";
+
+interface Food {
+  value: string;
+  viewValue: string;
+}
+
+interface Car {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-create-application',
@@ -15,6 +25,24 @@ import { Router } from "@angular/router";
 })
 export class CreateApplicationComponent implements OnInit {
 
+  httpOptions: { headers: HttpHeaders } = {
+    headers: new HttpHeaders({ "Content-Type": "application/json" }),
+  };
+  
+  programInfos : any;
+
+
+  selectedValue: string;
+
+  foods: any;
+
+
+
+  favoriteSeason: string;
+  programs : any;
+  seasons: string[] = ['T.C', 'International'];
+  degreeType: string;
+  dualCitizen: string;
   personalDetails!: FormGroup;
   addressDetails!: FormGroup;
   educationalDetails!: FormGroup;
@@ -33,10 +61,21 @@ export class CreateApplicationComponent implements OnInit {
   progress = 0;
   message = '';
   fileInfos?: Observable<any>;
+  isTurkishStudent : any;
+  app_degree : string;
+  isMakeChoice = false;
+  isBachelor = false;
+  isPhd = false;
+  isMaster = false;
+  isBlueCard: string;
 
-  constructor(private formBuilder: FormBuilder, private applicationService: ApplicationService, private router: Router, private token: TokenStorageService, private uploadService: UploadFilesService, private toastr: ToastrService) { }
+
+  
+
+  constructor(private formBuilder: FormBuilder, private applicationService: ApplicationService, private router: Router, private token: TokenStorageService, private uploadService: UploadFilesService, private toastr: ToastrService, private http: HttpClient) { }
 
   ngOnInit() {
+    console.log(this.isMakeChoice);
     
     this.fileInfos = this.uploadService.getFiles();
     this.currentUser = this.token.getUser();
@@ -65,6 +104,10 @@ export class CreateApplicationComponent implements OnInit {
     this.degreeDetails = this.formBuilder.group({
       degreeName: ['', Validators.required]
     })
+
+    if(!this.isBachelor && !this.isMaster && !this.isPhd){
+      this.isMakeChoice = false;
+    }
   }
 
   get personal() { return this.personalDetails.controls; }
@@ -85,7 +128,9 @@ export class CreateApplicationComponent implements OnInit {
 
     else if (this.step == 2) {
       this.degree_step = true;
-      if (this.degreeDetails.invalid) { return }
+      this.getProgramInfos(this.degreeType);
+      console.log(this.programs);
+      //if (this.degreeDetails.invalid) { return }
       this.step++;
     }
     else if (this.step == 3) {
@@ -194,9 +239,53 @@ export class CreateApplicationComponent implements OnInit {
       this.router.navigate(["successApp"]);
     }
   }
+
   selectFile(event: any): void {
     this.selectedFiles = event.target.files;
   }
+
+  nationality(favoriteSeason : any): void {
+    if(favoriteSeason == 'T.C'){
+      this.isTurkishStudent = true;
+    }else if(favoriteSeason == 'International'){
+      this.isTurkishStudent = false;
+    }
+  }
+
+  degreeChoose(degree : any): void {
+    this.app_degree = degree;
+    console.log(degree)
+    if(degree == 'Phd'){
+      this.isPhd = true;
+
+      this.isBachelor = false;
+      this.isMaster = false;
+
+      this.isMakeChoice = true;
+    }else if(degree == 'Master'){
+      this.isMaster = true;
+
+      this.isPhd = false;
+      this.isBachelor = false;
+
+      this.isMakeChoice = true;
+    }else if(degree == 'Bachelor'){
+      this.isBachelor = true;
+      this.isPhd = false;
+      this.isMaster = false;
+
+      this.isMakeChoice = true;
+    }
+  }
+
+  blueChoice(choice : any): void {
+  console.log(choice)
+  }
+
+  dualCitizenship(choice : any): void {
+    console.log(choice)
+    console.log(this.selectedValue)
+    }
 
   upload(): void {
     this.progress = 0;
@@ -248,6 +337,17 @@ export class CreateApplicationComponent implements OnInit {
         }
 
       );
+  }
+
+  getProgramInfos(degree : string) {
+    this.http.post('http://localhost:3000/app/getProgramInfo', {degree}, this.httpOptions).subscribe(data => {
+      this.programs = data;
+      console.log(data)
+
+      console.log('Program infos')
+
+      console.log(this.programInfos)
+    });
   }
 
 }

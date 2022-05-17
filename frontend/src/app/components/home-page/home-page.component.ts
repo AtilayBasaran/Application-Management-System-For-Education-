@@ -14,6 +14,14 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ToastrService } from 'ngx-toastr';
 
+interface Car {
+  id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  role: string;
+}
+
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -29,6 +37,7 @@ import { ToastrService } from 'ngx-toastr';
 export class HomePageComponent implements AfterViewInit, OnInit  {
   columnsToDisplay : string[] = ['id','firstname','lastname','email','role'];
   userInfos: any;
+  dataSource: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -39,11 +48,14 @@ export class HomePageComponent implements AfterViewInit, OnInit  {
 
   ngOnInit(): void {
     this.userInfos = this.getUserInfos();
+    this.dataSource = new MatTableDataSource<Car>(this.userInfos);
   }
   
   ngAfterViewInit() {
-    this.userInfos.paginator = this.paginator;
-    this.userInfos.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    console.log("ekin")
+    console.log(this.dataSource);
   }
 
   announceSortChange(sortState: Sort) {

@@ -181,15 +181,15 @@ fieldset {
     animation-name: slidein;
 }
 
-.images{
+.images {
     width: 10%;
 }
 
-.size{
+.size {
     flex-direction: row;
 }
 
-.btn-success{
+.btn-success {
     width: 5rem;
     height: 2.5rem;
     cursor: pointer;
@@ -201,26 +201,26 @@ fieldset {
 }
 
 .btn-success:hover,
-.btn-success:focus{
+.btn-success:focus {
     box-shadow: 0 0 0 2px white, 0 0 0 3px #ee0979;
 }
 
-.file-name{
+.file-name {
     text-decoration: none;
     color: black;
 }
 
-.list-group-item{
+.list-group-item {
     display: flex;
     justify-content: center;
 }
 
-.checkbox{
+.checkbox {
     flex-direction: column;
     display: flex;
 }
 
-.label{
+.label {
     color: black;
 }
 
@@ -270,4 +270,15 @@ fieldset {
         margin-left: 0%;
         width: 100%;
     }
+}
+
+.example-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+    align-items: center;
+}
+
+.example-radio-button {
+    margin: 5px;
 }
