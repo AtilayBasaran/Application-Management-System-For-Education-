@@ -55,17 +55,6 @@
               <div *ngIf="personal.id.errors?.required">Passport is required</div>
             </div>
           </div>
-          <form>
-            <mat-form-field appearance="fill">
-              <mat-label>Program Type</mat-label>
-              <mat-select [(ngModel)]="selectedValue" name="program">
-                <mat-option *ngFor="let program of programs" [value]="program.name">
-                  {{program.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <p> Selected program: {{selectedValue}} </p>
-          </form>
           <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"
           value="Previous" />
           <input (click)="next()" type="button" name="next" class="next action-button" value="Next" />
@@ -103,6 +92,18 @@
               </mat-radio-button>
             </div>
           </mat-radio-group>
+
+          <form>
+            <mat-form-field appearance="fill">
+              <mat-label>Program Type</mat-label>
+              <mat-select [(ngModel)]="selectedValue" name="program">
+                <mat-option *ngFor="let program of programs" [value]="program.name">
+                  {{program.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <p> Selected program: {{selectedValue}} </p>
+          </form>
 
           <div *ngIf="degree_step && degreeDetails.controls.degreeName3.errors">
             <div *ngIf="degree.degreeName.errors?.required">Degree is required</div>

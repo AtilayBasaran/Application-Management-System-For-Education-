@@ -277,6 +277,8 @@ export class CreateApplicationComponent implements OnInit {
 
       this.isMakeChoice = true;
     }
+    this.getProgramInfos(degree);
+      console.log(this.programs);
   }
 
   blueChoice(choice : any): void {
