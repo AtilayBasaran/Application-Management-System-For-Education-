@@ -14,6 +14,8 @@ const settingsRoutes = require('./routes/settings');
 
 const filesRoutes = require('./routes/files');
 
+const programsRoutes = require('./routes/programs');
+
 const errorController = require('./controllers/error');
 
 const app = express();
@@ -46,6 +48,7 @@ app.use('/pass', passRoutes);
 app.use('/app', appRoutes);
 app.use('/settings', settingsRoutes);
 app.use('/files', filesRoutes);
+app.use('/programs', programsRoutes);
 
 
 const initRoutes = require("./routes/upload");

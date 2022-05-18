@@ -22,21 +22,21 @@ import { ToastrService } from 'ngx-toastr';
 })
 
 export class ProgramsComponent implements OnInit {
-  displayedColumns : string[] = ['id','firstname','lastname','email','role'];
+  programType = 'All'
+  displayedColumns : string[] = ['id','Program','Faculty','Degree','Language','Duration', 'Campus'];
   userInfos: any;
 
+  programInfos: any;
+  httpOptions: { headers: HttpHeaders } = {
+    headers: new HttpHeaders({ "Content-Type": "application/json" }),
+  };
+
   constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {
-    this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
-      this.userInfos = data;
-      console.log(data)
 
-      console.log('user infos')
-
-      console.log(this.userInfos)
-    });
   }
 
   ngOnInit(): void {
+    this.getProgramInfos('All');
   }
 
   // applyFilter(filterValue: string) {
@@ -44,5 +44,59 @@ export class ProgramsComponent implements OnInit {
   //   filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
   //   this.userInfos.filter = filterValue;
   // }
+
+  getProgramInfos(prType : string): void {
+    if (prType == 'All'){
+      console.log('All çalıştı')
+      this.http.get('http://localhost:3000/programs/getAllProgram').subscribe(data => {
+        this.programInfos = data;
+        console.log(data)
+  
+        console.log('Program infos')
+  
+        console.log(this.programInfos)
+      });
+
+    }else if(prType == 'Phd'){
+      const type = 'Phd';
+      console.log('Phd çalıştı')
+      this.http
+      .post('http://localhost:3000/programs/getProgramInfo',{type}, this.httpOptions).subscribe(data => {
+        this.programInfos = data;
+        console.log(data)
+  
+        console.log('Program infos')
+  
+        console.log(this.programInfos)
+      });
+
+    }else if(prType == 'Bachelor'){
+      const type = 'Bachelor';
+      console.log('Bachelor çalıştı')
+      this.http
+      .post('http://localhost:3000/programs/getProgramInfo',{type}, this.httpOptions).subscribe(data => {
+        this.programInfos = data;
+        console.log(data)
+  
+        console.log('Program infos')
+  
+        console.log(this.programInfos)
+      });
+
+    }else if(prType == 'Master'){
+      const type = 'Master';
+      console.log('Master çalıştı')
+      this.http
+      .post('http://localhost:3000/programs/getProgramInfo',{type}, this.httpOptions).subscribe(data => {
+        this.programInfos = data;
+        console.log(data)
+  
+        console.log('Program infos')
+  
+        console.log(this.programInfos)
+      });
+
+    }
+  }
 
 }
