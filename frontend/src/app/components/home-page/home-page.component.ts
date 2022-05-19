@@ -11,7 +11,7 @@ import { Data, Router } from '@angular/router';
 import { User } from 'src/app/models/User';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, subscribeOn } from "rxjs";
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -27,13 +27,16 @@ import { ToastrService } from 'ngx-toastr';
     ]),
   ],
 })
-export class HomePageComponent implements AfterViewInit, OnInit  {
+export class HomePageComponent implements OnInit  {
   columnsToDisplay : string[] = ['id','firstname','lastname','email','role'];
   userInfos: any;
-  dataSource: any;
+  dataSource: MatTableDataSource<any>;
+  dataSource2: MatTableDataSource<any>;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('MatPaginator1', {static: true}) paginator: MatPaginator; 
+  @ViewChild('MatPaginator2', {static: true}) paginator2: MatPaginator;
+  @ViewChild('matsort1', {static: true}) sort: MatSort;
+  @ViewChild('matsort2', {static: true}) sort2: MatSort;
 
   constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {
 
@@ -43,12 +46,6 @@ export class HomePageComponent implements AfterViewInit, OnInit  {
     this.userInfos = this.getUserInfos();
   }
   
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    console.log("ekin")
-    console.log(this.dataSource);
-  }
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -58,9 +55,26 @@ export class HomePageComponent implements AfterViewInit, OnInit  {
     }
   }
 
+  // applyFilter(filterValue: string){
+  //   this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
+  //   this.userInfos = data;
+  //   this.dataSource = new MatTableDataSource(this.userInfos);
+  //   this.dataSource2 = new MatTableDataSource(this.userInfos);
+  //   this.dataSource.filter= filterValue.trim().toLocaleLowerCase();
+  //   this.dataSource2.filter = filterValue.trim().toLocaleLowerCase();
+  //     });
+  //   }
+
+
   getUserInfos() {
     this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
       this.userInfos = data;
+      this.dataSource = new MatTableDataSource(this.userInfos);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.dataSource2 = new MatTableDataSource(this.userInfos);
+      this.dataSource2.paginator = this.paginator2;
+      this.dataSource2.sort = this.sort2;
       console.log(data)
 
       console.log('user infos')

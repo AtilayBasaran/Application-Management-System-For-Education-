@@ -25,6 +25,7 @@ interface Car {
   styleUrls: ['./create-application.component.scss']
 })
 export class CreateApplicationComponent implements OnInit {
+  panelOpenState = false;
 
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
@@ -100,7 +101,10 @@ export class CreateApplicationComponent implements OnInit {
     this.educationalDetails = this.formBuilder.group({
       highest_qualification: ['', Validators.required],
       university: ['', Validators.required],
-      total_marks: ['', Validators.required]
+      total_marks: ['', Validators.required],
+      language_profiency: ['', Validators.required],
+      grad_year: ['', Validators.required]
+      //exam_score: ['', Validators.required] language_profiency yoksa bunun required olmasına gerek yok diye düşündüm
     });
 
     this.degreeDetails = this.formBuilder.group({

@@ -22,6 +22,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -92,6 +93,7 @@ import { ProgramsComponent } from './components/programs/programs.component';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     NgbModule,
+    MatExpansionModule
   ],
   providers: [authInterceptorProviders,LoginGuardGuard,ProfileGuard],
   bootstrap: [AppComponent]

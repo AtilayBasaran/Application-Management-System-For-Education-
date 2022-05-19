@@ -26,6 +26,9 @@ export class ProgramsComponent implements OnInit {
   displayedColumns : string[] = ['id','Program','Faculty','Degree','Language','Duration', 'Campus'];
   userInfos: any;
 
+  @ViewChild('MatPaginator1', {static: true}) paginator: MatPaginator; 
+  @ViewChild('matsort1', {static: true}) sort: MatSort;
+
   programInfos: any;
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
@@ -44,6 +47,14 @@ export class ProgramsComponent implements OnInit {
   //   filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
   //   this.userInfos.filter = filterValue;
   // }
+
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
 
   getProgramInfos(prType : string): void {
     if (prType == 'All'){

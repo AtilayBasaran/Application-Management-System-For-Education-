@@ -112,9 +112,9 @@
 
 #progressbar li {
     list-style-type: none;
-    color: white;
+    color: black;
     text-transform: uppercase;
-    font-size: 9px;
+    font-size: 12px;
     width: 19.33%;
     float: left;
     position: relative;
@@ -274,11 +274,22 @@ fieldset {
 
 .example-radio-group {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin: 15px 0;
     align-items: center;
+    justify-content: center;
 }
 
 .example-radio-button {
     margin: 5px;
+}
+
+.cont{
+    display: flex;
+    justify-content: space-evenly;
+    padding-bottom: 15px;
+}
+
+.title{
+    justify-content: center;
 }

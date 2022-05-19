@@ -1,26 +1,20 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatSort, Sort} from '@angular/material/sort';
-import {LiveAnnouncer} from '@angular/cdk/a11y';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { TokenStorageService } from 'src/app/services/token-storage.service';
+import { SettingService } from 'src/app/services/setting.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Data, Router } from '@angular/router';
+import { User } from 'src/app/models/User';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable, subscribeOn } from "rxjs";
+import { ToastrService } from 'ngx-toastr';
 
-export interface StudentTable {
-  StudentName: string;
-  number: number;
-  mail: string;
-  department: string;
-  appDate: String;
-  appStatus: String;
-  description: string;
-  
-}
 
-const ELEMENT_DATA: StudentTable[] = [
-  {number: 1, StudentName: 'salihh', mail: "salih@gmail.com", department: 'CS',appDate: "07.03.2022",appStatus:"Waiting",description:'deneme'},
-  {number: 2, StudentName: 'salih', mail: "salih@gmail.com", department: 'EE',appDate: "07.03.2022",appStatus:"Waiting",description:'deneme'},
-  {number: 3, StudentName: 'atılay', mail: "atilay@gmail.com", department: 'CS',appDate: "07.03.2022",appStatus:"Rejected",description:'deneme'},
-];
 @Component({
   selector: 'app-agency-profile',
   templateUrl: './agency-profile.component.html',
@@ -33,19 +27,34 @@ const ELEMENT_DATA: StudentTable[] = [
     ]),
   ],
 })
-export class AgencyProfileComponent implements AfterViewInit {
-  columnsToDisplay : string[] = ['number', 'StudentName', 'mail', 'department','appDate','appStatus'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-  expandedElement: StudentTable | null;
+export class AgencyProfileComponent implements OnInit {
+  columnsToDisplay : string[] = ['id','firstname','lastname','email','role'];
+  userInfos: any;
+  dataSource: MatTableDataSource<any>;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}//buraya daha sonra database gelecek
+  constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {}//buraya daha sonra database gelecek
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+  @ViewChild('matsort1', {static: true}) sort: MatSort;
+  @ViewChild('MatPaginator1', {static: true}) paginator: MatPaginator; 
+
+  ngOnInit(): void {
+    this.userInfos = this.getUserInfos();
   }
+
+  getUserInfos() {
+    this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
+      this.userInfos = data;
+      this.dataSource = new MatTableDataSource(this.userInfos);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log(data)
+
+      console.log('user infos')
+
+      console.log(this.userInfos)
+    });
+  }
+
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);

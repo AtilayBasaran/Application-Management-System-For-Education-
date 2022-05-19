@@ -36,7 +36,7 @@
         <p> Selected type: {{programType}} </p>
     </form>
 
-    <table mat-table [dataSource]="programInfos" class="mat-elevation-z8">
+    <table mat-table [dataSource]="programInfos" #matsort1="matSort" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
         <!-- Position Column -->
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef> Id </th>
@@ -81,7 +81,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+    <mat-paginator #MatPaginator1 [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
 </body>
 
 </html>
