@@ -11,6 +11,6 @@ const filesController = require('../controllers/file_upload');
 
 router.post("", filesController.getListFiles);
 router.post("/delete", filesController.deleteFiles);
-router.get("/:name", filesController.download);
+router.get("/:name&:user_id", filesController.download);
 
 module.exports = router;

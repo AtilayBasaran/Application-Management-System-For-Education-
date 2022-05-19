@@ -49,4 +49,14 @@ export class ApplicationService {
       .post(`${this.url}/createMainApp`, {email}, this.httpOptions);
   }
 
+  controlDocumentTitle(title : String, user_id : any) : Observable<any>{
+    return this.http
+      .post(`${this.url}/controlTitle`, {title, user_id}, this.httpOptions);
+  }
+
+  controlDocumentName(fileName : any, user_id : any) : Observable<any>{
+    return this.http
+      .post(`${this.url}/controlName`, {fileName, user_id}, this.httpOptions);
+  }
+
 }

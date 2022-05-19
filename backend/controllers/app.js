@@ -173,3 +173,63 @@ exports.getProgramInfo = async (req, res, next) => {
     }
 
 };
+
+exports.controlTitle = async (req, res, next) => {
+    user_id = req.body.user_id;
+    title = req.body.title;
+    
+    try {
+        pool.query(
+            "SELECT * FROM document where user_id = ? and title = ?",
+            [user_id, title],
+            async (err, result) => {
+                console.log(result)
+                if(result != ''){
+                    res.status(201).send(true)
+                }else{
+                    res.status(201).send(false)
+                }
+            }
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Error Occured"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+exports.controlName = async (req, res, next) => {
+    user_id = req.body.user_id;
+    fileName = req.body.fileName;
+    
+    try {
+        pool.query(
+            "SELECT * FROM document where user_id = ? and name = ?",
+            [user_id, fileName],
+            async (err, result) => {
+                console.log(result)
+                if(result != ''){
+                    res.status(201).send(true)
+                }else{
+                    res.status(201).send(false)
+                }
+            }
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Error Occured"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};

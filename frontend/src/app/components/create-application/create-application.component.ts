@@ -7,6 +7,7 @@ import { TokenStorageService } from '../../services/token-storage.service';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from "@angular/router";
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 interface Food {
   value: string;
@@ -73,7 +74,7 @@ export class CreateApplicationComponent implements OnInit {
 
   
 
-  constructor(private formBuilder: FormBuilder, private applicationService: ApplicationService, private router: Router, private token: TokenStorageService, private uploadService: UploadFilesService, private toastr: ToastrService, private http: HttpClient) { }
+  constructor(private modalService: NgbModal,private formBuilder: FormBuilder, private applicationService: ApplicationService, private router: Router, private token: TokenStorageService, private uploadService: UploadFilesService, private toastr: ToastrService, private http: HttpClient) { }
 
   ngOnInit() {
     console.log(this.isMakeChoice);
@@ -353,5 +354,112 @@ export class CreateApplicationComponent implements OnInit {
     });
   }
 
+  fileUploadController(): void {
+    var isPassTitle = false;
+    var isPassName = false;
+    if(this.selectedFiles){
+      const file: File | null = this.selectedFiles.item(0);
+      console.log(this.documentTitle)
+      console.log(file?.name)
+      const fileName = file?.name
+      if(this.documentTitle != 'Other Documents'){
+        const user_id = this.currentUser.id;
+
+        this.applicationService
+          .controlDocumentTitle(this.documentTitle,user_id)
+          .subscribe(data => {
+            console.log(data);
+
+            if(data == true){
+              this.toastr.error('Can upload one file with same title (except other documents)', 'Error')
+            }else{
+              isPassTitle = true;
+            }
+          },
+          err => {
+          })
+      }
+      const user_id = this.currentUser.id;
+      this.applicationService
+          .controlDocumentName(fileName,user_id)
+          .subscribe(data => {
+            console.log(data);
+
+            if(data == true){
+              const modalRef = this.modalService.open(NgbdModalContent);
+              modalRef.result.then((result) => {
+                if (result) {
+                  if(result == 'true'){
+                    isPassName = true
+                  }else if(result == 'false'){
+                    this.toastr.error('Document upload cancelled please upload new document', 'Error')
+                  }
+                }
+                });
+            }else{
+              isPassName = true;
+            }
+          },
+          err => {
+          })
+
+    }else{
+      this.toastr.error('Please select file for upload', 'Error')
+    }
+    
+
+    /*
+    this.progress = 0;
+    if (this.selectedFiles) {
+      const file: File | null = this.selectedFiles.item(0);
+      if (file) {
+        this.currentFile = file;
+        this.uploadService.upload(this.currentFile, this.documentTitle).subscribe(
+          (event: any) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress = Math.round(100 * event.loaded / event.total);
+            } else if (event instanceof HttpResponse) {
+              this.message = event.body.message;
+              this.fileInfos = this.uploadService.getFiles();
+              this.toastr.success('File Uploaded Successfully', 'Success')
+            }
+          },
+          (err: any) => {
+            console.log(err);
+            this.progress = 0;
+            if (err.error && err.error.message) {
+              this.message = err.error.message;
+            } else {
+              this.message = 'Could not upload the file!';
+            }
+            this.currentFile = undefined;
+          });
+      }
+      this.selectedFiles = undefined;
+    }
+    */
+  }
+
 }
 
+@Component({
+  selector: 'ngbd-modal-content',
+  template: `
+    <div class="modal-header">
+      <h4 class="modal-title">Hi there!</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <p>A document with the same name has already been uploaded. Do you want to override the document ?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('false')">No</button>
+      <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('true')">Yes</button>
+    </div>
+  `
+})
+export class NgbdModalContent {
+
+  constructor(public activeModal: NgbActiveModal) {
+  }
+}

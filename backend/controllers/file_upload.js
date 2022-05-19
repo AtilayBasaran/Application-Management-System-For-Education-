@@ -55,7 +55,7 @@ const getListFiles = (req, res) => {
         files.forEach((file) => {
             fileInfos.push({
                 name: file,
-                url: baseUrl + file,
+                url: baseUrl + file+'&'+user_id,
                 all_url: directoryPath+ '/' + file,
             });
         });
@@ -66,7 +66,8 @@ const getListFiles = (req, res) => {
 
 const download = (req, res) => {
     const fileName = req.params.name;
-    const directoryPath = __basedir + "/resources/static/assets/uploads/";
+    const user_id = req.params.user_id;
+    const directoryPath = __basedir + "/resources/static/assets/uploads/"+user_id+"/";
 
     res.download(directoryPath + fileName, fileName, (err) => {
         if (err) {

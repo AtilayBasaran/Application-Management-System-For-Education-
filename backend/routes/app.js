@@ -26,4 +26,14 @@ router.post(
     '/getProgramInfo', appController.getProgramInfo
 );
 
+router.post(
+    '/controlTitle', appController.controlTitle
+);
+
+router.post(
+    '/controlName', appController.controlName
+);
+
+
+
 module.exports = router;
