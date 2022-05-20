@@ -11,6 +11,10 @@
 <body>
     <mat-tab-group>
         <mat-tab label="International Application">
+            <mat-form-field appearance="standard">
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Filter" #input>
+            </mat-form-field>
             <table mat-table [dataSource]="dataSource" #matsort1="matSort" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
                 <!-- Id Column -->
                 <ng-container matColumnDef="id">
@@ -48,6 +52,10 @@
             <mat-paginator #MatPaginator1 [pageSizeOptions]="[1, 5, 10]"></mat-paginator>
         </mat-tab>
         <mat-tab label="Turkish Application">
+            <mat-form-field appearance="standard">
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+            </mat-form-field>
             <table mat-table [dataSource]="dataSource2" #matsort2="matSort" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
                 <!-- Id Column -->
                 <ng-container matColumnDef="id">

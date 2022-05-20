@@ -55,16 +55,11 @@ export class HomePageComponent implements OnInit  {
     }
   }
 
-  // applyFilter(filterValue: string){
-  //   this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
-  //   this.userInfos = data;
-  //   this.dataSource = new MatTableDataSource(this.userInfos);
-  //   this.dataSource2 = new MatTableDataSource(this.userInfos);
-  //   this.dataSource.filter= filterValue.trim().toLocaleLowerCase();
-  //   this.dataSource2.filter = filterValue.trim().toLocaleLowerCase();
-  //     });
-  //   }
-
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource2.filter = filterValue.trim().toLocaleLowerCase();
+  }
 
   getUserInfos() {
     this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {

@@ -37,6 +37,10 @@
     </form>
 
     <table mat-table [dataSource]="programInfos" #matsort1="matSort" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
+        <mat-form-field appearance="standard">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Filter" #input>
+        </mat-form-field>
         <!-- Position Column -->
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef> Id </th>

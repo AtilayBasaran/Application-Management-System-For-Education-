@@ -35,6 +35,10 @@
     </div>
     <mat-tab-group>
         <mat-tab label="Applications">
+            <mat-form-field appearance="standard">
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Filter" #input>
+            </mat-form-field>
             <table mat-table [dataSource]="dataSource" #matsort1="matSort" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
                 <!-- Id Column -->
                 <ng-container matColumnDef="id">

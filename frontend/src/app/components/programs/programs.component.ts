@@ -25,6 +25,7 @@ export class ProgramsComponent implements OnInit {
   programType = 'All'
   displayedColumns : string[] = ['id','Program','Faculty','Degree','Language','Duration', 'Campus'];
   userInfos: any;
+  dataSource: MatTableDataSource<any>;
 
   @ViewChild('MatPaginator1', {static: true}) paginator: MatPaginator; 
   @ViewChild('matsort1', {static: true}) sort: MatSort;
@@ -54,6 +55,10 @@ export class ProgramsComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   getProgramInfos(prType : string): void {
