@@ -40,7 +40,7 @@
       />
       <mat-error  *ngIf="!signupForm.get('confirmPassword')?.errors?.matchValidator">Passwords do not match </mat-error>
     </mat-form-field>
-    
+    <div class="sign">
     <button
       color="accent"
       [disabled]="!signupForm.valid"
@@ -49,9 +49,10 @@
     >
       <span>Register</span>
     </button>
-    <div class="alert alert-warning" *ngIf="isSignUpFailed">
+    <div class="alert-alert-warning" *ngIf="isSignUpFailed">
       Signup failed!<br />{{ errorMessage }}
     </div>
+  </div>
   </form>
   <div class="alert alert-success" *ngIf="isSuccessful">
     Your registration is successful!

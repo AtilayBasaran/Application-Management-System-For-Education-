@@ -13,7 +13,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, subscribeOn } from "rxjs";
 import { ToastrService } from 'ngx-toastr';
-
+import {MatDialog} from '@angular/material/dialog';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home-page',
@@ -38,8 +39,12 @@ export class HomePageComponent implements OnInit  {
   @ViewChild('matsort1', {static: true}) sort: MatSort;
   @ViewChild('matsort2', {static: true}) sort2: MatSort;
 
-  constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {
+  constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService,private modalService: NgbModal) {
 
+  }
+
+  openDialog(): void{
+    const modalRef = this.modalService.open(DenemeComponent);
   }
 
   ngOnInit(): void {
@@ -76,5 +81,14 @@ export class HomePageComponent implements OnInit  {
 
       console.log(this.userInfos)
     });
+  }
+}
+
+@Component({
+  selector: 'app-deneme',
+  templateUrl: '../deneme/deneme.component.html',
+})
+export class DenemeComponent {
+  constructor(public activeModal: NgbActiveModal) {
   }
 }

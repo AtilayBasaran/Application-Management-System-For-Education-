@@ -11,14 +11,16 @@
       <input matInput type="password" placeholder="Ex. Jon" formControlName="password" />
       <mat-error *ngIf="!loginForm.get('password')?.errors?.minLength">Password length must be bigger than 7</mat-error>
     </mat-form-field>
+    <div class="log">
     <button color="accent" [disabled]="!loginForm.valid" mat-raised-button type="submit">
       <span>Log in</span>
     </button>
-    <div class="alert alert-warning" *ngIf="isLoginFailed">
+    <div class="alert-alert-warning" *ngIf="isLoginFailed">
       Signup failed!<br />{{ errorMessage }}
     </div>
+  </div>
   </form>
-  <div class="alert alert-warning">
+  <div class="alert-alert-warning">
     <a href="http://localhost:4200/forgetPass" class="nav-link">Forget Password</a>
   </div>
 </div>

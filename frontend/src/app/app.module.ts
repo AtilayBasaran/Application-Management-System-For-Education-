@@ -46,6 +46,7 @@ import { CreateApplicationComponent } from './components/create-application/crea
 import { HiProfileComponent } from './components/hi-profile/hi-profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProgramsComponent } from './components/programs/programs.component';
+import { DenemeComponent } from './components/deneme/deneme.component';
 
 
 
@@ -70,6 +71,7 @@ import { ProgramsComponent } from './components/programs/programs.component';
     //UploadFilesComponent,
     HiProfileComponent,
     ProgramsComponent,
+    DenemeComponent,
   ],
   imports: [
     BrowserModule,
