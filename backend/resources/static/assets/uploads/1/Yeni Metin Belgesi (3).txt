@@ -1,7 +1,0 @@
-program name yap
-
-üst kısma açıklamaları yazılacak
-
-yes no yan tarafında olsun
-
-aynı isimle dokümanı farklı iki noktaya yükleyememesi lazım

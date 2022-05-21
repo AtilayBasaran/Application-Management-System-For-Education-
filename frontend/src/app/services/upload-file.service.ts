@@ -19,15 +19,15 @@ export class UploadFilesService {
     });
     return this.http.request(req);
   }
-  getFiles(): Observable<any> {
+  getFiles(): any {
     const currentUser = this.token.getUser();
     const id = currentUser.id;
     return this.http.post(`${this.baseUrl}/files`, {id});
   }
 
-  deleteFiles(document_url: String): Observable<any> {
+  deleteFiles(document_url: String, file_name : any): Observable<any> {
     const currentUser = this.token.getUser();
     const id = currentUser.id;
-    return this.http.post(`${this.baseUrl}/files/delete`, {document_url});
+    return this.http.post(`${this.baseUrl}/files/delete`, {document_url, id, file_name});
   }
 }

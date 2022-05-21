@@ -6,6 +6,7 @@ import { personalDetails } from '../models/PersonalDetails';
 import { educationalDetails } from '../models/EducationalDetails';
 import { addressDetails } from '../models/AddressDetails';
 import { degreeDetails } from '../models/DegreeDetails';
+import { TokenStorageService } from './token-storage.service';
 
 
 
@@ -22,31 +23,24 @@ export class ApplicationService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router, private token: TokenStorageService
   ) {}
 
   addPersonalInfo(personalInfo: Omit<personalDetails, "email">) : Observable<personalDetails>{
+    var user_id = this.token.getUser().id;
+    console.log('buradaki id', user_id)
     return this.http
-      .post<personalDetails>(`${this.url}/addPersonal`, personalInfo, this.httpOptions);
+      .post<personalDetails>(`${this.url}/addPersonal`, {personalInfo,user_id}, this.httpOptions);
   }
 
   addEducationalInfo(eduInfo: Omit<educationalDetails, "university">) : Observable<educationalDetails>{
+    var user_id = this.token.getUser().id;
     return this.http
-      .post<educationalDetails>(`${this.url}/addEducational`, eduInfo, this.httpOptions);
+      .post<educationalDetails>(`${this.url}/addEducational`, {eduInfo,user_id}, this.httpOptions);
   }
-  addAddressInfo(addressInfo: Omit<addressDetails, "city">) : Observable<addressDetails>{
+  createMainApp(user_id : any, degreeType : String, programType : String) : Observable<any>{
     return this.http
-      .post<addressDetails>(`${this.url}/addAddress`, addressInfo, this.httpOptions);
-  }
-
-  addDegreeInfo(degreeInfo: Omit<degreeDetails, "degreeName">) : Observable<degreeDetails>{
-    return this.http
-      .post<degreeDetails>(`${this.url}/addDegree`, degreeInfo, this.httpOptions);
-  }
-
-  createMainApp(email : String) : Observable<any>{
-    return this.http
-      .post(`${this.url}/createMainApp`, {email}, this.httpOptions);
+      .post(`${this.url}/createMainApp`, {user_id, degreeType,programType}, this.httpOptions);
   }
 
   controlDocumentTitle(title : String, user_id : any) : Observable<any>{

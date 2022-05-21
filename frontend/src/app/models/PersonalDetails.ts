@@ -3,10 +3,9 @@ import { CheckboxControlValueAccessor, CheckboxRequiredValidator } from "@angula
 export interface personalDetails {
     name: string;
     email: string;
-    adress: string;
+    address: string;
     phone: string;
-    id: string;
     country: string;
-    tc: CheckboxRequiredValidator;
-    passport: CheckboxRequiredValidator;
+    nationality: string;
+    id_number : any;
 }

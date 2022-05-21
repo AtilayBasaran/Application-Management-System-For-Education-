@@ -9,15 +9,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from "@angular/router";
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-interface Food {
-  value: string;
-  viewValue: string;
-}
-
-interface Car {
-  value: string;
-  viewValue: string;
-}
 
 @Component({
   selector: 'app-create-application',
@@ -50,6 +41,8 @@ export class CreateApplicationComponent implements OnInit {
   addressDetails!: FormGroup;
   educationalDetails!: FormGroup;
   degreeDetails!: FormGroup;
+  isUploadMandatory = false;
+  mandatoryError = false;
   personal_step = false;
   address_step = false;
   upload_step = false;
@@ -63,7 +56,7 @@ export class CreateApplicationComponent implements OnInit {
   currentFile?: File;
   progress = 0;
   message = '';
-  fileInfos?: Observable<any>;
+  fileInfos: any;
   isTurkishStudent : any;
   app_degree : string;
   isMakeChoice = false;
@@ -71,6 +64,7 @@ export class CreateApplicationComponent implements OnInit {
   isPhd = false;
   isMaster = false;
   isBlueCard: string;
+  controlFiles: any;
 
 
   
@@ -86,10 +80,11 @@ export class CreateApplicationComponent implements OnInit {
     this.personalDetails = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
+      address: ['', Validators.required],
       phone: ['', Validators.required],
-      adress: ['', Validators.required],
-      id: ['', Validators.required],
-      country: ['', Validators.required] 
+      country: ['', Validators.required],
+      nationality : ['', Validators.required],
+      id_number: ['', Validators.required],
     });
 
     this.addressDetails = this.formBuilder.group({
@@ -99,16 +94,21 @@ export class CreateApplicationComponent implements OnInit {
     });
 
     this.educationalDetails = this.formBuilder.group({
+      blueCard: ['', Validators.required],
+      dualCitizenCheck: ['', Validators.required],
       highest_qualification: ['', Validators.required],
       university: ['', Validators.required],
       total_marks: ['', Validators.required],
+      graduation_year: ['', Validators.required],
       language_profiency: ['', Validators.required],
-      grad_year: ['', Validators.required]
-      //exam_score: ['', Validators.required] language_profiency yoksa bunun required olmasına gerek yok diye düşündüm
+      exam_score: ['', Validators.required] 
+
+      //language_profiency yoksa bunun required olmasına gerek yok diye düşündüm
+      // O zaman validators.required kısmını kaldır sadece satırın tamamını kaldırırdan aldığım veriye ulaşamam :kiss:
     });
 
     this.degreeDetails = this.formBuilder.group({
-      degreeName: ['', Validators.required]
+      selectedValue: [null, Validators.required]
     })
 
     if(!this.isBachelor && !this.isMaster && !this.isPhd){
@@ -130,7 +130,7 @@ export class CreateApplicationComponent implements OnInit {
       this.degree_step = true;
       this.getProgramInfos(this.degreeType);
       console.log(this.programs);
-      //if (this.degreeDetails.invalid) { return }
+      if (this.degreeDetails.invalid) { return }
       this.step++;
     }
 
@@ -146,7 +146,6 @@ export class CreateApplicationComponent implements OnInit {
     }
     else if (this.step == 4) {
       this.upload_step = true;
-      //if (this.addressDetails.invalid) { return }
       this.step++;
     }
 
@@ -173,14 +172,11 @@ export class CreateApplicationComponent implements OnInit {
 
   submit() {
     if (this.step == 5) {
-      this.address_step = true;
-      if (this.addressDetails.invalid) { return }
-      else {
 
-        const email = this.currentUser.email;
-        console.log(email);
+        var user_id = this.currentUser.id;
+        console.log(user_id);
         this.applicationService
-          .createMainApp(email)
+          .createMainApp(user_id, this.degreeType ,this.selectedValue)
           .subscribe(
             data => {
             console.log(data);
@@ -213,31 +209,9 @@ export class CreateApplicationComponent implements OnInit {
             this.errorMessage = err.error.message;
             this.isErrorOccured = true;
           })
-
-        this.applicationService
-          .addDegreeInfo(this.degreeDetails.value)
-          .subscribe(data => {
-            console.log(data);
-            this.isErrorOccured = false;
-          },
-          err => {
-            this.errorMessage = err.error.message;
-            this.isErrorOccured = true;
-          })
-
-          this.applicationService
-          .addAddressInfo(this.addressDetails.value)
-          .subscribe(data => {
-            console.log(data);
-            this.isErrorOccured = false;
-          },
-          err => {
-            this.errorMessage = err.error.message;
-            this.isErrorOccured = true;
-          })
       };
 
-    }
+    
     if(this.isErrorOccured){
       alert('Error Occured Please Control your information : ERROR Message = ' + this.errorMessage)
     }else{
@@ -326,10 +300,10 @@ export class CreateApplicationComponent implements OnInit {
     }
   }
 
-  deleteFile(document_url: any): void {
+  deleteFile(document_url: any, file_name : any): void {
 
     this.uploadService
-      .deleteFiles(document_url)
+    .deleteFiles(document_url , file_name)
       .subscribe(
         data => {
 
@@ -353,6 +327,19 @@ export class CreateApplicationComponent implements OnInit {
       console.log(data)
 
       console.log('Program infos')
+
+      console.log(this.programInfos)
+    });
+  }
+
+  getControlFileInfo(degree : string) {
+
+    const currentUser = this.token.getUser();
+    const id = currentUser.id;
+    this.http.post('http://localhost:3000/files/asArray', {id}, this.httpOptions).subscribe(data => {
+      this.controlFiles = data;
+      console.log(data)
+
 
       console.log(this.programInfos)
     });
@@ -403,6 +390,11 @@ export class CreateApplicationComponent implements OnInit {
             }else{
               isPassName = true;
             }
+            
+            if(isPassTitle && isPassName){
+              this.upload();
+            }
+
           },
           err => {
           })

@@ -23,9 +23,9 @@
           <div *ngIf="personal_step && personalDetails.controls.email.errors">
             <div *ngIf="personal.email.errors?.required">Email is required</div>
           </div>
-          <input type="text" formControlName="adress" name="adress" placeholder="Adress" />
-          <div *ngIf="personal_step && personalDetails.controls.adress.errors">
-            <div *ngIf="personal.adress.errors?.required">Adress is required</div>
+          <input type="text" formControlName="address" name="address" placeholder="Address" />
+          <div *ngIf="personal_step && personalDetails.controls.address.errors">
+            <div *ngIf="personal.address.errors?.required">Address is required</div>
           </div>
           <input type="text" formControlName="phone" name="phone" placeholder="Phone" />
           <div *ngIf="personal_step && personalDetails.controls.phone.errors">
@@ -36,23 +36,26 @@
             <div *ngIf="personal.country.errors?.required">Country is required</div>
           </div>
           <label id="example-radio-group-label">Nationalitiy</label>
-          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
-            [(ngModel)]="favoriteSeason" [ngModelOptions]="{standalone: true}">
+          <mat-radio-group aria-labelledby="example-radio-group-label" formControlName = 'nationality' class="example-radio-group"
+            [(ngModel)]="favoriteSeason">
             <mat-radio-button class="example-radio-button" *ngFor="let season of seasons" [value]="season"
               (click)="nationality(season)">
               {{season}}
             </mat-radio-button>
           </mat-radio-group>
+          <div *ngIf="personal_step && personalDetails.controls.nationality.errors">
+            <div *ngIf="personal.nationality.errors?.required">Nationality is required</div>
+          </div>
           <div *ngIf="isTurkishStudent">
-            <input type="text" formControlName="id" name="id" placeholder="TC kimlik no" />
-            <div *ngIf="personal_step && personalDetails.controls.id.errors">
-              <div *ngIf="personal.id.errors?.required">TC is required</div>
+            <input type="text" formControlName="id_number" name="id_number" placeholder="TC kimlik no" />
+            <div *ngIf="personal_step && personalDetails.controls.id_number.errors">
+              <div *ngIf="personal.id_number.errors?.required">TC is required</div>
             </div>
           </div>
           <div *ngIf="!isTurkishStudent">
-            <input type="text" formControlName="id" name="id" placeholder="Passport Number" />
-            <div *ngIf="personal_step && personalDetails.controls.id.errors">
-              <div *ngIf="personal.id.errors?.required">Passport is required</div>
+            <input type="text" formControlName="id_number" name="id_number" placeholder="Passport Number" />
+            <div *ngIf="personal_step && personalDetails.controls.id_number.errors">
+              <div *ngIf="personal.id_number.errors?.required">Passport is required</div>
             </div>
           </div>
           <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"
@@ -65,7 +68,7 @@
           <h2 class="fs-title">Degree Details</h2>
 
           <mat-radio-group aria-labelledby="degree-radio-group-label" class="degree-radio-group"
-            [(ngModel)]="degreeType" [ngModelOptions]="{standalone: true}">
+            [(ngModel)]="degreeType" [ngModelOptions]="{standalone: true}" >
 
             <div class="size">
               <img class="images" src="assets/images/PhD.jpg">
@@ -73,17 +76,11 @@
                 PHD
               </mat-radio-button>
             </div>
-            <div *ngIf="degree_step && degreeDetails.controls.degreeName1.errors">
-              <div *ngIf="degree.degreeName.errors?.required">Degree is required</div>
-            </div>
             <div class="size">
               <img class="images" src="assets/images/Master.jpg">
               <mat-radio-button class="degree-radio-button" value="Master" (click)="degreeChoose('Master')">
                 Master
               </mat-radio-button>
-            </div>
-            <div *ngIf="degree_step && degreeDetails.controls.degreeName2.errors">
-              <div *ngIf="degree.degreeName.errors?.required">Degree is required</div>
             </div>
             <div class="size">
               <img class="images" src="assets/images/Bachelor.jpg">
@@ -93,24 +90,21 @@
             </div>
           </mat-radio-group>
 
-          <form>
             <mat-form-field appearance="fill">
               <mat-label>Program Type</mat-label>
-              <mat-select [(ngModel)]="selectedValue" name="program">
+              <mat-select [(ngModel)]="selectedValue" matInput name="program" formControlName="selectedValue" required>
                 <mat-option *ngFor="let program of programs" [value]="program.name">
                   {{program.name}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
+            <div *ngIf="degree_step && degreeDetails.controls.selectedValue.errors">
+              <p *ngIf="degree.selectedValue.errors?.required">Program is required</p>
+            </div>
             <p> Selected program: {{selectedValue}} </p>
-          </form>
-
-          <div *ngIf="degree_step && degreeDetails.controls.degreeName3.errors">
-            <div *ngIf="degree.degreeName.errors?.required">Degree is required</div>
-          </div>
 
           <input *ngIf="isMakeChoice" (click)="next()" type="button" name="next" class="next action-button" value="Next"
-            [disabled]="!isMakeChoice" mat-raised-button />
+            [disabled]="!isMakeChoice && !degreeDetails.valid" mat-raised-button />
 
         </fieldset>
       </form>
@@ -121,28 +115,36 @@
           <div class="cont">
             <div class="cont1">
           <mat-radio-group aria-labelledby="bluecard-radio-group-label" class="bluecard-radio-group"
-            [(ngModel)]="isBlueCard" [ngModelOptions]="{standalone: true}">
+            [(ngModel)]="isBlueCard" formControlName = "blueCard">
 
             <h4>Do you have blue card</h4>
-            <mat-radio-button class="bluecard-radio-button" value="yes" (click)="blueChoice('yes')">
+            <mat-radio-button class="bluecard-radio-button" value="true" (click)="blueChoice('true')">
               Yes
             </mat-radio-button>
-            <mat-radio-button class="bluecard-radio-button" value="no" (click)="blueChoice('no')">
+            <mat-radio-button class="bluecard-radio-button" value="false" (click)="blueChoice('false')">
               No
             </mat-radio-button>
           </mat-radio-group>
+          <div *ngIf="education_step && educationalDetails.controls.blueCard.errors">
+            <div *ngIf="education.blueCard.errors?.required">Blue Card is required
+            </div>
+          </div>
         </div>
         <div class="cont2">
           <h4>Do you have Dual Citizenship</h4>
           <mat-radio-group aria-labelledby="citizenship-radio-group-label" class="citizenship-radio-group"
-            [(ngModel)]="dualCitizen" [ngModelOptions]="{standalone: true}">
-            <mat-radio-button class="citizenship-radio-button" value="yes" (click)="dualCitizenship('yes')">
+            [(ngModel)]="dualCitizen" formControlName = "dualCitizenCheck">
+            <mat-radio-button class="citizenship-radio-button" value="true" (click)="dualCitizenship('true')">
               Yes
             </mat-radio-button>
-            <mat-radio-button class="citizenship-radio-button" value="no" (click)="dualCitizenship('no')">
+            <mat-radio-button class="citizenship-radio-button" value="false" (click)="dualCitizenship('false')">
               No
             </mat-radio-button>
           </mat-radio-group>
+          <div *ngIf="education_step && educationalDetails.controls.dualCitizenCheck.errors">
+            <div *ngIf="education.dualCitizenCheck.errors?.required">Dual Citizen is required
+            </div>
+          </div>
         </div>
         </div>
           <input type="text" formControlName="highest_qualification" placeholder="Highest Qualification" />
@@ -158,9 +160,9 @@
           <div *ngIf="education_step && educationalDetails.controls.total_marks.errors">
             <div *ngIf="education.total_marks.errors?.required">Total marks is required</div>
           </div>
-          <input type="text" formControlName="grad_year" placeholder="Graduation Year" />
-          <div *ngIf="education_step && educationalDetails.controls.grad_year.errors">
-            <div *ngIf="education.grad_year.errors?.required">Graduation year is required</div>
+          <input type="text" formControlName="graduation_year" placeholder="Graduation Year" />
+          <div *ngIf="education_step && educationalDetails.controls.graduation_year.errors">
+            <div *ngIf="education.graduation_year.errors?.required">Graduation year is required</div>
           </div>
           <input type="text" formControlName="language_profiency" placeholder="Language Proficiency" />
           <div *ngIf="education_step && educationalDetails.controls.language_profiency.errors">
@@ -196,6 +198,12 @@
             <p>
               <ngb-alert [dismissible]="false">
                 (*) Mandatory Documents
+              </ngb-alert>
+            </p>
+
+            <p *ngIf="mandatoryError" >
+              <ngb-alert [dismissible]="false" type = "danger">
+                Please Upload Mandatory Documents
               </ngb-alert>
             </p>
 
@@ -264,13 +272,13 @@
               <tbody *ngFor="let file of fileInfos | async">
                 <tr>
                   <td>
-                    <p>Sample Document Name</p>
+                    <p>{{ file.title }}</p>
                   </td>
                   <td>
                     <a class="file-name" href="{{ file.url }}">{{ file.name }}</a>
                   </td>
                   <td>
-                    <button class="btn btn-primary" (click)="deleteFile(file.all_url)">Delete</button>
+                    <button class="btn btn-primary" (click)="deleteFile(file.all_url, file.name)">Delete</button>
                   </td>
                 </tr>
               </tbody>
@@ -295,7 +303,8 @@
                   Applied Programs
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <p>Buraya başvurduğum program çekilecek</p>
+              <p>Selected Degree : {{degreeType}}</p>
+              <p>Selected Program : {{selectedValue}}</p>
             </mat-expansion-panel>
             <mat-expansion-panel (opened)="panelOpenState = true"(closed)="panelOpenState = false">
               <mat-expansion-panel-header>
@@ -303,7 +312,24 @@
                   Uploaded Documents
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <p>Buraya yüklediğim dokümanlar çekilecek</p>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Document Name</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let file of fileInfos | async">
+                  <tr>
+                    <td>
+                      <p>{{ file.title }}</p>
+                    </td>
+                    <td>
+                      <p>{{ file.name }}</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </mat-expansion-panel>
             <mat-expansion-panel (opened)="panelOpenState = true"(closed)="panelOpenState = false">
               <mat-expansion-panel-header>
@@ -311,7 +337,16 @@
                   Personal Information
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <p>Buraya girdiğim kişisel bilgiler girilecek</p>
+
+              <p> Full Name : {{personalDetails.value.name}}</p>
+              <p> Email : {{personalDetails.value.email}}</p>
+              <p> Address : {{personalDetails.value.address}}</p>
+              <p> Phone : {{personalDetails.value.phone}}</p>
+              <p> Country : {{personalDetails.value.country}}</p>
+              <p> Nationality : {{personalDetails.value.nationality}}</p>
+              <p> ID Number : {{personalDetails.value.id_number}}</p>
+
+
             </mat-expansion-panel>
             <mat-expansion-panel (opened)="panelOpenState = true"(closed)="panelOpenState = false">
               <mat-expansion-panel-header>
@@ -319,7 +354,14 @@
                   Educational Information
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <p>Buraya girdiğim okul bilgileri girilecek</p>
+              <p> Blue Card : {{isBlueCard}}</p>
+              <p> Dual Citizenship : {{dualCitizen}}</p>
+              <p> Highest Qualification : {{educationalDetails.value.highest_qualification}}</p>
+              <p> Universtiy : {{educationalDetails.value.university}}</p>
+              <p> Total Marks : {{educationalDetails.value.total_marks}}</p>
+              <p> Graduation Year : {{educationalDetails.value.graduation_year}}</p>
+              <p> Language Profiency : {{educationalDetails.value.language_profiency}}</p>
+              <p> Language Exam Score : {{educationalDetails.value.exam_score}}</p>
             </mat-expansion-panel>
           </mat-accordion>
           <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"

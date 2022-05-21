@@ -3,6 +3,20 @@ const fs = require("fs");
 const fsPromises = require("fs/promises");
 const baseUrl = "http://localhost:3000/files/";
 
+const db = require('../util/database');
+
+const mysql = require('mysql2');
+
+const config = require('../config/config.json');
+
+var dateTime = require('node-datetime');
+
+const pool = mysql.createPool({
+    host: config.host,
+    user: config.user,
+    database: config.database,
+});
+
 
 const upload = async (req, res) => {
     try {
@@ -43,25 +57,37 @@ const getListFiles = (req, res) => {
     const directoryPath = __basedir + "/resources/static/assets/uploads/" + user_id;
 
 
-    fs.readdir(directoryPath, function (err, files) {
-        if (err) {
-            res.status(500).send({
-                message: "Unable to scan files!",
-            });
-        }else{
+    try {
+        const fileInfos = [];
+        pool.query(
+            "SELECT * FROM document where user_id = ?",
+            [user_id],
+            async (err, result) => {
+                
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        title: result[i].title,
+                        name: result[i].name,
+                        url: baseUrl + result[i].name+'&'+user_id,
+                        all_url: directoryPath+ '/' + result[i].name,
+                    };
+                    fileInfos.push(a);
+                }
 
-        let fileInfos = [];
-
-        files.forEach((file) => {
-            fileInfos.push({
-                name: file,
-                url: baseUrl + file+'&'+user_id,
-                all_url: directoryPath+ '/' + file,
+            console.log(fileInfos),
+            res.status(201).send(fileInfos)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Document Information Cannot Take!"
             });
-        });
-        res.status(200).send(fileInfos);
+            return;
+        }
+        next(err);
     }
-    });
 };
 
 const download = (req, res) => {
@@ -80,11 +106,19 @@ const download = (req, res) => {
 
 const deleteFiles = (req, res) => {
     const url = req.body.document_url;
+    const user_id = req.body.id;
+    const file_name = req.body.file_name;
     console.log(url)
     
         try {
             fsPromises.unlink(url);
             console.log('Successfully removed file!');
+
+            db.execute(
+                'DELETE FROM document where user_id = ? and name = ?',
+                [user_id,file_name]
+            );
+
             res.status(200).send({
                 message: "Successfully removed file! "
             });
