@@ -105,6 +105,7 @@ export class CreateApplicationComponent implements OnInit {
 
       //language_profiency yoksa bunun required olmasına gerek yok diye düşündüm
       // O zaman validators.required kısmını kaldır sadece satırın tamamını kaldırırdan aldığım veriye ulaşamam :kiss:
+
     });
 
     this.degreeDetails = this.formBuilder.group({

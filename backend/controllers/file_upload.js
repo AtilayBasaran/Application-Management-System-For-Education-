@@ -73,7 +73,43 @@ const getListFiles = (req, res) => {
                     };
                     fileInfos.push(a);
                 }
+            console.log(fileInfos),
+            res.status(201).send(fileInfos)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Document Information Cannot Take!"
+            });
+            return;
+        }
+        next(err);
+    }
+};
 
+const getUniqueUserFiles = (req, res) => {
+    const user_id = req.body.user_id;
+    const directoryPath = __basedir + "/resources/static/assets/uploads/" + user_id;
+
+
+    try {
+        const fileInfos = [];
+        pool.query(
+            "SELECT * FROM document where user_id = ?",
+            [user_id],
+            async (err, result) => {
+                
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        title: result[i].title,
+                        name: result[i].name,
+                        url: baseUrl + result[i].name+'&'+user_id,
+                        all_url: directoryPath+ '/' + result[i].name,
+                    };
+                    fileInfos.push(a);
+                }
             console.log(fileInfos),
             res.status(201).send(fileInfos)
             },
@@ -140,4 +176,5 @@ module.exports = {
     getListFiles,
     download,
     deleteFiles,
+    getUniqueUserFiles,
 };

@@ -39,6 +39,7 @@ import { AgencyProfileComponent } from './components/agency-profile/agency-profi
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { ForgetPassComponent } from './components/forget-pass/forget-pass.component';
 import { NewPassComponent } from './components/new-pass/new-pass.component';
+import { NgbdModal1Content } from './components/home-page/home-page.component';
 import { LoginGuardGuard } from './login-guard.guard';
 import { ProfileGuard } from './profile.guard';
 import { CreateApplicationComponent } from './components/create-application/create-application.component';
@@ -69,6 +70,7 @@ import { DenemeComponent } from './components/deneme/deneme.component';
     NewPassComponent,
     CreateApplicationComponent,
     //UploadFilesComponent,
+    NgbdModal1Content,
     HiProfileComponent,
     ProgramsComponent,
     DenemeComponent,

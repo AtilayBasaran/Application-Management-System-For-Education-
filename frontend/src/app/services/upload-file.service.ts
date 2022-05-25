@@ -25,6 +25,10 @@ export class UploadFilesService {
     return this.http.post(`${this.baseUrl}/files`, {id});
   }
 
+  getUniqueUserFiles(user_id : any): any {
+    return this.http.post(`${this.baseUrl}/files/getUniqueUserFiles`, {user_id});
+  }
+
   deleteFiles(document_url: String, file_name : any): Observable<any> {
     const currentUser = this.token.getUser();
     const id = currentUser.id;

@@ -34,6 +34,11 @@ router.post(
     '/controlName', appController.controlName
 );
 
+router.post(
+    '/getUniqueUserFiles', appController.getUniqueUserFiles
+);
+
+
 
 
 module.exports = router;
