@@ -48,6 +48,7 @@ import { HiProfileComponent } from './components/hi-profile/hi-profile.component
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProgramsComponent } from './components/programs/programs.component';
 import { DenemeComponent } from './components/deneme/deneme.component';
+import { HodApplicationComponent } from './components/hod-application/hod-application.component';
 
 
 
@@ -74,6 +75,7 @@ import { DenemeComponent } from './components/deneme/deneme.component';
     HiProfileComponent,
     ProgramsComponent,
     DenemeComponent,
+    HodApplicationComponent,
   ],
   imports: [
     BrowserModule,

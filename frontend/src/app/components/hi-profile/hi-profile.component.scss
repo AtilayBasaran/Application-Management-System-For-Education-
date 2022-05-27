@@ -3,6 +3,7 @@
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
 }
+
 .profile {
     display: flex;
     height: 500px;
@@ -12,31 +13,49 @@
     margin-right: auto;
     background-color: peru;
 }
+
 .information {
     display: inline-block;
     height: 250px;
     width: 250px;
     margin: 50px;
 }
+
 .Agencyname {
     display: flex;
     flex-direction: column;
 }
+
 .Agencyemail {
     display: flex;
     flex-direction: column;
 }
-.changePass{
+
+.changePass {
     display: flex;
     flex-direction: column;
 }
-.changeButton{
+
+.changeButton {
     padding-top: 15px;
     padding-left: 50px;
 }
+
+.changeButton1 {
+    font-family: inherit;
+    font-size: 20px;
+    letter-spacing: 1px;
+    padding: 13px 50px 13px;
+    outline: 0;
+    cursor: pointer;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0);
+}
+
 table {
     width: 100%;
 }
+
 .mat-form-field {
     font-size: 14px;
     width: 100%;

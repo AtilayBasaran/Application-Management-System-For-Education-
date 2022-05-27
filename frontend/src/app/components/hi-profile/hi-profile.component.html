@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
     <h1 class="title">Profile</h1>
     <div class="profile">
         <div class="information">
@@ -27,7 +16,7 @@
                     <h1>Confirm Password</h1>
                     <input style="width: 10rem;" type="password">
                     <div class="changeButton">
-                        <button>Change</button>
+                        <button class="changeButton1">Change</button>
                     </div>
                 </div>
             </form>
@@ -41,31 +30,26 @@
             </mat-form-field>
             <table mat-table [dataSource]="dataSource" #matsort1="matSort" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
 
-                <!-- Id Column -->
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
                     <td mat-cell *matCellDef="let element"> {{element.id}} </td>
                 </ng-container>
 
-                <!-- Name Column -->
                 <ng-container matColumnDef="firstname">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> FirstName </th>
                     <td mat-cell *matCellDef="let element"> {{element.firstname}} </td>
                 </ng-container>
 
-                <!-- Name Column -->
                 <ng-container matColumnDef="lastname">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Lastname </th>
                     <td mat-cell *matCellDef="let element"> {{element.lastname}} </td>
                 </ng-container>
 
-                <!-- Weight Column -->
                 <ng-container matColumnDef="email">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
                     <td mat-cell *matCellDef="let element"> {{element.email}} </td>
                 </ng-container>
 
-                <!-- Symbol Column -->
                 <ng-container matColumnDef="role">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
                     <td mat-cell *matCellDef="let element"> {{element.role}} </td>
@@ -77,6 +61,3 @@
             <mat-paginator #MatPaginator1 [pageSizeOptions]="[1, 5, 10]"></mat-paginator>
         </mat-tab>
 </mat-tab-group>
-</body>
-
-</html>

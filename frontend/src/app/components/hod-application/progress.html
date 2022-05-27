@@ -1,7 +1,8 @@
 <div class="modal-header">
-    <h4 class="modal-title">DOCUMENTS!</h4>
+    <h4 class="modal-title">Docuements!</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
 </div>
+
 <div class="modal-body">
     <table class="table table-striped">
         <thead>
@@ -19,16 +20,12 @@
                 <td>
                     <p>{{ file.name }}</p>
                 </td>
-                <td>
-                    <button type="button" class="btn btn-secondary">Accept</button>
-                    <button type="button" class="btn btn-danger" (click) = "open(user_id)">Reject</button>
-                </td>
-                
 
             </tr>
         </tbody>
     </table>
 </div>
+
 <div class=" modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
 </div>

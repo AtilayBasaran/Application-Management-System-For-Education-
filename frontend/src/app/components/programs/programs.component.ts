@@ -24,13 +24,12 @@ import { ToastrService } from 'ngx-toastr';
 export class ProgramsComponent implements OnInit {
   programType = 'All'
   displayedColumns : string[] = ['id','Program','Faculty','Degree','Language','Duration', 'Campus'];
-  userInfos: any;
+  programInfos: any;
   dataSource: MatTableDataSource<any>;
 
   @ViewChild('MatPaginator1', {static: true}) paginator: MatPaginator; 
   @ViewChild('matsort1', {static: true}) sort: MatSort;
 
-  programInfos: any;
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
   };
@@ -43,12 +42,6 @@ export class ProgramsComponent implements OnInit {
     this.getProgramInfos('All');
   }
 
-  // applyFilter(filterValue: string) {
-  //   filterValue = filterValue.trim(); // Remove whitespace
-  //   filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-  //   this.userInfos.filter = filterValue;
-  // }
-
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -56,6 +49,7 @@ export class ProgramsComponent implements OnInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -66,6 +60,9 @@ export class ProgramsComponent implements OnInit {
       console.log('All çalıştı')
       this.http.get('http://localhost:3000/programs/getAllProgram').subscribe(data => {
         this.programInfos = data;
+        this.dataSource = new MatTableDataSource(this.programInfos);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         console.log(data)
   
         console.log('Program infos')
@@ -79,6 +76,9 @@ export class ProgramsComponent implements OnInit {
       this.http
       .post('http://localhost:3000/programs/getProgramInfo',{type}, this.httpOptions).subscribe(data => {
         this.programInfos = data;
+        this.dataSource = new MatTableDataSource(this.programInfos);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         console.log(data)
   
         console.log('Program infos')
@@ -92,6 +92,9 @@ export class ProgramsComponent implements OnInit {
       this.http
       .post('http://localhost:3000/programs/getProgramInfo',{type}, this.httpOptions).subscribe(data => {
         this.programInfos = data;
+        this.dataSource = new MatTableDataSource(this.programInfos);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         console.log(data)
   
         console.log('Program infos')
@@ -105,6 +108,9 @@ export class ProgramsComponent implements OnInit {
       this.http
       .post('http://localhost:3000/programs/getProgramInfo',{type}, this.httpOptions).subscribe(data => {
         this.programInfos = data;
+        this.dataSource = new MatTableDataSource(this.programInfos);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         console.log(data)
   
         console.log('Program infos')

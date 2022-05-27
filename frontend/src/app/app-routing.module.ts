@@ -19,6 +19,7 @@ import { LoginGuardGuard } from './login-guard.guard';
 import { ProfileGuard } from './profile.guard';
 import { HiProfileComponent } from './components/hi-profile/hi-profile.component';
 import { ProgramsComponent } from './components/programs/programs.component';
+import { HodApplicationComponent } from './components/hod-application/hod-application.component';
 
 
 const routes: Routes = [
@@ -38,6 +39,7 @@ const routes: Routes = [
   //{ path: "uploadFile", component: UploadFilesComponent},
   { path: "hiProfile",component:HiProfileComponent},
   { path: "programs", component:ProgramsComponent},
+  { path: "hodApplication", component:HodApplicationComponent},
   { path: "**", redirectTo: "notFound" },
 ];
 
