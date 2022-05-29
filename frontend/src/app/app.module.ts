@@ -32,7 +32,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SuccessAppComponent } from './components/success-app/success-app.component';
 import { SuccesRegisterComponent } from './components/succes-register/succes-register.component';
-import { HomePageComponent } from './components/home-page/home-page.component';
+import { HomePageComponent, NgbdModal2Content } from './components/home-page/home-page.component';
 import { RequestPageComponent } from './components/request-page/request-page.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AgencyProfileComponent } from './components/agency-profile/agency-profile.component';
@@ -49,6 +49,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProgramsComponent } from './components/programs/programs.component';
 import { DenemeComponent } from './components/deneme/deneme.component';
 import { HodApplicationComponent } from './components/hod-application/hod-application.component';
+import { NgbdModal3Content } from './components/hod-application/hod-application.component';
+import { NgbdModal4Content } from './components/hod-application/hod-application.component';
 
 
 
@@ -72,6 +74,7 @@ import { HodApplicationComponent } from './components/hod-application/hod-applic
     CreateApplicationComponent,
     //UploadFilesComponent,
     NgbdModal1Content,
+    NgbdModal3Content,
     HiProfileComponent,
     ProgramsComponent,
     DenemeComponent,

@@ -61,7 +61,7 @@ export class HodApplicationComponent implements OnInit {
 
   open(user_id: any) {
 
-    const firstModal = this.modalService.open(NgbdModal1Content);
+    const firstModal = this.modalService.open(NgbdModal3Content,{ size: 'xl' } );
     firstModal.componentInstance.user_id = user_id;
 
   }
@@ -97,8 +97,9 @@ export class DenemeComponent {
 @Component({
   selector: 'ngbd-modal-content',
   templateUrl: './progress.html',
+  styleUrls: ['./progress.scss']
 })
-export class NgbdModal1Content implements OnInit {
+export class NgbdModal3Content implements OnInit {
   @Input() user_id: any;
   fileInfos: any;
 
@@ -106,6 +107,12 @@ export class NgbdModal1Content implements OnInit {
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
   };
+  personal_step = false;
+  address_step = false;
+  upload_step = false;
+  education_step = false;
+  degree_step = false;
+  step = 1;
   constructor(private modalService: NgbModal, public activeModal: NgbActiveModal, private uploadService: UploadFilesService, private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -115,10 +122,54 @@ export class NgbdModal1Content implements OnInit {
 
     console.log(this.fileInfos)
   }
+  next() {
+
+    if (this.step == 1) {
+      this.degree_step = true;
+      this.step++;
+    }
+
+    else if (this.step == 2) {
+      this.personal_step = true;
+      this.step++
+    }
+    else if (this.step == 3) {
+      this.education_step = true;
+      this.step++;
+    }
+    else if (this.step == 4) {
+      this.upload_step = true;
+      this.step++;
+    }
+
+
+  }
+
+  previous() {
+    this.step--
+
+    if (this.step == 1) {
+      this.degree_step = false;
+    }
+    if (this.step == 2) {
+      this.personal_step = false;
+    }
+    if (this.step == 3) {
+      this.education_step = false;
+    }
+    if (this.step == 4) {
+      this.upload_step = false;
+    }
+
+  }
+  submit() {
+    if (this.step == 5) {
+    }
+  }
 
 
   open(user_id : any) {
-    this.modalService.open(NgbdModal2Content, { size: 'lg' });
+    this.modalService.open(NgbdModal4Content, { size: 'lg' });
 
   }
 
@@ -138,8 +189,7 @@ export class NgbdModal1Content implements OnInit {
 @Component({
   template: `
     <div class="modal-header">
-      <h4 class="modal-title">Hi there!</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+      <h4 class="modal-title">Burası 4!</h4>
     </div>
     <div class="modal-body">
       <p>Hello, World!</p>
@@ -149,6 +199,6 @@ export class NgbdModal1Content implements OnInit {
     </div>
   `
 })
-export class NgbdModal2Content {
+export class NgbdModal4Content {
   constructor(public activeModal: NgbActiveModal) { }
 }

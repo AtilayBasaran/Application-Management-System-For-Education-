@@ -73,7 +73,7 @@ export class HomePageComponent implements OnInit {
 
   open(user_id: any) {
 
-    const firstModal = this.modalService.open(NgbdModal1Content);
+    const firstModal = this.modalService.open(NgbdModal1Content,{ size: 'xl' });
     firstModal.componentInstance.user_id = user_id;
 
   }
