@@ -81,6 +81,7 @@ import { NgbdModal4Content } from './components/hod-application/hod-application.
     ProgramsComponent,
     DenemeComponent,
     HodApplicationComponent,
+    NgbdModal4Content
   ],
   imports: [
     BrowserModule,

@@ -102,6 +102,7 @@ export class DenemeComponent {
 export class NgbdModal3Content implements OnInit {
   @Input() user_id: any;
   fileInfos: any;
+  showMe:boolean=false;
 
   
   httpOptions: { headers: HttpHeaders } = {
@@ -122,6 +123,11 @@ export class NgbdModal3Content implements OnInit {
 
     console.log(this.fileInfos)
   }
+
+  hiddenScientific() {
+    this.showMe =! this.showMe;
+  }
+
   next() {
 
     if (this.step == 1) {
@@ -135,10 +141,6 @@ export class NgbdModal3Content implements OnInit {
     }
     else if (this.step == 3) {
       this.education_step = true;
-      this.step++;
-    }
-    else if (this.step == 4) {
-      this.upload_step = true;
       this.step++;
     }
 
@@ -157,13 +159,10 @@ export class NgbdModal3Content implements OnInit {
     if (this.step == 3) {
       this.education_step = false;
     }
-    if (this.step == 4) {
-      this.upload_step = false;
-    }
 
   }
   submit() {
-    if (this.step == 5) {
+    if (this.step == 4) {
     }
   }
 
@@ -188,17 +187,57 @@ export class NgbdModal3Content implements OnInit {
 
 @Component({
   template: `
-    <div class="modal-header">
-      <h4 class="modal-title">Burası 4!</h4>
-    </div>
-    <div class="modal-body">
-      <p>Hello, World!</p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
-    </div>
+  <div class="modal-header">
+  <h4 class="modal-title"> Enter a reject reason </h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<form [formGroup]="rejectForm" (ngSubmit)="rejectDocument()" novalidate>
+<div class="modal-body">
+
+<label>Reject Reason</label> <br>
+<input id="reason" type="text" formControlName="reason" >
+<div *ngIf="rejectForm.get('reason')?.errors?.required"> 
+<p> *Required </p> 
+</div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('false')">Close</button>
+  <button color="accent" class="btn btn-outline-dark" [disabled]="!rejectForm.valid" type="submit">
+  <span>Reject</span>
+</button>
+
+</div>
+</form>
   `
 })
-export class NgbdModal4Content {
-  constructor(public activeModal: NgbActiveModal) { }
+export class NgbdModal4Content implements OnInit {
+  @Input() user_id: any;
+  @Input() file_name: string;
+  rejectForm: FormGroup;
+  constructor(public activeModal: NgbActiveModal, private homePageService: HomePageService, private toastr: ToastrService) { }
+  ngOnInit(): void {
+    this.rejectForm = this.createFormGroup();
+  }
+
+  createFormGroup(): FormGroup {
+    return new FormGroup({
+      reason: new FormControl("", [Validators.required]),
+    });
+  }
+
+  rejectDocument(): void {
+    console.log('Reject Çalıştı')
+    console.log('reason = '+ this.rejectForm.value.reason)
+    this.homePageService
+      .rejectDocument(this.user_id, this.file_name, this.rejectForm.value.reason)
+      .subscribe(data => {
+        console.log(data);
+        this.activeModal.close('true')
+        
+        
+      },
+      err => {
+      });
+  }
 }

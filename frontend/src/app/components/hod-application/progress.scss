@@ -1,62 +1,3 @@
-/*inputs*/
-input {
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 0px;
-    margin-bottom: 10px;
-    width: 100%;
-    box-sizing: border-box;
-    font-family: montserrat;
-    color: #2C3E50;
-    font-size: 18px;
-}
-
-input:focus {
-    -moz-box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-    border: 1px solid #ee0979;
-    outline-width: 0;
-    transition: All 0.5s ease-in;
-    -webkit-transition: All 0.5s ease-in;
-    -moz-transition: All 0.5s ease-in;
-    -o-transition: All 0.5s ease-in;
-}
-/*buttons*/
-.action-button {
-    width: 100px;
-    background: #ee0979;
-    font-weight: bold;
-    color: white;
-    border: 0 none;
-    border-radius: 25px;
-    cursor: pointer;
-    padding: 10px 5px;
-    margin: 10px 5px;
-}
-
-.action-button:hover,
-.action-button:focus {
-    box-shadow: 0 0 0 2px white, 0 0 0 3px #ee0979;
-}
-
-.action-button-previous {
-    width: 100px;
-    background: #C5C5F1;
-    font-weight: bold;
-    color: white;
-    border: 0 none;
-    border-radius: 25px;
-    cursor: pointer;
-    padding: 10px 5px;
-    margin: 10px 5px;
-}
-
-.action-button-previous:hover,
-.action-button-previous:focus {
-    box-shadow: 0 0 0 2px white, 0 0 0 3px #C5C5F1;
-}
-
 /*progressbar*/
 #progressbar {
     margin-bottom: 30px;
@@ -70,10 +11,11 @@ input:focus {
     color: black;
     text-transform: uppercase;
     font-size: 12px;
-    width: 19.33%;
+    width: 23.33%;
     float: left;
     position: relative;
     letter-spacing: 1px;
+    text-align: center;
 }
 
 #progressbar li:before {
@@ -121,17 +63,36 @@ input:focus {
     color: #000;
 }
 
-fieldset {
-    /* for chrome and safari*/
-    -webkit-animation-duration: .25ms;
-    -webkit-animation-name: slidein;
-    /*for firefox*/
-    -moz-animation-duration: 1s;
-    -moz-animation-name: slidein;
-    /* for opera*/
-    -o-animation-duration: 1s;
-    -o-animation-name: slidein;
-    /* Standard syntax*/
-    animation-duration: 1s;
-    animation-name: slidein;
+.form-field{
+    width: 100%;
+}
+
+.degree-radio-button{
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+}
+
+.progresss{
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-progress{
+    color: #212529;
+    border-color: #212529;
 }
