@@ -288,6 +288,8 @@ exports.getUniqueUserFiles = (req, res, next) => {
                 
                 for (var i = 0; i < result.length; i++) {
                     var a = {
+                        is_approve: result[i].is_approve,
+                        is_controlled: result[i].is_controlled,
                         title: result[i].title,
                         name: result[i].name,
                         url: baseUrl + result[i].name+'&'+user_id,

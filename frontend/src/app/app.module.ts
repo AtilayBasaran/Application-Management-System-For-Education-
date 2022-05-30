@@ -32,7 +32,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SuccessAppComponent } from './components/success-app/success-app.component';
 import { SuccesRegisterComponent } from './components/succes-register/succes-register.component';
-import { HomePageComponent, NgbdModal2Content } from './components/home-page/home-page.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
 import { RequestPageComponent } from './components/request-page/request-page.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AgencyProfileComponent } from './components/agency-profile/agency-profile.component';
@@ -40,6 +40,7 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { ForgetPassComponent } from './components/forget-pass/forget-pass.component';
 import { NewPassComponent } from './components/new-pass/new-pass.component';
 import { NgbdModal1Content } from './components/home-page/home-page.component';
+import { NgbdModal2Content } from './components/home-page/home-page.component';
 import { LoginGuardGuard } from './login-guard.guard';
 import { ProfileGuard } from './profile.guard';
 import { CreateApplicationComponent } from './components/create-application/create-application.component';
@@ -76,6 +77,7 @@ import { NgbdModal4Content } from './components/hod-application/hod-application.
     NgbdModal1Content,
     NgbdModal3Content,
     HiProfileComponent,
+    NgbdModal2Content,
     ProgramsComponent,
     DenemeComponent,
     HodApplicationComponent,

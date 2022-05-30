@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title">DOCUMENTS!</h4>
+    <h4 class="modal-title">DOCUMENTS !</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
 </div>
 <div class="modal-body">
@@ -17,11 +17,15 @@
                     <p>{{ file.title }}</p>
                 </td>
                 <td>
-                    <p>{{ file.name }}</p>
+                    <a class="file-name" href="{{ file.url }}" >{{ file.name }}</a>
                 </td>
-                <td>
-                    <button type="button" style="margin-right: 10px; width: 100px" class="btn btn-secondary">Accept</button>
-                    <button type="button" style="width: 100px" class="btn btn-danger" (click) = "open(user_id)">Reject</button>
+                <td *ngIf="file.is_controlled">
+                    <p *ngIf="file.is_approve" > Accepted </p>
+                    <p *ngIf="!file.is_approve" > Rejected </p>
+                </td>
+                <td *ngIf="!file.is_controlled">
+                    <button type="button" style="margin-right: 10px; width: 100px" class="btn btn-secondary" (click) = "acceptDocument(user_id, file.name)" >Accept</button>
+                    <button type="button" style="width: 100px" class="btn btn-danger" class="btn btn-danger" (click) = "open(user_id, file.name)">Reject</button>
                 </td>
                 
 

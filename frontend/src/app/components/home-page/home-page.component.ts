@@ -16,7 +16,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, subscribeOn } from "rxjs";
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UploadFilesService } from 'src/app/services/upload-file.service';
 
 @Component({
@@ -113,29 +113,86 @@ export class DenemeComponent {
 export class NgbdModal1Content implements OnInit {
   @Input() user_id: any;
   fileInfos: any;
+  secondModal : NgbModalRef;
 
-  
+
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
   };
-  constructor(private modalService: NgbModal, public activeModal: NgbActiveModal, private uploadService: UploadFilesService, private http: HttpClient) { }
+  constructor(private modalService: NgbModal, public activeModal: NgbActiveModal, private uploadService: UploadFilesService, private http: HttpClient, private homePageService: HomePageService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
     this.getUniqueUserFiles(this.user_id);
+    this.controlAllControlled();
 
 
     console.log(this.fileInfos)
   }
 
+  controlAllControlled(): void {
+    this.homePageService
+      .controlAllControlled(this.user_id)
+      .subscribe(data => {
+        console.log('Controll all tarafından dönen response '+ data)
+        if(data == true){
+          console.log('cahngestatus girdi')
+          this.homePageService
+          .changeStatus(this.user_id)
+            .subscribe(data => {
+              console.log(data)
+              },
+              err => {
+                console.log(err)
+              });
+        }
+      },
+      err => {
+      });
+  }
 
-  open(user_id : any) {
-    this.modalService.open(NgbdModal2Content, { size: 'lg' });
+
+  open(user_id: any, file_name: string) {
+    this.secondModal = this.modalService.open(NgbdModal2Content, { size: 'lg' });
+    this.secondModal.componentInstance.user_id = user_id;
+    this.secondModal.componentInstance.file_name = file_name;
+    this.secondModal.result.then((result) => {
+      console.log('buraya kadar geliyor mu ? ')
+      console.log(result)
+      if (result) {
+        if(result == 'true'){
+          this.toastr.success('Document rejected successfully', 'Success')
+          this.ngOnInit();
+        }else if(result == 'false'){
+          this.toastr.error('Document rejection cancelled please upload new document', 'Error')
+        }
+      }
+      });
 
   }
 
-  getUniqueUserFiles(user_id : any) :void {
-    this.http.post('http://localhost:3000/app/getUniqueUserFiles', {user_id}, this.httpOptions).subscribe(data => {
+  acceptDocument(user_id: any, file_name: string) {
+    this.homePageService
+      .acceptDocument(user_id, file_name)
+      .subscribe(data => {
+        console.log(data);
+
+        if (data == true) {
+          this.toastr.success('Document Approved Successfully', 'Success')
+          this.ngOnInit();
+        } else {
+          this.toastr.error('Document Approved process can not completed', 'Error')
+        }
+      },
+        err => {
+          console.log(err)
+        })
+
+  }
+
+
+  getUniqueUserFiles(user_id: any): void {
+    this.http.post('http://localhost:3000/app/getUniqueUserFiles', { user_id }, this.httpOptions).subscribe(data => {
       this.fileInfos = data;
       console.log(data)
 
@@ -154,17 +211,57 @@ export class NgbdModal1Content implements OnInit {
 @Component({
   template: `
     <div class="modal-header">
-      <h4 class="modal-title">Hi there!</h4>
+      <h4 class="modal-title"> Enter a reject reason </h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
     </div>
+    <form [formGroup]="rejectForm" (ngSubmit)="rejectDocument()" novalidate>
     <div class="modal-body">
-      <p>Hello, World!</p>
+
+    <label>Reject Reason</label> <br>
+    <input id="reason" type="text" formControlName="reason" >
+    <div *ngIf="rejectForm.get('reason')?.errors?.required"> 
+    <p> *Required </p> 
     </div>
+    </div>
+    
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+      <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('false')">Close</button>
+      <button color="accent" class="btn btn-outline-dark" [disabled]="!rejectForm.valid" type="submit">
+      <span>Reject</span>
+    </button>
+  
     </div>
+    </form>
   `
 })
-export class NgbdModal2Content {
-  constructor(public activeModal: NgbActiveModal) { }
+export class NgbdModal2Content implements OnInit{
+  @Input() user_id: any;
+  @Input() file_name: string;
+  rejectForm: FormGroup;
+  constructor(public activeModal: NgbActiveModal, private homePageService: HomePageService, private toastr: ToastrService) { }
+  ngOnInit(): void {
+    this.rejectForm = this.createFormGroup();
+  }
+
+  createFormGroup(): FormGroup {
+    return new FormGroup({
+      reason: new FormControl("", [Validators.required]),
+    });
+  }
+
+  rejectDocument(): void {
+    console.log('Reject Çalıştı')
+    console.log('reason = '+ this.rejectForm.value.reason)
+    this.homePageService
+      .rejectDocument(this.user_id, this.file_name, this.rejectForm.value.reason)
+      .subscribe(data => {
+        console.log(data);
+        this.activeModal.close('true')
+        
+        
+      },
+      err => {
+      });
+  }
+
 }

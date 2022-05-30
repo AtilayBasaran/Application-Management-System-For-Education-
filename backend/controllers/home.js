@@ -1,7 +1,9 @@
 const {
     validationResult
 } = require('express-validator');
+
 const db = require('../util/database');
+
 const User = require('../models/user');
 
 const mysql = require('mysql2');
@@ -43,6 +45,153 @@ exports.getApplicationInfo = async (req, res, next) => {
             },
         );
         return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Application Information Cannot Take!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+exports.acceptDocument = async (req, res, next) => {
+    var user_id = req.body.user_id;
+    var file_name = req.body.file_name;
+    console.log('Approve document infos : ' , user_id , file_name)
+    
+    try {
+        db.execute(
+            'UPDATE document SET is_approve = true , is_controlled = true WHERE user_id = ? and name = ?',
+            [user_id , file_name]);
+
+        res.status(201).send(true);
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Application Information Cannot Take!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+exports.rejectDocument = async (req, res, next) => {
+    var user_id = req.body.user_id;
+    var file_name = req.body.file_name;
+    var reject_reason = req.body.reject_reason;
+    console.log('Reject document infos : ' , user_id , file_name , reject_reason);
+    
+    try {
+        db.execute(
+            'UPDATE document SET is_approve = false , is_controlled = true , reject_reason = ? WHERE user_id = ? and name = ?',
+            [reject_reason, user_id , file_name]);
+
+        res.status(201).send(true);
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Application Information Cannot Take!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+exports.controlAllControlled = async (req, res, next) => {
+    console.log('controlAllControlled kısmı çalışmaya başladı.')
+    var user_id = req.body.user_id ;
+   try {
+        pool.query(
+            "select count(*) as count from document where user_id = ? and is_controlled = 0",
+            [user_id],
+            async (err, result) => {
+                if (result[0].count == 0){
+                    res.status(201).send('true')
+                }else{
+                    res.status(201).send('false')
+                }
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Error Occured !"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+exports.changeStatus = async (req, res, next) => {
+    console.log('Change status backend içinden tetiklendi')
+    var user_id = req.body.user_id ;
+    var is_all_approved = false;
+    try {
+        pool.query(
+            "select count(*) as count from document where user_id = ? and is_controlled = 1 and is_approve = 0",
+            [user_id],
+            async (err, result) => {
+                console.log('kontrol edilenler = ' + result[0].count)
+                if (result[0].count == 0){
+                    is_all_approved = true;
+                }else{
+                    is_all_approved = false;
+                }
+                console.log('Hepsi approve edilmiş mi ? '+ is_all_approved)
+                if (is_all_approved){
+                    console.log('Edilmiş')
+                    db.execute(
+                        "UPDATE applications set stage = 'HeadOfDept' where user_id = ?",
+                        [user_id]);
+            
+                    res.status(201).send({
+                        message: "Status updated !"
+                    });
+                    return;
+                }else if(!is_all_approved){
+                    console.log('Edilmemiş')
+                    pool.query(
+                        "select id from applications where user_id = ?",
+                        [user_id],
+                        async (err, result) => {
+                            app_id = result[0].id
+        
+                            
+                    db.execute(
+                        "UPDATE applications set stage = 'Rejected' where user_id = ?",
+                        [user_id]);
+        
+                        var dt = dateTime.create();
+                        var formatted = dt.format('Y-m-d H:M:S');
+        
+                        db.execute(
+                            'INSERT INTO rejected_applications (app_id, reject_reason, reject_date, is_delete) VALUES (?, ?, ?, ?)',
+                            [app_id, 'document error', formatted, 0]
+                        );
+                        },
+                    );
+                        
+                    res.status(201).send({
+                        message: "Status updated !"
+                    });
+                    return;
+                }
+                return;
+            },
+        );
+        
     } catch (err) {
         if (!err.statusCode) {
             res.status(400).send({

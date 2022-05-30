@@ -30,4 +30,21 @@ export class HomePageService {
     });
   }
 
+  acceptDocument(user_id : any, file_name : string) {
+    return this.http.post('http://localhost:3000/home/acceptDocument',{user_id, file_name} ,this.httpOptions);
+  }
+
+  rejectDocument(user_id : any, file_name : string , reject_reason : string) {
+    return this.http.post('http://localhost:3000/home/rejectDocument',{user_id, file_name, reject_reason} ,this.httpOptions);
+  }
+
+  controlAllControlled(user_id : any) {
+    return this.http.post('http://localhost:3000/home/controlAllControlled',{user_id}, this.httpOptions);
+  }
+
+  changeStatus(user_id : any) {
+    console.log('Change status servis içinden tetiklendi')
+    return this.http.post('http://localhost:3000/home/changeStatus',{user_id}, this.httpOptions);
+  }
+
 }
