@@ -23,13 +23,6 @@ import { UploadFilesService } from 'src/app/services/upload-file.service';
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
 })
 export class HomePageComponent implements OnInit {
   columnsToDisplay: string[] = ['name', 'register_date', 'program', 'email', 'agency_mail', 'stage', 'actions'];
@@ -46,10 +39,6 @@ export class HomePageComponent implements OnInit {
 
   constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService, private modalService: NgbModal, private homePageService: HomePageService) {
     this.modalService.activeInstances.subscribe((list) => { this.modalsNumber = list.length; });
-  }
-
-  openDialog(): void {
-    const modalRef = this.modalService.open(DenemeComponent);
   }
 
   ngOnInit(): void {
@@ -96,16 +85,6 @@ export class HomePageComponent implements OnInit {
   }
 
 }
-
-@Component({
-  selector: 'app-deneme',
-  templateUrl: '../deneme/deneme.component.html',
-})
-export class DenemeComponent {
-  constructor(public activeModal: NgbActiveModal) {
-  }
-}
-
 
 @Component({
   selector: 'ngbd-modal-content',

@@ -48,7 +48,6 @@ import { CreateApplicationComponent } from './components/create-application/crea
 import { HiProfileComponent } from './components/hi-profile/hi-profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProgramsComponent } from './components/programs/programs.component';
-import { DenemeComponent } from './components/deneme/deneme.component';
 import { HodApplicationComponent } from './components/hod-application/hod-application.component';
 import { NgbdModal3Content } from './components/hod-application/hod-application.component';
 import { NgbdModal4Content } from './components/hod-application/hod-application.component';
@@ -79,7 +78,6 @@ import { NgbdModal4Content } from './components/hod-application/hod-application.
     HiProfileComponent,
     NgbdModal2Content,
     ProgramsComponent,
-    DenemeComponent,
     HodApplicationComponent,
     NgbdModal4Content
   ],

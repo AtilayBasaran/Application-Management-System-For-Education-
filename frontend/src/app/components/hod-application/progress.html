@@ -42,12 +42,13 @@
 
         <form [formGroup]="statusDetail" id="msform">
             <fieldset *ngIf="step == 2">
-                <label id="example-radio-group-label">Do you agree this application?</label>
+                
+                <h2 class="tittle">Do you agree this application?</h2>
                 <mat-radio-group aria-labelledby="example-radio-group-label" formControlName='isAgree'
                     class="example-radio-group" [(ngModel)]="agreeOrNot">
-                    <mat-radio-button class="example-radio-button" value="Agree" (click)="isAgree('Agree')"> Agree
+                    <mat-radio-button class="app-radio-button" value="Agree" (click)="isAgree('Agree')"> Agree
                     </mat-radio-button>
-                    <mat-radio-button class="example-radio-button" value="Reject" (click)="isAgree('Reject')">Reject
+                    <mat-radio-button class="app-radio-button" value="Reject" (click)="isAgree('Reject')">Reject
                     </mat-radio-button>
                 </mat-radio-group>
                 <div *ngIf="status_step && statusDetail.controls.isAgree.errors">
@@ -55,7 +56,7 @@
                 </div>
 
                 <div *ngIf="is_agreed">
-                    <h2>Scientific sorusu</h2>
+                    <h2 class="tittle">Scientific sorusu</h2>
                     <mat-radio-group aria-labelledby="example-radio-group-label" formControlName='isScientific'
                         class="example-radio-group" [(ngModel)]="scientificOrNot">
                         <mat-radio-button class="degree-radio-button" value="Yes" (click)="isScientific('Yes')">

@@ -38,10 +38,6 @@ export class HodApplicationComponent implements OnInit {
 
   }
 
-  openDialog(): void {
-    const modalRef = this.modalService.open(DenemeComponent);
-  }
-
   ngOnInit(): void {
     this.applicationInfos = this.getApplicationInfos();
   }
@@ -87,16 +83,6 @@ export class HodApplicationComponent implements OnInit {
   }
 
 }
-@Component({
-  selector: 'app-deneme',
-  templateUrl: '../deneme/deneme.component.html',
-})
-export class DenemeComponent {
-  constructor(public activeModal: NgbActiveModal) {
-  }
-}
-
-
 @Component({
   selector: 'ngbd-modal-content',
   templateUrl: './progress.html',

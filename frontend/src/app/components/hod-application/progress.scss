@@ -70,7 +70,17 @@
 .degree-radio-button{
     display: flex;
     flex-direction: column;
-    padding-top: 10px;
+    margin: 10px 0 0 20px;
+}
+
+.app-radio-button{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0 0 20px;
+}
+
+.tittle{
+    margin: 10px 0 0 20px;
 }
 
 .progresss{

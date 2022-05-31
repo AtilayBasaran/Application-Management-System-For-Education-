@@ -1,3 +1,5 @@
+<mat-tab-group mat-align-tabs="center">
+  <mat-tab label="For Student">
 <div class="container">
 <form *ngIf="!isSuccessful" [formGroup]="signupForm" (ngSubmit)="signup()" novalidate>
 
@@ -58,3 +60,67 @@
     Your registration is successful!
   </div>
 </div>
+</mat-tab>
+<mat-tab label="For Agency">
+  <div class="container">
+  <form *ngIf="!isSuccessful" [formGroup]="signupForm" (ngSubmit)="signup()" novalidate>
+  
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Ex. Salih" formControlName="firstname" />
+        <mat-error  *ngIf="!signupForm.get('firstname')?.errors?.required">Firstname is Required</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Surname</mat-label>
+        <input matInput placeholder="Ex. Coşkun" formControlName="lastname" />
+        <mat-error  *ngIf="!signupForm.get('lastname')?.errors?.required">Surname is Required</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Ex. salih.coskun@isik.edu.tr" formControlName="email" />
+        <mat-error  *ngIf="!signupForm.get('email')?.errors?.required">Enter a valid e-mail</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          type="password"
+          placeholder="*******"
+          formControlName="password"
+        />
+        <mat-error  *ngIf="!signupForm.get('password')?.errors?.minLength">Password length must be bigger than 7</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Confirm Password</mat-label>
+        <input
+          matInput
+          type="password"
+          placeholder="*******"
+          formControlName="confirmPassword"
+        />
+        <mat-error  *ngIf="!signupForm.get('confirmPassword')?.errors?.matchValidator">Passwords do not match </mat-error>
+      </mat-form-field>
+      <div class="sign">
+      <button
+        color="accent"
+        [disabled]="!signupForm.valid"
+        mat-raised-button
+        type="submit"
+      >
+        <span>Register</span>
+      </button>
+      <div class="alert-alert-warning" *ngIf="isSignUpFailed">
+        Signup failed!<br />{{ errorMessage }}
+      </div>
+    </div>
+    </form>
+    <div class="alert alert-success" *ngIf="isSuccessful">
+      Your registration is successful!
+    </div>
+  </div>
+  </mat-tab>
+</mat-tab-group>

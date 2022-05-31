@@ -6,39 +6,93 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { SettingService } from 'src/app/services/setting.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder, AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 import { Data, Router } from '@angular/router';
 import { User } from 'src/app/models/User';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, subscribeOn } from "rxjs";
+import { AuthService } from "src/app/services/auth.service";
 import { ToastrService } from 'ngx-toastr';
+
 
 
 @Component({
   selector: 'app-agency-profile',
   templateUrl: './agency-profile.component.html',
   styleUrls: ['./agency-profile.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
 })
 export class AgencyProfileComponent implements OnInit {
-  columnsToDisplay : string[] = ['id','firstname','lastname','email','role'];
+  columnsToDisplay : string[] = ['id','firstname','lastname','email','role','actions'];
+  displayToColumn: string[] = ['name', 'register_date', 'program', 'email', 'agency_mail', 'stage'];
   userInfos: any;
+  applicationInfos: any;
   dataSource: MatTableDataSource<any>;
+  dataSource2: MatTableDataSource<any>;
+  signupForm!: FormGroup;
+  formBuilder: FormBuilder;
+  isSuccessful = false;
+  isSignUpFailed = false;
+  errorMessage = '';
 
-  constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {}//buraya daha sonra database gelecek
+  constructor(private authService: AuthService,private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {}
 
   @ViewChild('matsort1', {static: true}) sort: MatSort;
   @ViewChild('MatPaginator1', {static: true}) paginator: MatPaginator; 
+  @ViewChild('matsort2', {static: true}) sort2: MatSort;
+  @ViewChild('MatPaginator2', {static: true}) paginator2: MatPaginator; 
 
   ngOnInit(): void {
     this.userInfos = this.getUserInfos();
+    this.applicationInfos = this.getApplicationInfos();
+    this.signupForm = this.createFormGroup();
+  }
+  onSubmit(): void {
+    this.authService.signup(this.signupForm.value).subscribe(
+      data => {
+        console.log(data);
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+      },
+      err => {
+        this.errorMessage = err.error.message;
+        this.isSignUpFailed = true;
+      }
+    );
+  }
+  createFormGroup(): FormGroup {
+    return new FormGroup({
+      firstname: new FormControl("", [Validators.required, Validators.minLength(3)]),
+      lastname: new FormControl("", [Validators.required, Validators.minLength(3)]),
+      email: new FormControl("", [Validators.required, Validators.email]),
+      password: new FormControl("", [
+        Validators.required,
+        Validators.minLength(7),
+        matchValidator('confirmPassword', true)
+      ]),
+      confirmPassword: new FormControl("", [
+        Validators.required,
+        Validators.minLength(7),
+        matchValidator('password'),
+      ]),
+    },
+    );
+  }
+  signup(): void {
+    this.authService
+    .signup(this.signupForm.value)
+    .subscribe(
+      data => {
+        console.log(data);
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+        this.router.navigate(["login"]);
+      },
+      err => {
+        this.errorMessage = err.error.message;
+        this.isSignUpFailed = true;
+      }
+    );
   }
 
   getUserInfos() {
@@ -54,9 +108,22 @@ export class AgencyProfileComponent implements OnInit {
       console.log(this.userInfos)
     });
   }
+  getApplicationInfos() {
+    this.http.get('http://localhost:3000/home/getApplicationInfo').subscribe(data => {
+      this.applicationInfos = data;
+      this.dataSource2 = new MatTableDataSource(this.applicationInfos);
+      this.dataSource2.paginator = this.paginator2;
+      this.dataSource2.sort = this.sort2;
+      console.log(data)
+
+      console.log('Application infos')
+
+    });
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource2.filter = filterValue.trim().toLocaleLowerCase();
   }
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -66,4 +133,25 @@ export class AgencyProfileComponent implements OnInit {
     }
   }
 
+}
+export function matchValidator(
+  matchTo: string, 
+  reverse?: boolean
+): ValidatorFn {
+  return (control: AbstractControl): 
+  ValidationErrors | null => {
+    if (control.parent && reverse) {
+      const c = (control.parent?.controls as any)[matchTo] as AbstractControl;
+      if (c) {
+        c.updateValueAndValidity();
+      }
+      return null;
+    }
+    return !!control.parent &&
+      !!control.parent.value &&
+      control.value === 
+      (control.parent?.controls as any)[matchTo].value
+      ? null
+      : { matching: true };
+  };
 }

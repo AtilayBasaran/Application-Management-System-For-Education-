@@ -26,8 +26,7 @@
     display: flex;
     flex-direction: row;
     flex: 1;
-    padding-right: 110px;
-    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .table-header {
@@ -52,31 +51,31 @@
     color: white;
     background-color: #ee0979;
     justify-content: center;
-    width: 6rem;
-    margin: 0.5rem;
+    width: 7rem;
+    margin: 1.5rem;
     align-items: center;
-    height: 2.5rem;
+    height: 3.1rem;
     cursor: pointer;
 }
 
 .col-1 {
-    flex-basis: 20%;
+    flex-basis: 15%;
 }
 
 .col-2 {
-    flex-basis: 20%;
+    flex-basis: 15%;
 }
 
 .col-3 {
-    flex-basis: 20%;
+    flex-basis: 15%;
 }
 
 .col-4 {
-    flex-basis: 20%;
+    flex-basis: 15%;
 }
 
 .col-5 {
-    flex-basis: 20%;
+    flex-basis: 15%;
 }
 
 
