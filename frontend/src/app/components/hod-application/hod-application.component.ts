@@ -7,7 +7,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { SettingService } from 'src/app/services/setting.service';
 import { HomePageService } from 'src/app/services/home-page.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Data, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { ToastrService } from 'ngx-toastr';
@@ -61,12 +61,12 @@ export class HodApplicationComponent implements OnInit {
 
   open(user_id: any) {
 
-    const firstModal = this.modalService.open(NgbdModal3Content,{ size: 'xl' } );
+    const firstModal = this.modalService.open(NgbdModal3Content, { size: 'xl' });
     firstModal.componentInstance.user_id = user_id;
 
   }
 
-  
+
   getApplicationInfos() {
     this.http.get('http://localhost:3000/home/getApplicationInfo').subscribe(data => {
       this.applicationInfos = data;
@@ -102,19 +102,30 @@ export class DenemeComponent {
 export class NgbdModal3Content implements OnInit {
   @Input() user_id: any;
   fileInfos: any;
-  showMe:boolean=false;
+  showMe: boolean = false;
 
-  
+
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
   };
-  personal_step = false;
-  address_step = false;
+  choices: string[] = ['Agree', 'Reject'];
+  agreeOrNot: string;
+  scientificOrNot: string;
+  status_step = false;
+  addCourse_step = false;
   upload_step = false;
   education_step = false;
-  degree_step = false;
+  document_step = false;
+  is_agreed = false;
+  is_scientific = false;
+  statusDetail !: FormGroup;
+  courseInfos: any;
+  selectedCourse: string;
+  courseDetails !: FormGroup;
+  userCourses: any;
+
   step = 1;
-  constructor(private modalService: NgbModal, public activeModal: NgbActiveModal, private uploadService: UploadFilesService, private http: HttpClient) { }
+  constructor(private modalService: NgbModal, public activeModal: NgbActiveModal, private uploadService: UploadFilesService, private http: HttpClient, private formBuilder: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
@@ -122,25 +133,63 @@ export class NgbdModal3Content implements OnInit {
 
 
     console.log(this.fileInfos)
+
+    this.statusDetail = this.formBuilder.group({
+      isAgree: ['', Validators.required],
+      isScientific: ['', Validators.required],
+    });
+
+    this.courseDetails = this.formBuilder.group({
+      selectedCourse: [null, Validators.required]
+    })
   }
 
+  get status() { return this.statusDetail.controls; }
+  get course() { return this.courseDetails.controls; }
+
   hiddenScientific() {
-    this.showMe =! this.showMe;
+    this.showMe = !this.showMe;
+  }
+
+  isAgree(choice: any): void {
+    if (choice == 'Agree') {
+      this.is_agreed = true;
+    } else if (choice == 'Reject') {
+      this.is_agreed = false;
+    }
+  }
+  isScientific(choice: any): void {
+    if (choice == 'Yes') {
+      this.is_scientific = true;
+    } else if (choice == 'No') {
+      this.is_scientific = false;
+    }
   }
 
   next() {
 
     if (this.step == 1) {
-      this.degree_step = true;
+      this.document_step = true;
       this.step++;
     }
 
     else if (this.step == 2) {
-      this.personal_step = true;
-      this.step++
+      this.status_step = true;
+      if (this.statusDetail.invalid) { return }
+      if (this.is_scientific) {
+        this.step++;
+        this.getCourseInfos();
+        this.getUserCourses(this.user_id);
+        console.log(this.courseInfos)
+      } else {
+        this.step = 4;
+      }
+
+
     }
     else if (this.step == 3) {
-      this.education_step = true;
+      this.addCourse_step = true;
+      if (this.courseDetails.invalid) { return }
       this.step++;
     }
 
@@ -148,16 +197,20 @@ export class NgbdModal3Content implements OnInit {
   }
 
   previous() {
-    this.step--
+    if (this.step == 4 && !this.is_scientific) {
+      this.step -= 2;
+    } else {
+      this.step--
 
-    if (this.step == 1) {
-      this.degree_step = false;
-    }
-    if (this.step == 2) {
-      this.personal_step = false;
-    }
-    if (this.step == 3) {
-      this.education_step = false;
+      if (this.step == 1) {
+        this.document_step = false;
+      }
+      if (this.step == 2) {
+        this.status_step = false;
+      }
+      if (this.step == 3) {
+        this.addCourse_step = false;
+      }
     }
 
   }
@@ -167,13 +220,66 @@ export class NgbdModal3Content implements OnInit {
   }
 
 
-  open(user_id : any) {
+
+
+  reject(user_id: any) {
     this.modalService.open(NgbdModal4Content, { size: 'lg' });
 
   }
 
-  getUniqueUserFiles(user_id : any) :void {
-    this.http.post('http://localhost:3000/app/getUniqueUserFiles', {user_id}, this.httpOptions).subscribe(data => {
+  getCourseInfos() {
+    var user_id = this.user_id;
+    this.http.post('http://localhost:3000/app/getCourseInfos', { user_id }, this.httpOptions).subscribe(data => {
+      this.courseInfos = data;
+      console.log(data)
+
+      console.log('Course infos')
+
+      console.log(this.courseInfos)
+    });
+  }
+
+  addCourse(course_name: string, user_id: any) {
+    console.log(user_id, course_name)
+
+    this.http.post('http://localhost:3000/app/controlAdded', { user_id, course_name }, this.httpOptions).subscribe(data => {
+
+      this.getUserCourses(this.user_id);
+      console.log('Course infos')
+      this.toastr.success('Course Added Successfully', 'Success')
+
+    });
+
+    this.http.post('http://localhost:3000/app/addCourse', { user_id, course_name }, this.httpOptions).subscribe(data => {
+
+      this.getUserCourses(this.user_id);
+      console.log('Course infos')
+      this.toastr.success('Course Added Successfully', 'Success')
+
+    });
+  }
+
+  removeCourse(course_name: string, user_id: any) {
+    var user_id = this.user_id;
+    this.http.post('http://localhost:3000/app/removeCourse', { user_id, course_name }, this.httpOptions).subscribe(data => {
+      this.getUserCourses(this.user_id);
+      console.log(data)
+
+      this.toastr.success('Course Removed Successfully', 'Success')
+    });
+  }
+
+  getUserCourses(user_id: any) {
+    var user_id = this.user_id;
+    this.http.post('http://localhost:3000/app/getUserCourses', { user_id }, this.httpOptions).subscribe(data => {
+    this.userCourses = data;
+      console.log(data)
+    });
+  }
+
+
+  getUniqueUserFiles(user_id: any): void {
+    this.http.post('http://localhost:3000/app/getUniqueUserFiles', { user_id }, this.httpOptions).subscribe(data => {
       this.fileInfos = data;
       console.log(data)
 
@@ -184,6 +290,8 @@ export class NgbdModal3Content implements OnInit {
 
   }
 }
+
+
 
 @Component({
   template: `
@@ -228,16 +336,16 @@ export class NgbdModal4Content implements OnInit {
 
   rejectDocument(): void {
     console.log('Reject Çalıştı')
-    console.log('reason = '+ this.rejectForm.value.reason)
+    console.log('reason = ' + this.rejectForm.value.reason)
     this.homePageService
       .rejectDocument(this.user_id, this.file_name, this.rejectForm.value.reason)
       .subscribe(data => {
         console.log(data);
         this.activeModal.close('true')
-        
-        
+
+
       },
-      err => {
-      });
+        err => {
+        });
   }
 }

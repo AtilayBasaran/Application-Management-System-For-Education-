@@ -38,6 +38,27 @@ router.post(
     '/getUniqueUserFiles', appController.getUniqueUserFiles
 );
 
+router.post(
+    '/getCourseInfos', appController.getCourseInfos
+);
+
+router.post(
+    '/addCourse', appController.addCourse
+);
+
+router.post(
+    '/removeCourse', appController.removeCourse
+);
+
+router.post(
+    '/getUserCourses', appController.getUserCourses
+);
+
+router.post(
+    '/controlAdded', appController.controlAdded
+);
+
+
 
 
 

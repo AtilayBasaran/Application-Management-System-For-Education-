@@ -312,3 +312,237 @@ exports.getUniqueUserFiles = (req, res, next) => {
         next(err);
     }
 };
+
+exports.getCourseInfos = (req, res, next) => {
+    const user_id = req.body.user_id;
+
+
+    try {
+        const courseInfos = [];
+        pool.query(
+            "SELECT dept_name FROM applications where user_id = ?",
+            [user_id],
+            async (err, result) => {
+                var dept_name = result[0].dept_name;
+
+                pool.query(
+                    "SELECT * FROM course where dept_name = ?",
+                    [dept_name],
+                    async (err, result) => {
+                        
+                        for (var i = 0; i < result.length; i++) {
+                            var a = {
+                                name: result[i].name,
+                                dept_name: result[i].dept_name,
+                            };
+                            courseInfos.push(a);
+                        }
+                    console.log(courseInfos),
+                    res.status(201).send(courseInfos)
+                    },
+                );
+                }
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Document Information Cannot Take!"
+            });
+            return;
+        }
+        next(err);
+    }
+};
+
+exports.addCourse = async (req, res, next) => {
+
+    try {
+        var course_name = req.body.course_name;
+        var user_id = req.body.user_id;
+
+        console.log('----------------------------')
+
+        console.log('id : '+ user_id)
+        console.log('course_name : '+ course_name)
+
+        pool.query(
+            "SELECT id FROM course where name = ?",
+            [course_name],
+            async (err, result) => {
+
+                
+                var course_id = result[0].id;
+                console.log('ilk query içi : '+course_id )
+
+                pool.query(
+                    "SELECT id FROM applications where user_id = ?",
+                    [user_id],
+                    async (err, result) => {
+                        var app_id = result[0].id;
+
+                        console.log('ikinci query içi : '+app_id )
+
+                        db.execute(
+                            'INSERT INTO app_course (app_id, course_id) VALUES (?, ?)',
+                            [app_id, course_id]
+                        );
+
+                        res.status(201).send({
+                            message: 'Course Inserted Succesfully'
+                        });
+                    },
+                );
+                }
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Course Insertion Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+exports.removeCourse = async (req, res, next) => {
+
+    try {
+        var course_name = req.body.course_name;
+        var user_id = req.body.user_id;
+
+        console.log('----------------------------')
+
+        console.log('id : '+ user_id)
+        console.log('course_name : '+ course_name)
+
+        pool.query(
+            "SELECT id FROM course where name = ?",
+            [course_name],
+            async (err, result) => {
+
+                
+                var course_id = result[0].id;
+                console.log('ilk query içi : '+course_id )
+
+                pool.query(
+                    "SELECT id FROM applications where user_id = ?",
+                    [user_id],
+                    async (err, result) => {
+                        var app_id = result[0].id;
+
+                        console.log('ikinci query içi : '+app_id )
+
+                        db.execute(
+                            'DELETE from app_course where app_id = ? and course_id = ?',
+                            [app_id, course_id]
+                        );
+
+                        res.status(201).send({
+                            message: 'Course deleted Succesfully'
+                        });
+                    },
+                );
+                }
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Course delete Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+exports.getUserCourses = (req, res, next) => {
+    const user_id = req.body.user_id;
+
+
+    try {
+        const userCourses = [];
+        pool.query(
+            "SELECT id FROM applications where user_id = ?",
+            [user_id],
+            async (err, result) => {
+                var app_id = result[0].id;
+
+                pool.query(
+                    "SELECT * FROM app_course ac inner join course c on ac.course_id = c.id where app_id = ?",
+                    [app_id],
+                    async (err, result) => {
+                        
+                        for (var i = 0; i < result.length; i++) {
+                            var a = {
+                                name: result[i].name,
+                                dept_name: result[i].dept_name,
+                                app_id : result[i].app_id,
+                            };
+                            userCourses.push(a);
+                        }
+                    console.log(userCourses),
+                    res.status(201).send(userCourses)
+                    },
+                );
+                }
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "User Courses Cannot Take!"
+            });
+            return;
+        }
+        next(err);
+    }
+};
+
+exports.controlAdded = (req, res, next) => {
+    const user_id = req.body.user_id;
+
+
+    try {
+        const userCourses = [];
+        pool.query(
+            "SELECT id FROM applications where user_id = ?",
+            [user_id],
+            async (err, result) => {
+                var app_id = result[0].id;
+
+                pool.query(
+                    "SELECT * FROM app_course ac inner join course c on ac.course_id = c.id where app_id = ?",
+                    [app_id],
+                    async (err, result) => {
+                        
+                        for (var i = 0; i < result.length; i++) {
+                            var a = {
+                                name: result[i].name,
+                                dept_name: result[i].dept_name,
+                                app_id : result[i].app_id,
+                            };
+                            userCourses.push(a);
+                        }
+                    console.log(userCourses),
+                    res.status(201).send(userCourses)
+                    },
+                );
+                }
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "User Courses Cannot Take!"
+            });
+            return;
+        }
+        next(err);
+    }
+};
