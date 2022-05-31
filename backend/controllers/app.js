@@ -144,16 +144,22 @@ exports.createMainApp = async (req, res, next) => {
     var program_type = req.body.programType;
     var degreeType = req.body.degreeType;
 
+    try {
+    pool.query(
+        "SELECT department FROM programs where name = ?",
+        [program_type],
+        async (err, result) => {
+            var dept_name = result[0].department
 
     var dt = dateTime.create();
     var formatted = dt.format('Y-m-d H:M:S');
-    dept_name = 'cse';
+    
     register_date = formatted;
     agency_email = '';
     stage = 'controlling';
     is_delete = false;
     interview_req = 'false';
-    try {
+
         pool.query('INSERT INTO applications (user_id, dept_name, register_date, agency_mail, stage, is_delete, interview_req, degree, program) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [user_id, dept_name, register_date, agency_email, stage, is_delete, interview_req, degreeType, program_type],
             function (err, rows) {
@@ -168,6 +174,8 @@ exports.createMainApp = async (req, res, next) => {
                 console.log(is_delete);
                 console.log(interview_req);
             });
+        },
+        );
     } catch (err) {
         console.log(err);
         return;
