@@ -58,6 +58,10 @@ router.post(
     '/controlAdded', appController.controlAdded
 );
 
+router.post(
+    '/approveApplication', appController.approveApplication
+);
+
 
 
 

@@ -79,7 +79,7 @@
             
             <mat-form-field appearance="fill">
                 <mat-label>Course Name</mat-label>
-                <mat-select [(ngModel)]="selectedCourse" matInput name="course" formControlName="selectedCourse" required>
+                <mat-select [(ngModel)]="selectedCourse" matInput name="course" formControlName="selectedCourse" >
                     <mat-option *ngFor="let course of courseInfos" [value]="course.name">
                         {{course.name}}
                     </mat-option>
@@ -118,21 +118,29 @@
         </fieldset>
     </form>
 
+    <form [formGroup]="schoolarShipForm" id="msform">
         <fieldset *ngIf="step == 4">
+            <div *ngIf=" schoolarShipForm.controls.schoolarChoice.errors">
+                <p *ngIf="schoolar.schoolarChoice.errors?.required">Schoolar is required</p>
+            </div>
             <h2>Schoolarship sorusu</h2>
-            <mat-radio-button class="degree-radio-button" value="">
+            <mat-radio-group aria-labelledby="example-radio-group-label" formControlName='schoolarChoice'
+                        class="example-radio-group" [(ngModel)]="chooseSchoolar">
+            <mat-radio-button class="degree-radio-button" value="25">
                 25%
             </mat-radio-button>
-            <mat-radio-button class="degree-radio-button" value="">
+            <mat-radio-button class="degree-radio-button" value="50">
                 50%
             </mat-radio-button>
-            <mat-radio-button class="degree-radio-button" value="">
+            <mat-radio-button class="degree-radio-button" value="75">
                 75%
             </mat-radio-button>
-            <mat-radio-button class="degree-radio-button" value="">
+            <mat-radio-button class="degree-radio-button" value="100">
                 100%
             </mat-radio-button>
+        </mat-radio-group>
         </fieldset>
+    </form>
     </div>
 </div>
 

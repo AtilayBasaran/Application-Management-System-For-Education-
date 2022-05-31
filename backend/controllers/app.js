@@ -29,7 +29,7 @@ exports.addPersonal = async (req, res, next) => {
         var country = req.body.personalInfo.country;
         var nationality = req.body.personalInfo.nationality;
         var id_number = req.body.personalInfo.id_number;
-        
+
         console.log('Personal Info tarafı ------------')
         console.log(user_id)
         console.log(name)
@@ -144,49 +144,49 @@ exports.createMainApp = async (req, res, next) => {
     var program_type = req.body.programType;
     var degreeType = req.body.degreeType;
 
-    
+
     var dt = dateTime.create();
     var formatted = dt.format('Y-m-d H:M:S');
-        dept_name = 'cse';
-        register_date = formatted;
-        agency_email = '';
-        stage = 'controlling';
-        is_delete = false;
-        interview_req = 'false';
-try{
-    pool.query('INSERT INTO applications (user_id, dept_name, register_date, agency_mail, stage, is_delete, interview_req, degree, program) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-    [user_id, dept_name, register_date, agency_email, stage, is_delete, interview_req, degreeType, program_type],
-    function (err, rows) {
-        if (err) throw err;
-        
+    dept_name = 'cse';
+    register_date = formatted;
+    agency_email = '';
+    stage = 'controlling';
+    is_delete = false;
+    interview_req = 'false';
+    try {
+        pool.query('INSERT INTO applications (user_id, dept_name, register_date, agency_mail, stage, is_delete, interview_req, degree, program) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [user_id, dept_name, register_date, agency_email, stage, is_delete, interview_req, degreeType, program_type],
+            function (err, rows) {
+                if (err) throw err;
 
-        console.log(user_id);
-        console.log(dept_name);
-        console.log(register_date);
-        console.log(agency_email);
-        console.log(stage);
-        console.log(is_delete);
-        console.log(interview_req);
-    });
-}catch(err){
-    console.log(err);
+
+                console.log(user_id);
+                console.log(dept_name);
+                console.log(register_date);
+                console.log(agency_email);
+                console.log(stage);
+                console.log(is_delete);
+                console.log(interview_req);
+            });
+    } catch (err) {
+        console.log(err);
+        return;
+    }
     return;
-}
-return;
-    
+
 };
 
 
 exports.getProgramInfo = async (req, res, next) => {
     degree = req.body.degree;
-    
+
     try {
         const programInfos = [];
         pool.query(
             "SELECT * FROM programs where degree = ?",
             [degree],
             async (err, result) => {
-                
+
                 for (var i = 0; i < result.length; i++) {
                     var a = {
                         id: result[i].id,
@@ -196,8 +196,8 @@ exports.getProgramInfo = async (req, res, next) => {
                     programInfos.push(a);
                 }
 
-            console.log(programInfos),
-            res.status(201).send(programInfos)
+                console.log(programInfos),
+                    res.status(201).send(programInfos)
             },
         );
         return;
@@ -216,16 +216,16 @@ exports.getProgramInfo = async (req, res, next) => {
 exports.controlTitle = async (req, res, next) => {
     user_id = req.body.user_id;
     title = req.body.title;
-    
+
     try {
         pool.query(
             "SELECT * FROM document where user_id = ? and title = ?",
             [user_id, title],
             async (err, result) => {
                 console.log(result)
-                if(result != ''){
+                if (result != '') {
                     res.status(201).send(true)
-                }else{
+                } else {
                     res.status(201).send(false)
                 }
             }
@@ -246,16 +246,16 @@ exports.controlTitle = async (req, res, next) => {
 exports.controlName = async (req, res, next) => {
     user_id = req.body.user_id;
     fileName = req.body.fileName;
-    
+
     try {
         pool.query(
             "SELECT * FROM document where user_id = ? and name = ?",
             [user_id, fileName],
             async (err, result) => {
                 console.log(result)
-                if(result != ''){
+                if (result != '') {
                     res.status(201).send(true)
-                }else{
+                } else {
                     res.status(201).send(false)
                 }
             }
@@ -285,20 +285,20 @@ exports.getUniqueUserFiles = (req, res, next) => {
             "SELECT * FROM document where user_id = ?",
             [user_id],
             async (err, result) => {
-                
+
                 for (var i = 0; i < result.length; i++) {
                     var a = {
                         is_approve: result[i].is_approve,
                         is_controlled: result[i].is_controlled,
                         title: result[i].title,
                         name: result[i].name,
-                        url: baseUrl + result[i].name+'&'+user_id,
-                        all_url: directoryPath+ '/' + result[i].name,
+                        url: baseUrl + result[i].name + '&' + user_id,
+                        all_url: directoryPath + '/' + result[i].name,
                     };
                     fileInfos.push(a);
                 }
-            console.log(fileInfos),
-            res.status(201).send(fileInfos)
+                console.log(fileInfos),
+                    res.status(201).send(fileInfos)
             },
         );
         return;
@@ -329,7 +329,7 @@ exports.getCourseInfos = (req, res, next) => {
                     "SELECT * FROM course where dept_name = ?",
                     [dept_name],
                     async (err, result) => {
-                        
+
                         for (var i = 0; i < result.length; i++) {
                             var a = {
                                 name: result[i].name,
@@ -337,11 +337,11 @@ exports.getCourseInfos = (req, res, next) => {
                             };
                             courseInfos.push(a);
                         }
-                    console.log(courseInfos),
-                    res.status(201).send(courseInfos)
+                        console.log(courseInfos),
+                            res.status(201).send(courseInfos)
                     },
                 );
-                }
+            }
         );
         return;
     } catch (err) {
@@ -363,17 +363,17 @@ exports.addCourse = async (req, res, next) => {
 
         console.log('----------------------------')
 
-        console.log('id : '+ user_id)
-        console.log('course_name : '+ course_name)
+        console.log('id : ' + user_id)
+        console.log('course_name : ' + course_name)
 
         pool.query(
             "SELECT id FROM course where name = ?",
             [course_name],
             async (err, result) => {
 
-                
+
                 var course_id = result[0].id;
-                console.log('ilk query içi : '+course_id )
+                console.log('ilk query içi : ' + course_id)
 
                 pool.query(
                     "SELECT id FROM applications where user_id = ?",
@@ -381,7 +381,7 @@ exports.addCourse = async (req, res, next) => {
                     async (err, result) => {
                         var app_id = result[0].id;
 
-                        console.log('ikinci query içi : '+app_id )
+                        console.log('ikinci query içi : ' + app_id)
 
                         db.execute(
                             'INSERT INTO app_course (app_id, course_id) VALUES (?, ?)',
@@ -393,7 +393,7 @@ exports.addCourse = async (req, res, next) => {
                         });
                     },
                 );
-                }
+            }
         );
         return;
     } catch (err) {
@@ -416,17 +416,17 @@ exports.removeCourse = async (req, res, next) => {
 
         console.log('----------------------------')
 
-        console.log('id : '+ user_id)
-        console.log('course_name : '+ course_name)
+        console.log('id : ' + user_id)
+        console.log('course_name : ' + course_name)
 
         pool.query(
             "SELECT id FROM course where name = ?",
             [course_name],
             async (err, result) => {
 
-                
+
                 var course_id = result[0].id;
-                console.log('ilk query içi : '+course_id )
+                console.log('ilk query içi : ' + course_id)
 
                 pool.query(
                     "SELECT id FROM applications where user_id = ?",
@@ -434,7 +434,7 @@ exports.removeCourse = async (req, res, next) => {
                     async (err, result) => {
                         var app_id = result[0].id;
 
-                        console.log('ikinci query içi : '+app_id )
+                        console.log('ikinci query içi : ' + app_id)
 
                         db.execute(
                             'DELETE from app_course where app_id = ? and course_id = ?',
@@ -446,7 +446,7 @@ exports.removeCourse = async (req, res, next) => {
                         });
                     },
                 );
-                }
+            }
         );
         return;
     } catch (err) {
@@ -477,20 +477,20 @@ exports.getUserCourses = (req, res, next) => {
                     "SELECT * FROM app_course ac inner join course c on ac.course_id = c.id where app_id = ?",
                     [app_id],
                     async (err, result) => {
-                        
+
                         for (var i = 0; i < result.length; i++) {
                             var a = {
                                 name: result[i].name,
                                 dept_name: result[i].dept_name,
-                                app_id : result[i].app_id,
+                                app_id: result[i].app_id,
                             };
                             userCourses.push(a);
                         }
-                    console.log(userCourses),
-                    res.status(201).send(userCourses)
+                        console.log(userCourses),
+                            res.status(201).send(userCourses)
                     },
                 );
-                }
+            }
         );
         return;
     } catch (err) {
@@ -505,42 +505,89 @@ exports.getUserCourses = (req, res, next) => {
 };
 
 exports.controlAdded = (req, res, next) => {
-    const user_id = req.body.user_id;
-
 
     try {
-        const userCourses = [];
+        var course_name = req.body.course_name;
+        var user_id = req.body.user_id;
+
+        pool.query(
+            "SELECT id FROM course where name = ?",
+            [course_name],
+            async (err, result) => {
+
+
+                var course_id = result[0].id;
+
+                pool.query(
+                    "SELECT id FROM applications where user_id = ?",
+                    [user_id],
+                    async (err, result) => {
+                        var app_id = result[0].id;
+
+                        console.log('ikinci query içi : ' + app_id)
+
+                        pool.query(
+                            "SELECT count(*) as count FROM app_course where app_id = ? and course_id = ? ",
+                            [app_id, course_id],
+                            async (err, result) => {
+
+                                if (result[0].count != 0) {
+                                    res.status(201).send('true')
+                                } else {
+                                    res.status(201).send('false')
+                                }
+
+                            },
+                        );
+                    },
+                );
+            }
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Course delete Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+};
+
+exports.approveApplication = (req, res, next) => {
+
+    try {
+        var schoolar = req.body.schoolar;
+        var user_id = req.body.user_id;
+
         pool.query(
             "SELECT id FROM applications where user_id = ?",
             [user_id],
             async (err, result) => {
                 var app_id = result[0].id;
 
-                pool.query(
-                    "SELECT * FROM app_course ac inner join course c on ac.course_id = c.id where app_id = ?",
-                    [app_id],
-                    async (err, result) => {
-                        
-                        for (var i = 0; i < result.length; i++) {
-                            var a = {
-                                name: result[i].name,
-                                dept_name: result[i].dept_name,
-                                app_id : result[i].app_id,
-                            };
-                            userCourses.push(a);
-                        }
-                    console.log(userCourses),
-                    res.status(201).send(userCourses)
-                    },
+                db.execute(
+                    "UPDATE applications set stage = 'Approved' where id = ?",
+                    [app_id]);
+    
+                    var dt = dateTime.create();
+                    var formatted = dt.format('Y-m-d H:M:S');
+
+                db.execute(
+                    'INSERT INTO approved_applications (app_id, scholarship, approve_date, is_delete) VALUES (?, ?, ?, ?)',
+                    [app_id, schoolar, formatted, 0]
                 );
-                }
+
+                res.status(201).send('true');
+
+
+            },
         );
         return;
     } catch (err) {
         if (!err.statusCode) {
-            res.status(400).send({
-                message: "User Courses Cannot Take!"
-            });
+            res.status(400).send('false');
             return;
         }
         next(err);

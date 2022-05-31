@@ -35,6 +35,7 @@ export class HodApplicationComponent implements OnInit {
 
   constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService, private modalService: NgbModal, private homePageService: HomePageService) {
     this.modalService.activeInstances.subscribe((list) => { this.modalsNumber = list.length; });
+
   }
 
   openDialog(): void {
@@ -63,6 +64,8 @@ export class HodApplicationComponent implements OnInit {
 
     const firstModal = this.modalService.open(NgbdModal3Content, { size: 'xl' });
     firstModal.componentInstance.user_id = user_id;
+
+    firstModal.closed.subscribe(() => this.ngOnInit());
 
   }
 
@@ -111,6 +114,9 @@ export class NgbdModal3Content implements OnInit {
   choices: string[] = ['Agree', 'Reject'];
   agreeOrNot: string;
   scientificOrNot: string;
+
+  chooseSchoolar: string;
+
   status_step = false;
   addCourse_step = false;
   upload_step = false;
@@ -122,6 +128,7 @@ export class NgbdModal3Content implements OnInit {
   courseInfos: any;
   selectedCourse: string;
   courseDetails !: FormGroup;
+  schoolarShipForm !: FormGroup;
   userCourses: any;
 
   step = 1;
@@ -140,12 +147,18 @@ export class NgbdModal3Content implements OnInit {
     });
 
     this.courseDetails = this.formBuilder.group({
-      selectedCourse: [null, Validators.required]
+      selectedCourse: [null]
     })
+
+    this.schoolarShipForm = this.formBuilder.group({
+      schoolarChoice: [null, Validators.required]
+    })
+
   }
 
   get status() { return this.statusDetail.controls; }
   get course() { return this.courseDetails.controls; }
+  get schoolar() { return this.schoolarShipForm.controls; }
 
   hiddenScientific() {
     this.showMe = !this.showMe;
@@ -200,22 +213,31 @@ export class NgbdModal3Content implements OnInit {
     if (this.step == 4 && !this.is_scientific) {
       this.step -= 2;
     } else {
-      this.step--
+      
 
       if (this.step == 1) {
         this.document_step = false;
       }
       if (this.step == 2) {
         this.status_step = false;
+        this.step--
       }
       if (this.step == 3) {
         this.addCourse_step = false;
+        this.step--
+      }
+      if (this.step == 4) {
+        this.step--
       }
     }
 
   }
   submit() {
     if (this.step == 4) {
+
+      if (this.schoolarShipForm.invalid) { return }
+      console.log('selamlar')
+      this.approveApplication()
     }
   }
 
@@ -226,6 +248,20 @@ export class NgbdModal3Content implements OnInit {
     this.modalService.open(NgbdModal4Content, { size: 'lg' });
 
   }
+
+  approveApplication() {
+    var user_id = this.user_id;
+    var schoolar = this.schoolarShipForm.value.schoolarChoice
+    this.http.post('http://localhost:3000/app/approveApplication', { user_id , schoolar }, this.httpOptions).subscribe(data => {
+
+    if(data == true){
+      this.toastr.success('Application approved Successfully', 'Success')
+      this.activeModal.close();
+    }
+
+    });
+  }
+
 
   getCourseInfos() {
     var user_id = this.user_id;
@@ -243,20 +279,22 @@ export class NgbdModal3Content implements OnInit {
     console.log(user_id, course_name)
 
     this.http.post('http://localhost:3000/app/controlAdded', { user_id, course_name }, this.httpOptions).subscribe(data => {
+      console.log(data)
 
-      this.getUserCourses(this.user_id);
-      console.log('Course infos')
-      this.toastr.success('Course Added Successfully', 'Success')
+    if(data == true){
+      this.toastr.error('This course already added please choose another one', 'Error')
+    }else{
+      this.http.post('http://localhost:3000/app/addCourse', { user_id, course_name }, this.httpOptions).subscribe(data => {
 
-    });
+        this.getUserCourses(this.user_id);
+        console.log('Course infos')
+        this.toastr.success('Course Added Successfully', 'Success')
+  
+      });
+    }
+  });
 
-    this.http.post('http://localhost:3000/app/addCourse', { user_id, course_name }, this.httpOptions).subscribe(data => {
 
-      this.getUserCourses(this.user_id);
-      console.log('Course infos')
-      this.toastr.success('Course Added Successfully', 'Success')
-
-    });
   }
 
   removeCourse(course_name: string, user_id: any) {
