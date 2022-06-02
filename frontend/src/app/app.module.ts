@@ -51,6 +51,7 @@ import { ProgramsComponent } from './components/programs/programs.component';
 import { HodApplicationComponent } from './components/hod-application/hod-application.component';
 import { NgbdModal3Content } from './components/hod-application/hod-application.component';
 import { NgbdModal4Content } from './components/hod-application/hod-application.component';
+import { AuthorizedComponent } from './components/authorized/authorized.component';
 
 
 
@@ -79,7 +80,8 @@ import { NgbdModal4Content } from './components/hod-application/hod-application.
     NgbdModal2Content,
     ProgramsComponent,
     HodApplicationComponent,
-    NgbdModal4Content
+    NgbdModal4Content,
+    AuthorizedComponent
   ],
   imports: [
     BrowserModule,
