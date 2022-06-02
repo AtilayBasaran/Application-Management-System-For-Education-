@@ -36,6 +36,13 @@ export class AuthService {
 
   }
 
+  createUser(signupForm : any, agency_email : any){
+    console.log('agency signup')
+
+    return this.http.post(`${this.url}/createUser`, {signupForm,agency_email}, this.httpOptions);
+
+  }
+
   login(
     email: Pick<User, "email">,
     password: Pick<User, "password">

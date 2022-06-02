@@ -22,7 +22,7 @@
         </form>
     </div>
     <div class="container">
-        <form *ngIf="!isSuccessful" [formGroup]="signupForm" (ngSubmit)="signup()" novalidate>
+        <form *ngIf="!isSuccessful" [formGroup]="signupForm"  novalidate>
 
             <mat-form-field>
                 <mat-label>Name</mat-label>
@@ -56,7 +56,7 @@
                 </mat-error>
             </mat-form-field>
             <div class="sign">
-                <button [disabled]="!signupForm.valid" mat-raised-button color="accent" type="submit">
+                <button [disabled]="!signupForm.valid" mat-raised-button color="accent" type="submit" (click) = "createUser()" > 
                     <span>Register</span>
                 </button>
                 <div class="alert-alert-warning" *ngIf="isSignUpFailed">
@@ -64,9 +64,6 @@
                 </div>
             </div>
         </form>
-        <div class="alert alert-success" *ngIf="isSuccessful">
-            Your registration is successful!
-        </div>
     </div>
 </div>
 <mat-tab-group>

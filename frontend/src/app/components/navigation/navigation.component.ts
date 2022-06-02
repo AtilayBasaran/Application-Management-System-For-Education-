@@ -11,6 +11,7 @@ export class NavigationComponent implements OnInit {
   showAdminBoard = false;
   showHeadBoard = false;
   showStudentBoard = false;
+  showAgencyBoard = false;
   firstname?: string;
   roles = ''
 
@@ -28,6 +29,8 @@ export class NavigationComponent implements OnInit {
         this.showAdminBoard = true;
       }else if(user.roles == 'headOfDept'){
         this.showHeadBoard = true;
+      }else if(user.roles == 'agency'){
+        this.showAgencyBoard = true;
       }else{
         this.showStudentBoard = true;
       }

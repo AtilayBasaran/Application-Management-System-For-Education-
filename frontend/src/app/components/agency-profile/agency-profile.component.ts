@@ -47,19 +47,7 @@ export class AgencyProfileComponent implements OnInit {
     this.applicationInfos = this.getApplicationInfos();
     this.signupForm = this.createFormGroup();
   }
-  onSubmit(): void {
-    this.authService.signup(this.signupForm.value).subscribe(
-      data => {
-        console.log(data);
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-      },
-      err => {
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
-      }
-    );
-  }
+
   createFormGroup(): FormGroup {
     return new FormGroup({
       firstname: new FormControl("", [Validators.required, Validators.minLength(3)]),
@@ -78,19 +66,21 @@ export class AgencyProfileComponent implements OnInit {
     },
     );
   }
-  signup(): void {
+  createUser(): void {
+    var agency_email = this.token.getUser().email;
     this.authService
-    .signup(this.signupForm.value)
+    .createUser(this.signupForm.value, agency_email)
     .subscribe(
       data => {
         console.log(data);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
-        this.router.navigate(["login"]);
+        this.toastr.success('User Created Successfully', 'Success')
       },
       err => {
         this.errorMessage = err.error.message;
         this.isSignUpFailed = true;
+        this.toastr.error(this.errorMessage, 'Error')
       }
     );
   }

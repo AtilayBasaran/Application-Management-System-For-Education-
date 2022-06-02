@@ -17,20 +17,25 @@
         <a href="institute" class="nav-link" routerLink="institute">Applications</a>
       </li>
       <li class="nav-item" *ngIf="showAdminBoard">
-        <a href="/settings" class="nav-link" routerLink="hiProfile">Profile</a>
+        <a href="/profile" class="nav-link" routerLink="profile">Profile</a>
       </li>
       <li class="nav-item" *ngIf="showHeadBoard">
-        <a href="/settings" class="nav-link" routerLink="hiProfile">Profile</a>
+        <a href="/hiProfile" class="nav-link" routerLink="hiProfile">Profile</a>
       </li>
       <li class="nav-item" *ngIf="showHeadBoard">
         <a href="/hodApplication" class="showHeadBoard" routerLink="hodApplication">Home</a>
       </li>
       <li class="nav-item" *ngIf="showStudentBoard">
-        <a href="/profile" class="nav-link" routerLink="createApplication">Applications </a>
+        <a href="/createApplication" class="nav-link" routerLink="createApplication">Applications </a>
       </li>
       <li class="nav-item" *ngIf="showStudentBoard">
         <a href="/profile" class="nav-link" routerLink="profile">Profile</a>
       </li>
+
+      <li class="nav-item" *ngIf="showAgencyBoard">
+        <a href="/agencyProfile" class="nav-link" routerLink="agencyProfile">Profile</a>
+      </li>
+
       <li class="nav-item">
         <a href="/programs" class="showHeadBoard" routerLink="programs">Programs </a>
       </li>
