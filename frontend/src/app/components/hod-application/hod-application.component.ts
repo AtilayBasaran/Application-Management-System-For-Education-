@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UploadFilesService } from 'src/app/services/upload-file.service';
+import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
   selector: 'app-hod-application',
@@ -231,7 +232,9 @@ export class NgbdModal3Content implements OnInit {
 
 
   reject(user_id: any) {
-    this.modalService.open(NgbdModal4Content, { size: 'lg' });
+    const secondModal = this.modalService.open(NgbdModal4Content, { size: 'lg' });
+    secondModal.componentInstance.user_id = user_id;
+    secondModal.closed.subscribe(() => this.activeModal.close('true'));
 
   }
 
@@ -335,7 +338,7 @@ export class NgbdModal3Content implements OnInit {
 
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('false')">Close</button>
-  <button color="accent" class="btn btn-outline-dark" [disabled]="!rejectForm.valid" type="submit">
+  <button color="accent" class="btn btn-outline-dark" [disabled]="!rejectForm.valid" clicktype="submit">
   <span>Reject</span>
 </button>
 
@@ -347,7 +350,7 @@ export class NgbdModal4Content implements OnInit {
   @Input() user_id: any;
   @Input() file_name: string;
   rejectForm: FormGroup;
-  constructor(public activeModal: NgbActiveModal, private homePageService: HomePageService, private toastr: ToastrService) { }
+  constructor(public activeModal: NgbActiveModal, private homePageService: HomePageService, private toastr: ToastrService, private applicationService: ApplicationService) { }
   ngOnInit(): void {
     this.rejectForm = this.createFormGroup();
   }
@@ -361,11 +364,13 @@ export class NgbdModal4Content implements OnInit {
   rejectDocument(): void {
     console.log('Reject Çalıştı')
     console.log('reason = ' + this.rejectForm.value.reason)
-    this.homePageService
-      .rejectDocument(this.user_id, this.file_name, this.rejectForm.value.reason)
+    this.applicationService
+      .rejectApplication(this.user_id, this.rejectForm.value.reason)
       .subscribe(data => {
-        console.log(data);
-        this.activeModal.close('true')
+        if(data == true){
+          this.activeModal.close('true')
+        }
+        
 
 
       },

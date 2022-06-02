@@ -14,7 +14,7 @@
         <a href="/settings" class="nav-link" routerLink="settings">Home</a>
       </li>
       <li class="nav-item" *ngIf="showAdminBoard">
-        <a href="/settings" class="nav-link" routerLink="">Applications</a>
+        <a href="institute" class="nav-link" routerLink="institute">Applications</a>
       </li>
       <li class="nav-item" *ngIf="showAdminBoard">
         <a href="/settings" class="nav-link" routerLink="hiProfile">Profile</a>
@@ -23,22 +23,16 @@
         <a href="/settings" class="nav-link" routerLink="hiProfile">Profile</a>
       </li>
       <li class="nav-item" *ngIf="showHeadBoard">
-        <a href="/home" class="showHeadBoard" routerLink="">Home </a>
+        <a href="/hodApplication" class="showHeadBoard" routerLink="hodApplication">Home</a>
       </li>
       <li class="nav-item" *ngIf="showStudentBoard">
         <a href="/profile" class="nav-link" routerLink="createApplication">Applications </a>
-      </li>
-      <li class="nav-item" *ngIf="showStudentBoard">
-        <a href="/profile" class="nav-link" routerLink="programs">Programs</a>
       </li>
       <li class="nav-item" *ngIf="showStudentBoard">
         <a href="/profile" class="nav-link" routerLink="profile">Profile</a>
       </li>
       <li class="nav-item">
         <a href="/programs" class="showHeadBoard" routerLink="programs">Programs </a>
-      </li>
-      <li class="nav-item">
-        <a href="/hodApplication" class="showHeadBoard" routerLink="hodApplication">hodApplications </a>
       </li>
       <li class="nav-item">
         <a href class="nav-link" (click)="logout()">LogOut</a>

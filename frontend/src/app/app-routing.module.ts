@@ -16,6 +16,9 @@ import { NewPassComponent } from './components/new-pass/new-pass.component';
 import { CreateApplicationComponent } from './components/create-application/create-application.component';
 //import { UploadFilesComponent } from './components/upload-doc/upload-doc.component';
 import { LoginGuardGuard } from './login-guard.guard';
+import { HeadOfDeptGuard } from './head-of-dept.guard';
+import { InstituteGuard } from './institute.guard';
+import { HomePageGuard } from './home-page.guard';
 import { ProfileGuard } from './profile.guard';
 import { HiProfileComponent } from './components/hi-profile/hi-profile.component';
 import { ProgramsComponent } from './components/programs/programs.component';
@@ -23,9 +26,10 @@ import { HodApplicationComponent } from './components/hod-application/hod-applic
 
 
 const routes: Routes = [
-  { path: "", component:  HomePageComponent},
+  { path: "", component:  LoginComponent, canActivate: [HomePageGuard] },
   { path: "login", component: LoginComponent, canActivate: [LoginGuardGuard] },
   { path: "signup", component: SignupComponent, canActivate: [LoginGuardGuard] },
+  { path: "institute", component:  HomePageComponent , canActivate: [InstituteGuard]},
   { path: "successRegister", component: SuccesRegisterComponent },
   { path: "successApp", component: SuccessAppComponent },
   { path: "notFound", component: NotFoundComponent},
@@ -39,7 +43,7 @@ const routes: Routes = [
   //{ path: "uploadFile", component: UploadFilesComponent},
   { path: "hiProfile",component:HiProfileComponent},
   { path: "programs", component:ProgramsComponent},
-  { path: "hodApplication", component:HodApplicationComponent},
+  { path: "hodApplication", component:HodApplicationComponent, canActivate : [HeadOfDeptGuard]},
   { path: "**", redirectTo: "notFound" },
 ];
 

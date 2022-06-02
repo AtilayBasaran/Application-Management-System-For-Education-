@@ -53,4 +53,9 @@ export class ApplicationService {
       .post(`${this.url}/controlName`, {fileName, user_id}, this.httpOptions);
   }
 
+  rejectApplication(user_id : any, reject_reason : any) : Observable<any>{
+    return this.http
+      .post(`${this.url}/rejectApplication`, {user_id, reject_reason}, this.httpOptions);
+  }
+
 }

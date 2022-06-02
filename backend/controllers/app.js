@@ -601,3 +601,44 @@ exports.approveApplication = (req, res, next) => {
         next(err);
     }
 };
+
+exports.rejectApplication = (req, res, next) => {
+
+    try {
+        var reject_reason = req.body.reject_reason;
+        var user_id = req.body.user_id;
+        console.log(reject_reason)
+        console.log(user_id)
+
+        pool.query(
+            "SELECT id FROM applications where user_id = ?",
+            [user_id],
+            async (err, result) => {
+                var app_id = result[0].id;
+
+                db.execute(
+                    "UPDATE applications set stage = 'Rejected' where id = ?",
+                    [app_id]);
+    
+                    var dt = dateTime.create();
+                    var formatted = dt.format('Y-m-d H:M:S');
+
+                db.execute(
+                    'INSERT INTO rejected_applications (app_id, reject_reason, reject_date, is_delete) VALUES (?, ?, ?, ?)',
+                    [app_id, reject_reason, formatted, 0]
+                );
+
+                res.status(201).send('true');
+
+
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send('false');
+            return;
+        }
+        next(err);
+    }
+};

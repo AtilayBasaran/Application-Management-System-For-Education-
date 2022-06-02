@@ -62,6 +62,11 @@ router.post(
     '/approveApplication', appController.approveApplication
 );
 
+router.post(
+    '/rejectApplication', appController.rejectApplication
+);
+
+
 
 
 
