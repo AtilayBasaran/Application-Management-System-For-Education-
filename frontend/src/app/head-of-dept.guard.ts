@@ -18,12 +18,10 @@ export class HeadOfDeptGuard implements CanActivate {
       this.userRole = this.token.getUser().roles;
       console.log('bak bakalım'+ this.userRole)
       if (this.userRole == 'headOfDept') {
-        console.log('buraya girdi mi ')
         return true;
       
       } else {
-        console.log('Yoksa burada mı ? ')
-        this.router.navigate([""]);
+        this.router.navigate(["/authorized"]);
 
         return false;
       }

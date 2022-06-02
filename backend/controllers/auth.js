@@ -1,9 +1,24 @@
 const { validationResult } = require('express-validator');
 
 const bcrypt = require('bcryptjs');
+
 const jwt = require('jsonwebtoken');
 
+const config = require('../config/config.json');
+
+const db = require('../util/database');
+
 const User = require('../models/user');
+
+const mysql = require('mysql2');
+
+var dateTime = require('node-datetime');
+
+const pool = mysql.createPool({
+  host: config.host,
+  user: config.user,
+  database: config.database,
+});
 
 
 exports.signup = async (req, res, next) => {
@@ -46,6 +61,49 @@ exports.signup = async (req, res, next) => {
       }
       next(err);
     }
+  };
+
+  exports.agencySignup = async (req, res, next) => {
+
+    try {
+      console.log('agency signup')
+
+
+      pool.query( "select count(*) as count from agency where email = ?",
+      [req.body.email] ,
+          async (err, result) => {
+
+            var c = result[0].count
+            if(c != 0){
+
+              res.status(400).send({
+                message: "Email is already in use!"
+            });
+            return;
+            }else{
+              const hashedPassword = await bcrypt.hash(req.body.password, 12);
+              var dt = dateTime.create();
+              var formatted = dt.format('Y-m-d H:M:S');
+
+              db.execute(
+                'INSERT INTO agency (company_name, email, password ,register_date, is_delete) VALUES (?, ?, ?, ?, ?)',
+                [req.body.company_name, req.body.email, hashedPassword, formatted ,0]
+            );
+            res.status(201).send({ message: 'User registered!' });
+            }
+          },
+      );
+      return;
+  } catch (err) {
+      if (!err.statusCode) {
+          res.status(400).send({
+              message: "Agency register process failed"
+          });
+          return;
+      }
+      next(err);
+    }
+
   };
 
   exports.login = async (req, res, next) => {

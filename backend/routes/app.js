@@ -66,6 +66,10 @@ router.post(
     '/rejectApplication', appController.rejectApplication
 );
 
+router.post(
+    '/isCreateApplication', appController.isCreateApplication
+);
+
 
 
 

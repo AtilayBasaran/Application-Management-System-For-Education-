@@ -14,7 +14,7 @@ export class ProfileGuard implements CanActivate {
       if (this.tokenStorage.getToken()) {
         return true;
       } else {
-        this.router.navigate([""]);
+        this.router.navigate(["/authorized"]);
         return false;
       }
   }

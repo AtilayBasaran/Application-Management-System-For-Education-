@@ -145,36 +145,36 @@ exports.createMainApp = async (req, res, next) => {
     var degreeType = req.body.degreeType;
 
     try {
-    pool.query(
-        "SELECT department FROM programs where name = ?",
-        [program_type],
-        async (err, result) => {
-            var dept_name = result[0].department
+        pool.query(
+            "SELECT department FROM programs where name = ?",
+            [program_type],
+            async (err, result) => {
+                var dept_name = result[0].department
 
-    var dt = dateTime.create();
-    var formatted = dt.format('Y-m-d H:M:S');
-    
-    register_date = formatted;
-    agency_email = '';
-    stage = 'controlling';
-    is_delete = false;
-    interview_req = 'false';
+                var dt = dateTime.create();
+                var formatted = dt.format('Y-m-d H:M:S');
 
-        pool.query('INSERT INTO applications (user_id, dept_name, register_date, agency_mail, stage, is_delete, interview_req, degree, program) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [user_id, dept_name, register_date, agency_email, stage, is_delete, interview_req, degreeType, program_type],
-            function (err, rows) {
-                if (err) throw err;
+                register_date = formatted;
+                agency_email = '';
+                stage = 'controlling';
+                is_delete = false;
+                interview_req = 'false';
+
+                pool.query('INSERT INTO applications (user_id, dept_name, register_date, agency_mail, stage, is_delete, interview_req, degree, program) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    [user_id, dept_name, register_date, agency_email, stage, is_delete, interview_req, degreeType, program_type],
+                    function (err, rows) {
+                        if (err) throw err;
 
 
-                console.log(user_id);
-                console.log(dept_name);
-                console.log(register_date);
-                console.log(agency_email);
-                console.log(stage);
-                console.log(is_delete);
-                console.log(interview_req);
-            });
-        },
+                        console.log(user_id);
+                        console.log(dept_name);
+                        console.log(register_date);
+                        console.log(agency_email);
+                        console.log(stage);
+                        console.log(is_delete);
+                        console.log(interview_req);
+                    });
+            },
         );
     } catch (err) {
         console.log(err);
@@ -578,9 +578,9 @@ exports.approveApplication = (req, res, next) => {
                 db.execute(
                     "UPDATE applications set stage = 'Approved' where id = ?",
                     [app_id]);
-    
-                    var dt = dateTime.create();
-                    var formatted = dt.format('Y-m-d H:M:S');
+
+                var dt = dateTime.create();
+                var formatted = dt.format('Y-m-d H:M:S');
 
                 db.execute(
                     'INSERT INTO approved_applications (app_id, scholarship, approve_date, is_delete) VALUES (?, ?, ?, ?)',
@@ -619,9 +619,9 @@ exports.rejectApplication = (req, res, next) => {
                 db.execute(
                     "UPDATE applications set stage = 'Rejected' where id = ?",
                     [app_id]);
-    
-                    var dt = dateTime.create();
-                    var formatted = dt.format('Y-m-d H:M:S');
+
+                var dt = dateTime.create();
+                var formatted = dt.format('Y-m-d H:M:S');
 
                 db.execute(
                     'INSERT INTO rejected_applications (app_id, reject_reason, reject_date, is_delete) VALUES (?, ?, ?, ?)',
@@ -631,6 +631,33 @@ exports.rejectApplication = (req, res, next) => {
                 res.status(201).send('true');
 
 
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send('false');
+            return;
+        }
+        next(err);
+    }
+};
+
+exports.isCreateApplication = (req, res, next) => {
+
+    try {
+        var user_id = req.body.user_id;
+
+        pool.query(
+            "SELECT count(id) as count FROM applications where user_id = ?",
+            [user_id],
+            async (err, result) => {
+
+                if (result[0].count != 0) {
+                    res.status(201).send('true');
+                }else{
+                    res.status(201).send('false');
+                }
             },
         );
         return;

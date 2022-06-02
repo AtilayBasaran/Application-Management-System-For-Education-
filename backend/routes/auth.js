@@ -31,6 +31,10 @@ router.post(
 );
 
 router.post(
+  '/agencySignup', authController.agencySignup
+);
+
+router.post(
   '/login', authController.login
 );
 

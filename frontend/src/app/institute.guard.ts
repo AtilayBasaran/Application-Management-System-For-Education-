@@ -25,6 +25,7 @@ export class InstituteGuard implements CanActivate {
       }
 
     } else {
+      this.router.navigate(["/authorized"]);
       return false;
     }
   }

@@ -10,6 +10,7 @@ import { AuthService } from "src/app/services/auth.service";
 })
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
+  agencySignupForm!: FormGroup;
   formBuilder: FormBuilder;
   isSuccessful = false;
   isSignUpFailed = false;
@@ -19,24 +20,13 @@ export class SignupComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.signupForm = this.createFormGroup();
+    this.signupForm = this.createStudentFormGroup();
+    this.agencySignupForm = this.createAgencyFormGroup();
   }
 
-  onSubmit(): void {
-    this.authService.signup(this.signupForm.value).subscribe(
-      data => {
-        console.log(data);
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-      },
-      err => {
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
-      }
-    );
-  }
 
-  createFormGroup(): FormGroup {
+
+  createStudentFormGroup(): FormGroup {
     return new FormGroup({
       firstname: new FormControl("", [Validators.required, Validators.minLength(3)]),
       lastname: new FormControl("", [Validators.required, Validators.minLength(3)]),
@@ -54,9 +44,46 @@ export class SignupComponent implements OnInit {
     },
     );
   }
+
+  createAgencyFormGroup(): FormGroup {
+    return new FormGroup({
+      company_name: new FormControl("", [Validators.required, Validators.minLength(3)]),
+      email: new FormControl("", [Validators.required, Validators.email]),
+      password: new FormControl("", [
+        Validators.required,
+        Validators.minLength(7),
+        matchValidator('confirmPassword', true)
+      ]),
+      confirmPassword: new FormControl("", [
+        Validators.required,
+        Validators.minLength(7),
+        matchValidator('password'),
+      ]),
+    },
+    );
+  }
+
+
   signup(): void {
     this.authService
     .signup(this.signupForm.value)
+    .subscribe(
+      data => {
+        console.log(data);
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+        this.router.navigate(["login"]);
+      },
+      err => {
+        this.errorMessage = err.error.message;
+        this.isSignUpFailed = true;
+      }
+    );
+  }
+
+  agencySignup(): void {
+    this.authService
+    .agencysignup(this.agencySignupForm.value)
     .subscribe(
       data => {
         console.log(data);

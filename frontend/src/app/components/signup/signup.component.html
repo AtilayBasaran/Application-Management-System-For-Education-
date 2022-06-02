@@ -1,7 +1,7 @@
 <mat-tab-group mat-align-tabs="center">
   <mat-tab label="For Student">
 <div class="container">
-<form *ngIf="!isSuccessful" [formGroup]="signupForm" (ngSubmit)="signup()" novalidate>
+<form *ngIf="!isSuccessful" [formGroup]="signupForm"  novalidate>
 
     <mat-form-field>
       <mat-label>Name</mat-label>
@@ -48,6 +48,7 @@
       [disabled]="!signupForm.valid"
       mat-raised-button
       type="submit"
+      (click) = "signup()"
     >
       <span>Register</span>
     </button>
@@ -61,27 +62,21 @@
   </div>
 </div>
 </mat-tab>
-<!-- 
+
 <mat-tab label="For Agency">
   <div class="container">
-  <form *ngIf="!isSuccessful" [formGroup]="signupForm" (ngSubmit)="signup()" novalidate>
+  <form *ngIf="!isSuccessful" [formGroup]="agencySignupForm" novalidate>
   
       <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput placeholder="Ex. Salih" formControlName="firstname" />
-        <mat-error  *ngIf="!signupForm.get('firstname')?.errors?.required">Firstname is Required</mat-error>
-      </mat-form-field>
-  
-      <mat-form-field>
-        <mat-label>Surname</mat-label>
-        <input matInput placeholder="Ex. Coşkun" formControlName="lastname" />
-        <mat-error  *ngIf="!signupForm.get('lastname')?.errors?.required">Surname is Required</mat-error>
+        <mat-label>Company Name</mat-label>
+        <input matInput placeholder="Ex. Turkcell A.Ş" formControlName="company_name" />
+        <mat-error  *ngIf="!agencySignupForm.get('firstname')?.errors?.required">Firstname is Required</mat-error>
       </mat-form-field>
   
       <mat-form-field>
         <mat-label>Email</mat-label>
-        <input matInput placeholder="Ex. salih.coskun@isik.edu.tr" formControlName="email" />
-        <mat-error  *ngIf="!signupForm.get('email')?.errors?.required">Enter a valid e-mail</mat-error>
+        <input matInput placeholder="Ex. company@isik.edu.tr" formControlName="email" />
+        <mat-error  *ngIf="!agencySignupForm.get('email')?.errors?.required">Enter a valid e-mail</mat-error>
       </mat-form-field>
   
       <mat-form-field>
@@ -92,7 +87,7 @@
           placeholder="*******"
           formControlName="password"
         />
-        <mat-error  *ngIf="!signupForm.get('password')?.errors?.minLength">Password length must be bigger than 7</mat-error>
+        <mat-error  *ngIf="!agencySignupForm.get('password')?.errors?.minLength">Password length must be bigger than 7</mat-error>
       </mat-form-field>
   
       <mat-form-field>
@@ -103,14 +98,15 @@
           placeholder="*******"
           formControlName="confirmPassword"
         />
-        <mat-error  *ngIf="!signupForm.get('confirmPassword')?.errors?.matchValidator">Passwords do not match </mat-error>
+        <mat-error  *ngIf="!agencySignupForm.get('confirmPassword')?.errors?.matchValidator">Passwords do not match </mat-error>
       </mat-form-field>
       <div class="sign">
       <button
         color="accent"
-        [disabled]="!signupForm.valid"
+        [disabled]="!agencySignupForm.valid"
         mat-raised-button
         type="submit"
+        (click) = "agencySignup()"
       >
         <span>Register</span>
       </button>
@@ -123,5 +119,5 @@
       Your registration is successful!
     </div>
   </div>
-  </mat-tab> -->
+  </mat-tab> 
 </mat-tab-group>

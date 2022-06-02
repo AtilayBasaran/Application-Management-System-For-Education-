@@ -26,7 +26,6 @@ export class HomePageGuard implements CanActivate {
         return false;
       }
       
-
       return false;
     } else {
       this.router.navigate(["/login"]);
