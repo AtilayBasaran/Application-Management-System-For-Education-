@@ -23,6 +23,7 @@ import { ProfileGuard } from './profile.guard';
 import { HiProfileComponent } from './components/hi-profile/hi-profile.component';
 import { ProgramsComponent } from './components/programs/programs.component';
 import { HodApplicationComponent } from './components/hod-application/hod-application.component';
+import { AuthorizedComponent } from './components/authorized/authorized.component';
 
 
 const routes: Routes = [
@@ -43,6 +44,7 @@ const routes: Routes = [
   { path: "hiProfile",component:HiProfileComponent, canActivate : [HeadOfDeptGuard]},
   { path: "programs", component:ProgramsComponent},
   { path: "hodApplication", component:HodApplicationComponent, canActivate : [HeadOfDeptGuard]},
+  { path: "authorized", component:AuthorizedComponent},
   { path: "**", redirectTo: "notFound" },
 ];
 
