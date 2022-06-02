@@ -22,9 +22,14 @@ import { ApplicationService } from 'src/app/services/application.service';
   styleUrls: ['./hod-application.component.scss']
 })
 export class HodApplicationComponent implements OnInit {
+  
+  httpOptions: { headers: HttpHeaders } = {
+    headers: new HttpHeaders({ "Content-Type": "application/json" }),
+  };
   columnsToDisplay: string[] = ['name', 'register_date', 'program', 'email', 'agency_mail', 'stage', 'actions'];
   userInfos: any;
-  applicationInfos: any;
+  turkishApplicationInfos: any;
+  internationalApplicationInfos: any;
   dataSource: MatTableDataSource<any>;
   dataSource2: MatTableDataSource<any>;
   modalsNumber = 0;
@@ -40,7 +45,8 @@ export class HodApplicationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.applicationInfos = this.getApplicationInfos();
+    this.turkishApplicationInfos = this.getTurkishApplicationInfos();
+    this.internationalApplicationInfos = this.getInternationalApplicationInfos();
   }
 
   announceSortChange(sortState: Sort) {
@@ -67,20 +73,33 @@ export class HodApplicationComponent implements OnInit {
   }
 
 
-  getApplicationInfos() {
-    this.http.get('http://localhost:3000/home/getApplicationInfo').subscribe(data => {
-      this.applicationInfos = data;
-      this.dataSource = new MatTableDataSource(this.applicationInfos);
+  getTurkishApplicationInfos() {
+    var user_id = this.token.getUser().id;
+    this.http.post('http://localhost:3000/home/postTurkishApplicationInfo',{user_id}, this.httpOptions).subscribe(data => {
+
+      this.turkishApplicationInfos = data;
+      this.dataSource = new MatTableDataSource(this.turkishApplicationInfos);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.dataSource2 = new MatTableDataSource(this.applicationInfos);
-      this.dataSource2.paginator = this.paginator2;
-      this.dataSource2.sort = this.sort2;
-      console.log(data)
+
+
+      
 
       console.log('Application infos')
 
     });
+  }
+
+getInternationalApplicationInfos() {
+  var user_id = this.token.getUser().id;
+    this.http.post('http://localhost:3000/home/postInternationalApplicationInfo',{user_id}, this.httpOptions).subscribe(data => {
+      this.internationalApplicationInfos = data;
+      this.dataSource2 = new MatTableDataSource(this.internationalApplicationInfos);
+      this.dataSource2.paginator = this.paginator2;
+      this.dataSource2.sort = this.sort2;
+      console.log(data)
+  });
+      
   }
 
 }

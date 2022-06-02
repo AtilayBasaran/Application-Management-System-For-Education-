@@ -27,7 +27,8 @@ import { UploadFilesService } from 'src/app/services/upload-file.service';
 export class HomePageComponent implements OnInit {
   columnsToDisplay: string[] = ['name', 'register_date', 'program', 'email', 'agency_mail', 'stage', 'actions'];
   userInfos: any;
-  applicationInfos: any;
+  turkishApplicationInfos: any;
+  internationalApplicationInfos: any;
   dataSource: MatTableDataSource<any>;
   dataSource2: MatTableDataSource<any>;
   modalsNumber = 0;
@@ -42,7 +43,8 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.applicationInfos = this.getApplicationInfos();
+    this.turkishApplicationInfos = this.getTurkishApplicationInfos();
+    this.internationalApplicationInfos = this.getInternationalApplicationInfos();
   }
 
 
@@ -68,21 +70,32 @@ export class HomePageComponent implements OnInit {
 
   }
 
-  getApplicationInfos() {
-    this.http.get('http://localhost:3000/home/getApplicationInfo').subscribe(data => {
-      this.applicationInfos = data;
-      this.dataSource = new MatTableDataSource(this.applicationInfos);
+  getTurkishApplicationInfos() {
+    this.http.get('http://localhost:3000/home/getTurkishApplicationInfo').subscribe(data => {
+      this.turkishApplicationInfos = data;
+      this.dataSource = new MatTableDataSource(this.turkishApplicationInfos);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.dataSource2 = new MatTableDataSource(this.applicationInfos);
-      this.dataSource2.paginator = this.paginator2;
-      this.dataSource2.sort = this.sort2;
-      console.log(data)
+
+
+      
 
       console.log('Application infos')
 
     });
   }
+
+getInternationalApplicationInfos() {
+    this.http.get('http://localhost:3000/home/getInternationalApplicationInfo').subscribe(data => {
+      this.internationalApplicationInfos = data;
+      this.dataSource2 = new MatTableDataSource(this.internationalApplicationInfos);
+      this.dataSource2.paginator = this.paginator2;
+      this.dataSource2.sort = this.sort2;
+      console.log(data)
+  });
+      
+  }
+
 
 }
 

@@ -10,6 +10,20 @@ router.get(
     '/getApplicationInfo', homeController.getApplicationInfo
 );
 
+router.get(
+    '/getTurkishApplicationInfo', homeController.getTurkishApplicationInfo
+);
+router.get(
+    '/getInternationalApplicationInfo', homeController.getInternationalApplicationInfo
+);
+
+router.post(
+    '/postTurkishApplicationInfo', homeController.postTurkishApplicationInfo
+);
+router.post(
+    '/postInternationalApplicationInfo', homeController.postInternationalApplicationInfo
+);
+
 router.post(
     '/acceptDocument', homeController.acceptDocument
 );

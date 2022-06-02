@@ -14,11 +14,11 @@ import { AgencyProfileComponent } from './components/agency-profile/agency-profi
 import { ForgetPassComponent } from './components/forget-pass/forget-pass.component';
 import { NewPassComponent } from './components/new-pass/new-pass.component';
 import { CreateApplicationComponent } from './components/create-application/create-application.component';
-//import { UploadFilesComponent } from './components/upload-doc/upload-doc.component';
 import { LoginGuardGuard } from './login-guard.guard';
 import { HeadOfDeptGuard } from './head-of-dept.guard';
 import { InstituteGuard } from './institute.guard';
 import { HomePageGuard } from './home-page.guard';
+import { ApplicationGuard } from './application.guard';
 import { ProfileGuard } from './profile.guard';
 import { HiProfileComponent } from './components/hi-profile/hi-profile.component';
 import { ProgramsComponent } from './components/programs/programs.component';
@@ -35,13 +35,12 @@ const routes: Routes = [
   { path: "notFound", component: NotFoundComponent},
   { path: "profile", component: ProfileComponent, canActivate: [ProfileGuard]},
   { path: "applicationPage", component: RequestPageComponent},
-  { path: "settings", component: SettingsComponent},
+  { path: "settings", component: SettingsComponent, canActivate: [InstituteGuard]},
   { path: "agencyProfile", component: AgencyProfileComponent},
-  { path: "createApplication", component: CreateApplicationComponent},
+  { path: "createApplication", component: CreateApplicationComponent, canActivate: [ApplicationGuard]},
   { path: "forgetPass", component: ForgetPassComponent},
   { path: "newPass/:email", component: NewPassComponent},
-  //{ path: "uploadFile", component: UploadFilesComponent},
-  { path: "hiProfile",component:HiProfileComponent},
+  { path: "hiProfile",component:HiProfileComponent, canActivate : [HeadOfDeptGuard]},
   { path: "programs", component:ProgramsComponent},
   { path: "hodApplication", component:HodApplicationComponent, canActivate : [HeadOfDeptGuard]},
   { path: "**", redirectTo: "notFound" },

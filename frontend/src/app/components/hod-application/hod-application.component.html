@@ -1,5 +1,5 @@
 <mat-tab-group>
-    <mat-tab label="International Application">
+    <mat-tab label="Turkish Applications">
         <mat-form-field appearance="standard">
             <mat-label>Filter</mat-label>
             <input matInput (keyup)="applyFilter($event)" placeholder="Filter" #input>
@@ -54,7 +54,7 @@
         </table>
         <mat-paginator #MatPaginator1 [pageSizeOptions]="[5, 15, 25]"></mat-paginator>
     </mat-tab>
-    <mat-tab label="Turkish Application">
+    <mat-tab label="International Applications">
         <mat-form-field appearance="standard">
             <mat-label>Filter</mat-label>
             <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
@@ -100,7 +100,7 @@
             <!-- actions Column -->
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Evaluate </th>
-                <td mat-cell *matCellDef="let element"> {{element.user_id}} </td>
+                <td mat-cell *matCellDef="let element"> <button [disabled]="element.stage != 'HeadOfDept'" mat-flat-button color="primary" (click) = "open(element.user_id)">Control</button>  </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
