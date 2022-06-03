@@ -7,7 +7,7 @@ import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { SettingService } from 'src/app/services/setting.service';
 import { FormControl, FormGroup, Validators, FormBuilder, AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 import { Data, Router } from '@angular/router';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AuthService } from "src/app/services/auth.service";
 import { ToastrService } from 'ngx-toastr';
 import { PasswordChangeService } from '../../services/password-change.service';
@@ -34,7 +34,11 @@ export class AgencyProfileComponent implements OnInit {
   isChangePassFailed = false;
   currentUser: any;
 
-  constructor(private authService: AuthService,private passwordService : PasswordChangeService,private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {}
+  httpOptions: { headers: HttpHeaders } = {
+    headers: new HttpHeaders({ "Content-Type": "application/json" }),
+  };
+
+  constructor(private authService: AuthService,private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {}
 
   @ViewChild('matsort1', {static: true}) sort: MatSort;
   @ViewChild('MatPaginator1', {static: true}) paginator: MatPaginator; 
@@ -42,7 +46,7 @@ export class AgencyProfileComponent implements OnInit {
   @ViewChild('MatPaginator2', {static: true}) paginator2: MatPaginator; 
 
   ngOnInit(): void {
-    this.userInfos = this.getUserInfos();
+    this.userInfos = this.agencyUserDetails();
     this.applicationInfos = this.getApplicationInfos();
     this.signupForm = this.createFormGroup();
     this.currentUser = this.token.getUser();
@@ -87,32 +91,9 @@ export class AgencyProfileComponent implements OnInit {
     );
   }
 
-  changePassword(): void {
-    const email = this.currentUser.email;
-    console.log(this.changePassForm.value.password);
-    console.log(email)
-    this.passwordService
-      .changePassword(email, this.changePassForm.value.password, this.changePassForm.value.passwordConfirm)
-      .subscribe(
-        data => {
-          console.log(data);
-          this.isChangePassFailed = false;
-          this.router.navigate(['successRegister'])
-          .then(() => {
-          window.location.reload();
-        });
-        },
-        err => {
-          this.errorMessage = err.error.message;
-          this.isChangePassFailed = true;
-        });
-  }
-  reloadPage(): void {
-    window.location.reload();
-  }
-
-  getUserInfos() {
-    this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
+  agencyUserDetails() {
+    var agency_email = this.token.getUser().email;
+    this.http.post('http://localhost:3000/settings/agencyUserDetails', {agency_email}, this.httpOptions).subscribe(data => {
       this.userInfos = data;
       this.dataSource = new MatTableDataSource(this.userInfos);
       this.dataSource.paginator = this.paginator;

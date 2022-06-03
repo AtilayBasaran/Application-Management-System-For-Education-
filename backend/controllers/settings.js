@@ -236,3 +236,41 @@ exports.changeCourseName = async (req, res, next) => {
     }
 
 };
+
+exports.agencyUserDetails = async (req, res, next) => {
+    
+    try {
+        var agency_email = req.body.agency_email;
+        const userInfos = [];
+        pool.query(
+            "SELECT * FROM users where is_delete = 0 and agency_email = ?",
+            [agency_email],
+            async (err, result) => {
+                
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        id: result[i].id,
+                        firstname: result[i].firstname,
+                        lastname: result[i].lastname,
+                        email: result[i].email,
+                        role: result[i].role,
+                    };
+                    userInfos.push(a);
+                }
+
+            console.log(userInfos),
+            res.status(201).send(userInfos)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Course Insertion Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};

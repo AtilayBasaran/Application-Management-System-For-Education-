@@ -38,6 +38,7 @@ const routes: Routes = [
   { path: "settings", component: SettingsComponent, canActivate: [InstituteGuard]},
   { path: "agencyProfile", component: AgencyProfileComponent, canActivate: [AgencyGuard]},
   { path: "createApplication", component: CreateApplicationComponent, canActivate: [ApplicationGuard]},
+  { path: "createApplication/:id", component: CreateApplicationComponent},
   { path: "forgetPass", component: ForgetPassComponent},
   { path: "newPass/:email", component: NewPassComponent},
   { path: "hiProfile",component:HiProfileComponent, canActivate : [HeadOfDeptGuard]},

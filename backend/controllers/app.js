@@ -155,10 +155,15 @@ exports.createMainApp = async (req, res, next) => {
                 var formatted = dt.format('Y-m-d H:M:S');
 
                 register_date = formatted;
-                agency_email = '';
                 stage = 'controlling';
                 is_delete = false;
                 interview_req = 'false';
+
+                pool.query(
+                    "SELECT agency_email FROM users where id = ?",
+                    [user_id],
+                    async (err, result) => {
+                        var agency_email = result[0].agency_email
 
                 pool.query('INSERT INTO applications (user_id, dept_name, register_date, agency_mail, stage, is_delete, interview_req, degree, program) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
                     [user_id, dept_name, register_date, agency_email, stage, is_delete, interview_req, degreeType, program_type],
@@ -174,6 +179,8 @@ exports.createMainApp = async (req, res, next) => {
                         console.log(is_delete);
                         console.log(interview_req);
                     });
+                },
+                );
             },
         );
     } catch (err) {

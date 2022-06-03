@@ -24,6 +24,9 @@ export class HomePageGuard implements CanActivate {
       }else if (this.tokenStorage.getUser().roles == 'institute'){
         this.router.navigate(["/institute"]);
         return false;
+      }else if (this.tokenStorage.getUser().roles == 'agency'){
+        this.router.navigate(["/agencyProfile"]);
+        return false;
       }
       
       return false;

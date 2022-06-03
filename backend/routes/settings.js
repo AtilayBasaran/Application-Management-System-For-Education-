@@ -43,4 +43,9 @@ router.get(
     '/updateHeadOfDept/:userid', settingsController.updateHeadOfDept
 );
 
+router.post(
+    '/agencyUserDetails', settingsController.agencyUserDetails
+);
+
+
 module.exports = router;

@@ -8,20 +8,19 @@ import { TokenStorageService } from './token-storage.service';
 export class UploadFilesService {
   private baseUrl = 'http://localhost:3000';
   constructor(private token: TokenStorageService ,private http: HttpClient) { }
-  upload(file: File , documentTitle : string): Observable<HttpEvent<any>> {
+
+
+  upload(file: File , documentTitle : string, id : any): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
     formData.append('documentTitle', documentTitle)
-    const currentUser = this.token.getUser();
     formData.append('file', file);
-    const req = new HttpRequest('POST', `${this.baseUrl}/upload/${currentUser.id}`, formData, {
+    const req = new HttpRequest('POST', `${this.baseUrl}/upload/${id}`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
     return this.http.request(req);
   }
-  getFiles(): any {
-    const currentUser = this.token.getUser();
-    const id = currentUser.id;
+  getFiles(id :any): any {
     return this.http.post(`${this.baseUrl}/files`, {id});
   }
 
@@ -29,9 +28,8 @@ export class UploadFilesService {
     return this.http.post(`${this.baseUrl}/files/getUniqueUserFiles`, {user_id});
   }
 
-  deleteFiles(document_url: String, file_name : any): Observable<any> {
-    const currentUser = this.token.getUser();
-    const id = currentUser.id;
+  deleteFiles(document_url: String, id : any, file_name : any): Observable<any> {
+
     return this.http.post(`${this.baseUrl}/files/delete`, {document_url, id, file_name});
   }
 }

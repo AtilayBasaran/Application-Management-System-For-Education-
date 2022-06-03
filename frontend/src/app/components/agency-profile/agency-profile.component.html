@@ -10,7 +10,7 @@
             <h1>Agency Email:</h1>
             <h1>{{currentUser.email}}</h1>
         </div>
-        <form class="form-table" [formGroup]="changePassForm" (ngSubmit)="changePassword()" novalidate>
+        <form class="form-table" [formGroup]="changePassForm"  novalidate>
             <mat-form-field>
                 <mat-label>Password</mat-label>
                 <input id="password" name="password" matInput type="password" formControlName="password" />
@@ -114,8 +114,8 @@
             <!-- actions Column -->
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Evaluate </th>
-                <td mat-cell *matCellDef="let element"> <a href="/createApplication">
-                        <button mat-flat-button color="primary">{{element.id}}</button></a> </td>
+                <td mat-cell *matCellDef="let element"> <a href="/createApplication/{{element.id}}">
+                    <button mat-flat-button color="primary">Control</button></a> </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
