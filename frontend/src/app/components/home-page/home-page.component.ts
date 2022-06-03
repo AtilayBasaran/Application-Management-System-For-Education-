@@ -1,21 +1,15 @@
 import { Component, ViewChild, AfterViewInit, OnInit, Input } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser'
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { SettingService } from 'src/app/services/setting.service';
 import { HomePageService } from 'src/app/services/home-page.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Data, Router } from '@angular/router';
-import { User } from 'src/app/models/User';
-import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable, subscribeOn } from "rxjs";
 import { ToastrService } from 'ngx-toastr';
-import { MatDialog } from '@angular/material/dialog';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UploadFilesService } from 'src/app/services/upload-file.service';
 

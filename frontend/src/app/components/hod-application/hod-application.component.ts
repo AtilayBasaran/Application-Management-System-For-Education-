@@ -3,7 +3,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { SettingService } from 'src/app/services/setting.service';
 import { HomePageService } from 'src/app/services/home-page.service';
@@ -11,7 +10,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Data, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { ToastrService } from 'ngx-toastr';
-import { MatDialog } from '@angular/material/dialog';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UploadFilesService } from 'src/app/services/upload-file.service';
 import { ApplicationService } from 'src/app/services/application.service';

@@ -7,7 +7,6 @@ import { SuccesRegisterComponent } from './components/succes-register/succes-reg
 import { SuccessAppComponent } from './components/success-app/success-app.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
-import { RequestPageComponent } from './components/request-page/request-page.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AgencyProfileComponent } from './components/agency-profile/agency-profile.component';
@@ -24,6 +23,7 @@ import { HiProfileComponent } from './components/hi-profile/hi-profile.component
 import { ProgramsComponent } from './components/programs/programs.component';
 import { HodApplicationComponent } from './components/hod-application/hod-application.component';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
+import { AgencyGuard } from './agency.guard';
 
 
 const routes: Routes = [
@@ -35,9 +35,8 @@ const routes: Routes = [
   { path: "successApp", component: SuccessAppComponent },
   { path: "notFound", component: NotFoundComponent},
   { path: "profile", component: ProfileComponent, canActivate: [ProfileGuard]},
-  { path: "applicationPage", component: RequestPageComponent},
   { path: "settings", component: SettingsComponent, canActivate: [InstituteGuard]},
-  { path: "agencyProfile", component: AgencyProfileComponent},
+  { path: "agencyProfile", component: AgencyProfileComponent, canActivate: [AgencyGuard]},
   { path: "createApplication", component: CreateApplicationComponent, canActivate: [ApplicationGuard]},
   { path: "forgetPass", component: ForgetPassComponent},
   { path: "newPass/:email", component: NewPassComponent},

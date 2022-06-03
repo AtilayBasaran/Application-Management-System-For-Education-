@@ -1,23 +1,38 @@
 .title {
-    font-size: 3rem;
+    font-size: 4rem;
     font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
+    padding-bottom: 15px;
+    margin-left: 11.5rem;
+}
+
+.stat {
+    font-size: 2rem;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-bottom: 20px;
 }
 
 .profile {
     display: flex;
     height: 500px;
-    width: 75%;
-    margin: 2px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: peru;
+    margin-left: 8rem;
+    margin-right: -8rem;
+    position: relative;
+    border: 5px solid #fbb400;
+    border-radius: 1.5rem;
+    box-shadow: 5px 15px #fbb400;
+    margin-bottom: 3rem;
+}
+
+.form-table{
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
 }
 
 .information {
     display: inline-block;
     height: 250px;
-    width: 250px;
+    width: 750px;
     margin: 50px;
 }
 
@@ -51,10 +66,11 @@ table {
 }
 
 .container {
-    max-width: 25%;
+    max-width: 40%;
     margin: auto;
     display: flex;
     flex-direction: column;
+    margin-right: 3rem;
 }
 
 .sign {

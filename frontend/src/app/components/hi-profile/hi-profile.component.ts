@@ -1,45 +1,76 @@
-import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { SettingService } from 'src/app/services/setting.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Data, Router } from '@angular/router';
-import { User } from 'src/app/models/User';
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable, subscribeOn } from "rxjs";
+import { Router } from '@angular/router';
+import { HttpClient } from "@angular/common/http";
 import { ToastrService } from 'ngx-toastr';
+import { PasswordChangeService } from '../../services/password-change.service';
+import { FormControl, FormGroup, Validators, FormBuilder, AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
 @Component({
   selector: 'app-hi-profile',
   templateUrl: './hi-profile.component.html',
   styleUrls: ['./hi-profile.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
 })
 export class HiProfileComponent implements OnInit {
   columnsToDisplay : string[] = ['id','firstname','lastname','email','role'];
   userInfos: any;
   dataSource: MatTableDataSource<any>;
+  isChangePassFailed = false;
+  currentUser: any;
+  changePassForm: FormGroup;
+  errorMessage = '' ; 
 
-  constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {}//buraya daha sonra database gelecek
+  constructor(private token: TokenStorageService,private passwordService : PasswordChangeService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {}//buraya daha sonra database gelecek
 
   @ViewChild('MatPaginator1', {static: true}) paginator: MatPaginator; 
   @ViewChild('matsort1', {static: true}) sort: MatSort;
 
   ngOnInit(): void {
     this.userInfos = this.getUserInfos();
+    this.currentUser = this.token.getUser();
+    this.changePassForm = this.createFormGroup();
+    console.log(this.currentUser)
+  }
+
+  createFormGroup(): FormGroup {
+    return new FormGroup({
+      password: new FormControl("", [Validators.required, Validators.minLength(7), matchValidator('passwordConfirm', true)]),
+      passwordConfirm: new FormControl("", [
+        Validators.required,
+        Validators.minLength(7),
+        matchValidator('password'),
+      ]),
+    });
   }
   
+  changePassword(): void {
+    const email = this.currentUser.email;
+    console.log(this.changePassForm.value.password);
+    console.log(email)
+    this.passwordService
+      .changePassword(email, this.changePassForm.value.password, this.changePassForm.value.passwordConfirm)
+      .subscribe(
+        data => {
+          console.log(data);
+          this.isChangePassFailed = false;
+          this.router.navigate(['successRegister'])
+          .then(() => {
+          window.location.reload();
+        });
+        },
+        err => {
+          this.errorMessage = err.error.message;
+          this.isChangePassFailed = true;
+        });
+  }
+  reloadPage(): void {
+    window.location.reload();
+  }
 
   getUserInfos() {
     this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
@@ -66,4 +97,25 @@ export class HiProfileComponent implements OnInit {
     }
   }
 
+}
+export function matchValidator(
+  matchTo: string, 
+  reverse?: boolean
+): ValidatorFn {
+  return (control: AbstractControl): 
+  ValidationErrors | null => {
+    if (control.parent && reverse) {
+      const c = (control.parent?.controls as any)[matchTo] as AbstractControl;
+      if (c) {
+        c.updateValueAndValidity();
+      }
+      return null;
+    }
+    return !!control.parent &&
+      !!control.parent.value &&
+      control.value === 
+      (control.parent?.controls as any)[matchTo].value
+      ? null
+      : { matching: true };
+  };
 }

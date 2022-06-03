@@ -33,7 +33,6 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SuccessAppComponent } from './components/success-app/success-app.component';
 import { SuccesRegisterComponent } from './components/succes-register/succes-register.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
-import { RequestPageComponent } from './components/request-page/request-page.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AgencyProfileComponent } from './components/agency-profile/agency-profile.component';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
@@ -67,7 +66,6 @@ import { AuthorizedComponent } from './components/authorized/authorized.componen
     SuccessAppComponent,
     SuccesRegisterComponent,
     HomePageComponent,
-    RequestPageComponent,
     SettingsComponent,
     AgencyProfileComponent,
     ForgetPassComponent,

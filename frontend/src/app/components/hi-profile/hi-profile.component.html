@@ -1,63 +1,75 @@
-    <h1 class="title">Profile</h1>
-    <div class="profile">
-        <div class="information">
-            <div class="Agencyname">
-                <h1>Name:</h1>
-                <h1>Salih Coşkun</h1>
-            </div>
-            <div class="Agencyemail">
-                <h1>Email:</h1>
-                <h1>coskun@gmail.com</h1>
-            </div>
-            <form>
-                <div class="changePass">
-                    <h1>Change Password</h1>
-                    <input style="width: 10rem;" type="password">
-                    <h1>Confirm Password</h1>
-                    <input style="width: 10rem;" type="password">
-                    <div class="changeButton">
-                        <button class="changeButton1">Change</button>
-                    </div>
-                </div>
-            </form>
+<h1 class="title">Profile</h1>
+<div class="profile">
+    <div class="information">
+        <h1 class="stat">User Information</h1>
+        <div class="name">
+            <h1>Name:</h1>
+            <h1>{{currentUser.firstname}} {{currentUser.lastname}}</h1>
         </div>
-    </div>
-    <mat-tab-group>
-        <mat-tab label="Applications">
-            <mat-form-field appearance="standard">
-                <mat-label>Filter</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Filter" #input>
+        <div class="email">
+            <h1>Email:</h1>
+            <h1>{{currentUser.email}}</h1>
+        </div>
+        <div class="degree">
+            <h1>Degree:</h1>
+            <h1>{{currentUser.roles}}</h1>
+        </div>
+        <form class="form-table" [formGroup]="changePassForm" (ngSubmit)="changePassword()" novalidate>
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input id="password" name="password" matInput type="password" formControlName="password" />
+                <mat-error *ngIf="!changePassForm.get('password')?.errors?.minLength">Password length must be bigger
+                    than 7 </mat-error>
             </mat-form-field>
-            <table mat-table [dataSource]="dataSource" #matsort1="matSort" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
+            <mat-form-field>
+                <mat-label>PasswordConfirm</mat-label>
+                <input matInput id="passwordConfirm" type="password" formControlName="passwordConfirm" />
+                <mat-error *ngIf="!changePassForm.get('confirmPassword')?.errors?.matchValidator">Passwords does not
+                    match </mat-error>
+            </mat-form-field>
+            <button color="primary" mat-raised-button type="submit">
+                <span>Change</span>
+            </button>
+        </form>
+    </div>
+</div>
+<mat-tab-group>
+    <mat-tab label="Applications">
+        <mat-form-field appearance="standard">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Filter" #input>
+        </mat-form-field>
+        <table mat-table [dataSource]="dataSource" #matsort1="matSort" matSort
+            (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
 
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
-                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-                </ng-container>
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
 
-                <ng-container matColumnDef="firstname">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> FirstName </th>
-                    <td mat-cell *matCellDef="let element"> {{element.firstname}} </td>
-                </ng-container>
+            <ng-container matColumnDef="firstname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> FirstName </th>
+                <td mat-cell *matCellDef="let element"> {{element.firstname}} </td>
+            </ng-container>
 
-                <ng-container matColumnDef="lastname">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Lastname </th>
-                    <td mat-cell *matCellDef="let element"> {{element.lastname}} </td>
-                </ng-container>
+            <ng-container matColumnDef="lastname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Lastname </th>
+                <td mat-cell *matCellDef="let element"> {{element.lastname}} </td>
+            </ng-container>
 
-                <ng-container matColumnDef="email">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-                    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-                </ng-container>
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+            </ng-container>
 
-                <ng-container matColumnDef="role">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
-                    <td mat-cell *matCellDef="let element"> {{element.role}} </td>
-                </ng-container>
+            <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
+                <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+            </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-                <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
-            </table>
-            <mat-paginator #MatPaginator1 [pageSizeOptions]="[5, 15, 25]"></mat-paginator>
-        </mat-tab>
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+        </table>
+        <mat-paginator #MatPaginator1 [pageSizeOptions]="[5, 15, 25]"></mat-paginator>
+    </mat-tab>
 </mat-tab-group>

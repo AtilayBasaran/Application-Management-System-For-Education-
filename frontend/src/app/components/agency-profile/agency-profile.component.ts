@@ -3,18 +3,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { SettingService } from 'src/app/services/setting.service';
 import { FormControl, FormGroup, Validators, FormBuilder, AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 import { Data, Router } from '@angular/router';
-import { User } from 'src/app/models/User';
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable, subscribeOn } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 import { AuthService } from "src/app/services/auth.service";
 import { ToastrService } from 'ngx-toastr';
-
+import { PasswordChangeService } from '../../services/password-change.service';
 
 
 @Component({
@@ -34,8 +30,11 @@ export class AgencyProfileComponent implements OnInit {
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
+  changePassForm: FormGroup;
+  isChangePassFailed = false;
+  currentUser: any;
 
-  constructor(private authService: AuthService,private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {}
+  constructor(private authService: AuthService,private passwordService : PasswordChangeService,private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {}
 
   @ViewChild('matsort1', {static: true}) sort: MatSort;
   @ViewChild('MatPaginator1', {static: true}) paginator: MatPaginator; 
@@ -46,6 +45,9 @@ export class AgencyProfileComponent implements OnInit {
     this.userInfos = this.getUserInfos();
     this.applicationInfos = this.getApplicationInfos();
     this.signupForm = this.createFormGroup();
+    this.currentUser = this.token.getUser();
+    this.changePassForm = this.createFormGroup();
+    console.log(this.currentUser)
   }
 
   createFormGroup(): FormGroup {
@@ -83,6 +85,30 @@ export class AgencyProfileComponent implements OnInit {
         this.toastr.error(this.errorMessage, 'Error')
       }
     );
+  }
+
+  changePassword(): void {
+    const email = this.currentUser.email;
+    console.log(this.changePassForm.value.password);
+    console.log(email)
+    this.passwordService
+      .changePassword(email, this.changePassForm.value.password, this.changePassForm.value.passwordConfirm)
+      .subscribe(
+        data => {
+          console.log(data);
+          this.isChangePassFailed = false;
+          this.router.navigate(['successRegister'])
+          .then(() => {
+          window.location.reload();
+        });
+        },
+        err => {
+          this.errorMessage = err.error.message;
+          this.isChangePassFailed = true;
+        });
+  }
+  reloadPage(): void {
+    window.location.reload();
   }
 
   getUserInfos() {

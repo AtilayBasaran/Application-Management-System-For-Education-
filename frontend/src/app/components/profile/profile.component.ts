@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators, FormBuilder, AbstractControl, Valid
 import { TokenStorageService } from '../../services/token-storage.service';
 import { PasswordChangeService } from '../../services/password-change.service';
 import { ActivatedRoute , Router} from "@angular/router";
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-profile',
@@ -11,15 +13,26 @@ import { ActivatedRoute , Router} from "@angular/router";
 })
 export class ProfileComponent implements OnInit {
   currentUser: any;
+  applicationInfo: any;
   changePassForm: FormGroup;
   errorMessage = '' ; 
   isChangePassFailed = false;
 
-  constructor(private token: TokenStorageService , private passwordService : PasswordChangeService, private router: Router) { }
+  constructor(private token: TokenStorageService ,private _liveAnnouncer: LiveAnnouncer,private http: HttpClient, private passwordService : PasswordChangeService, private router: Router) { }
   ngOnInit(): void {
+    this.applicationInfo = this.getApplicationInfos();
     this.currentUser = this.token.getUser();
     this.changePassForm = this.createFormGroup();
     console.log(this.currentUser)
+  }
+
+  getApplicationInfos() {
+    this.http.get('http://localhost:3000/home/getApplicationInfo').subscribe(data => {
+      this.applicationInfo = data;
+      console.log(data)
+      console.log('application infos')
+      console.log(this.applicationInfo)
+    });
   }
 
   createFormGroup(): FormGroup {

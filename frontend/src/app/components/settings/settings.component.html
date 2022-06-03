@@ -20,7 +20,9 @@
                                             </div>
                                             <div class="col col-2"><textarea formControlName="deptName"></textarea>
                                             </div>
+                                            <div class="col col-3">
                                             <a href=""><button class="btn">Add Course</button></a>
+                                        </div>
                                         </form>
                                     </li>
                                 </ul>
@@ -45,7 +47,9 @@
                                     <li class="table-row" *ngFor="let course of courseInfos;">
                                         <div class="col col-1">{{course.name}}</div>
                                         <div class="col col-2">{{course.dept_name}}</div>
+                                        <div class="col col-3">
                                         <button class="btn-del" (click)="deleteCourse(course.id)" >Delete</button>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
@@ -78,8 +82,10 @@
                                         <div class="col col-2">{{user.lastname}}</div>
                                         <div class="col col-3">{{user.email}}</div>
                                         <div class="col col-4">{{user.role}}</div>
+                                        <div class="col col-5">
                                         <button class="btn"  (click)="updateInstitute(user.id)">Institute</button>
                                         <button class="btn"  (click)="updateHeadOfDept(user.id)">HeadOfDept</button>
+                                    </div>
                                     </div>
                                     </li>
                                 </ul>
@@ -109,7 +115,52 @@
                                         <div class="col col-2">{{user.lastname}}</div>
                                         <div class="col col-3">{{user.email}}</div>
                                         <div class="col col-4">{{user.role}}</div>
+                                        <div class="col col-5">
                                         <button class="btn-del" (click)="deleteUser(user.id)" >Delete</button>
+                                    </div>
+                                    </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-tab>
+    <mat-tab label="Quota">
+        <mat-tab-group>
+            <mat-tab label="Change Quota">
+                <div class="homepage">
+                    <div class="form">
+                        <div class="genel">
+                            <div class="left_content">
+                                <ul class="table">
+                                    <li class="table-header">
+                                        <div class="col col-1">Program Name</div>
+                                        <div class="col col-2">Program Degree</div>
+                                        <div class="col col-3">Initial Quota</div>
+                                        <div class="col col-4">Current Quota</div>
+                                        <div class="col col-5">Change Quota</div>
+                                        <div class="col col-6">Choose Scholarship</div>
+                                        <div class="col col-7">Update Buttons</div>
+                                    </li>
+                                </ul>
+                                <ul class="table">
+                                    <li class="table-row" *ngFor="let program of programInfos;">
+                                        <div class="col col-1">{{program.name}}</div>
+                                        <div class="col col-2">{{program.degree}}</div>
+                                        <div class="col col-3">10</div>
+                                        <div class="col col-4">5</div>
+                                        <div class="col col-5"><textarea></textarea></div>
+                                        <div class="col col-6"><mat-radio-group class="radio" aria-label="Select an option">
+                                            <mat-radio-button value="1">25%</mat-radio-button>
+                                            <mat-radio-button value="2">50%</mat-radio-button>
+                                            <mat-radio-button value="3">75%</mat-radio-button>
+                                            <mat-radio-button value="4">100%</mat-radio-button>
+                                        </mat-radio-group></div>
+                                        <div class="col col-7">
+                                        <button class="btn-del">Update</button>
                                     </div>
                                     </li>
                                 </ul>

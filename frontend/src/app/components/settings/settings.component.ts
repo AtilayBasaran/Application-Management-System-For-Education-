@@ -1,34 +1,21 @@
-import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort, Sort } from '@angular/material/sort';
+import { Component, OnInit } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { SettingService } from 'src/app/services/setting.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/User';
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 import { ToastrService } from 'ngx-toastr';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
 })
 export class SettingsComponent implements OnInit {
-  columnsToDisplay: string[] = ['position', 'name', 'mail'];
 
+  programInfos: any;
   userInfos: any;
   courseInfos: any;
   courseForm: FormGroup;
@@ -41,19 +28,9 @@ export class SettingsComponent implements OnInit {
 
   }
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-
   ngOnInit(): void {
     this.userInfos = this.getUserInfos();
+    this.programInfos = this.getProgram();
     this.courseInfos = this.getCourseInfos();
     this.courseForm = this.createFormGroup();
     this.courseNameForm = this.createNameForm();
@@ -83,6 +60,17 @@ export class SettingsComponent implements OnInit {
 
       console.log(this.userInfos)
     });
+  }
+
+  getProgram() {
+    this.http.get('http://localhost:3000/programs/getAllProgram').subscribe(data => {
+      this.programInfos = data;
+      console.log(data)
+
+      console.log('program infos')
+
+      console.log(this.programInfos)
+    })
   }
 
   getCourseInfos() {

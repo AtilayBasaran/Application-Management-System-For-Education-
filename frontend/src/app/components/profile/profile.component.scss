@@ -1,27 +1,28 @@
 .title {
-    font-size: 3rem;
+    font-size: 4rem;
     font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
+    padding-bottom: 15px;
+    margin-left: 11.5rem;
 }
 .stat {
     font-size: 2rem;
     font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
+    padding-bottom: 20px;
 }
 .profile {
     display: flex;
     height: 500px;
-    width: 1500px;
-    margin: 2px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: peru;
-
+    margin-left: 8rem;
+    margin-right: -8rem;
+    position: relative;
+    border: 5px solid #fbb400;
+    border-radius: 1.5rem;
+    box-shadow: 5px 15px #fbb400; 
 }
 .form-table{
     display: flex;
     flex-direction: column;
-    max-width: 35%;
+    max-width: 50%;
 }
 .information {
     display: inline-block;
@@ -49,21 +50,14 @@
 .process {
     display: flex;
     flex-direction: row;
-    justify-content: center;
 }
 .appDate{
     display: flex;
     flex-direction: row;
-    justify-content: center;
 }
 .agencyInfo{
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-.agencyName{
-    display: flex;
-    flex-direction: row;
 }
 .agencyEmail{
     display: flex;
