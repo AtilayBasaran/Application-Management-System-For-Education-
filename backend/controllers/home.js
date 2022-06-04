@@ -20,13 +20,13 @@ const pool = mysql.createPool({
 
 
 exports.getApplicationInfo = async (req, res, next) => {
-    
+
     try {
         const applicationInfos = [];
         pool.query(
             "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id ",
             async (err, result) => {
-                
+
                 for (var i = 0; i < result.length; i++) {
                     var a = {
                         name: result[i].firstname + ' ' + result[i].lastname,
@@ -34,13 +34,90 @@ exports.getApplicationInfo = async (req, res, next) => {
                         program: result[i].program,
                         email: result[i].email,
                         agency_mail: result[i].agency_mail,
-                        stage : result[i].stage,
+                        stage: result[i].stage,
                         user_id: result[i].user_id
                     };
                     applicationInfos.push(a);
                 }
-            console.log(applicationInfos),
-            res.status(201).send(applicationInfos)
+                console.log(applicationInfos),
+                    res.status(201).send(applicationInfos)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Application Information Cannot Take!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+exports.getProfileApplicationDetail = async (req, res, next) => {
+
+   // try {
+        const user_id = req.params.id;
+        const applicationInfos = [];
+        pool.query(
+            "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id where a.user_id = ?",
+            [user_id],
+            async (err, result) => {
+
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        name: result[i].firstname + ' ' + result[i].lastname,
+                        register_date: result[i].register_date,
+                        program: result[i].program,
+                        email: result[i].email,
+                        agency_mail: result[i].agency_mail,
+                        stage: result[i].stage,
+                        user_id: result[i].user_id
+                    };
+                    applicationInfos.push(a);
+                }
+                console.log(applicationInfos),
+                    res.status(201).send(applicationInfos)
+            },
+        );
+        return;
+    /*} catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Application Information Cannot Take!"
+            });
+            return;
+        }
+        next(err);
+    }*/
+
+};
+
+exports.getAgencyApplicationInfo = async (req, res, next) => {
+    var agency_email = req.body.email;
+    try {
+        const applicationInfos = [];
+        pool.query(
+            "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id where a.agency_mail = ?",
+            [agency_email],
+            async (err, result) => {
+
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        name: result[i].firstname + ' ' + result[i].lastname,
+                        register_date: result[i].register_date,
+                        program: result[i].program,
+                        email: result[i].email,
+                        agency_mail: result[i].agency_mail,
+                        stage: result[i].stage,
+                        user_id: result[i].user_id
+                    };
+                    applicationInfos.push(a);
+                }
+                console.log(applicationInfos),
+                    res.status(201).send(applicationInfos)
             },
         );
         return;
@@ -57,13 +134,13 @@ exports.getApplicationInfo = async (req, res, next) => {
 };
 
 exports.getTurkishApplicationInfo = async (req, res, next) => {
-    
+
     try {
         const applicationInfos = [];
         pool.query(
             "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id inner join personal_details pd on u.id = pd.user_id  where pd.nationality = 'T.C'",
             async (err, result) => {
-                
+
                 for (var i = 0; i < result.length; i++) {
                     var a = {
                         name: result[i].firstname + ' ' + result[i].lastname,
@@ -71,13 +148,13 @@ exports.getTurkishApplicationInfo = async (req, res, next) => {
                         program: result[i].program,
                         email: result[i].email,
                         agency_mail: result[i].agency_mail,
-                        stage : result[i].stage,
+                        stage: result[i].stage,
                         user_id: result[i].user_id
                     };
                     applicationInfos.push(a);
                 }
-            console.log(applicationInfos),
-            res.status(201).send(applicationInfos)
+                console.log(applicationInfos),
+                    res.status(201).send(applicationInfos)
             },
         );
         return;
@@ -95,13 +172,13 @@ exports.getTurkishApplicationInfo = async (req, res, next) => {
 
 
 exports.getInternationalApplicationInfo = async (req, res, next) => {
-    
+
     try {
         const applicationInfos = [];
         pool.query(
             "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id inner join personal_details pd on u.id = pd.user_id  where pd.nationality = 'international'",
             async (err, result) => {
-                
+
                 for (var i = 0; i < result.length; i++) {
                     var a = {
                         name: result[i].firstname + ' ' + result[i].lastname,
@@ -109,12 +186,12 @@ exports.getInternationalApplicationInfo = async (req, res, next) => {
                         program: result[i].program,
                         email: result[i].email,
                         agency_mail: result[i].agency_mail,
-                        stage : result[i].stage,
+                        stage: result[i].stage,
                         user_id: result[i].user_id
                     };
                     applicationInfos.push(a);
                 }
-            res.status(201).send(applicationInfos)
+                res.status(201).send(applicationInfos)
             },
         );
         return;
@@ -133,12 +210,12 @@ exports.getInternationalApplicationInfo = async (req, res, next) => {
 exports.acceptDocument = async (req, res, next) => {
     var user_id = req.body.user_id;
     var file_name = req.body.file_name;
-    console.log('Approve document infos : ' , user_id , file_name)
-    
+    console.log('Approve document infos : ', user_id, file_name)
+
     try {
         db.execute(
             'UPDATE document SET is_approve = true , is_controlled = true WHERE user_id = ? and name = ?',
-            [user_id , file_name]);
+            [user_id, file_name]);
 
         res.status(201).send(true);
         return;
@@ -158,11 +235,11 @@ exports.rejectDocument = async (req, res, next) => {
     var user_id = req.body.user_id;
     var file_name = req.body.file_name;
     var reject_reason = req.body.reject_reason;
-    
+
     try {
         db.execute(
             'UPDATE document SET is_approve = false , is_controlled = true , reject_reason = ? WHERE user_id = ? and name = ?',
-            [reject_reason, user_id , file_name]);
+            [reject_reason, user_id, file_name]);
 
         res.status(201).send(true);
         return;
@@ -179,15 +256,15 @@ exports.rejectDocument = async (req, res, next) => {
 };
 
 exports.controlAllControlled = async (req, res, next) => {
-    var user_id = req.body.user_id ;
-   try {
+    var user_id = req.body.user_id;
+    try {
         pool.query(
             "select count(*) as count from document where user_id = ? and is_controlled = 0",
             [user_id],
             async (err, result) => {
-                if (result[0].count == 0){
+                if (result[0].count == 0) {
                     res.status(201).send('true')
-                }else{
+                } else {
                     res.status(201).send('false')
                 }
             },
@@ -206,50 +283,50 @@ exports.controlAllControlled = async (req, res, next) => {
 };
 
 exports.changeStatus = async (req, res, next) => {
-    var user_id = req.body.user_id ;
+    var user_id = req.body.user_id;
     var is_all_approved = false;
     try {
         pool.query(
             "select count(*) as count from document where user_id = ? and is_controlled = 1 and is_approve = 0",
             [user_id],
             async (err, result) => {
-                if (result[0].count == 0){
+                if (result[0].count == 0) {
                     is_all_approved = true;
-                }else{
+                } else {
                     is_all_approved = false;
                 }
-                if (is_all_approved){
+                if (is_all_approved) {
                     console.log('Edilmiş')
                     db.execute(
                         "UPDATE applications set stage = 'HeadOfDept' where user_id = ?",
                         [user_id]);
-            
+
                     res.status(201).send({
                         message: "Status updated !"
                     });
                     return;
-                }else if(!is_all_approved){
+                } else if (!is_all_approved) {
                     pool.query(
                         "select id from applications where user_id = ?",
                         [user_id],
                         async (err, result) => {
                             app_id = result[0].id
-        
-                            
-                    db.execute(
-                        "UPDATE applications set stage = 'Rejected' where user_id = ?",
-                        [user_id]);
-        
-                        var dt = dateTime.create();
-                        var formatted = dt.format('Y-m-d H:M:S');
-        
-                        db.execute(
-                            'INSERT INTO rejected_applications (app_id, reject_reason, reject_date, is_delete) VALUES (?, ?, ?, ?)',
-                            [app_id, 'document error', formatted, 0]
-                        );
+
+
+                            db.execute(
+                                "UPDATE applications set stage = 'Rejected' where user_id = ?",
+                                [user_id]);
+
+                            var dt = dateTime.create();
+                            var formatted = dt.format('Y-m-d H:M:S');
+
+                            db.execute(
+                                'INSERT INTO rejected_applications (app_id, reject_reason, reject_date, is_delete) VALUES (?, ?, ?, ?)',
+                                [app_id, 'document error', formatted, 0]
+                            );
                         },
                     );
-                        
+
                     res.status(201).send({
                         message: "Status updated !"
                     });
@@ -258,7 +335,7 @@ exports.changeStatus = async (req, res, next) => {
                 return;
             },
         );
-        
+
     } catch (err) {
         if (!err.statusCode) {
             res.status(400).send({
@@ -272,8 +349,8 @@ exports.changeStatus = async (req, res, next) => {
 };
 
 exports.postTurkishApplicationInfo = async (req, res, next) => {
-    var user_id = req.body.user_id ; 
-    
+    var user_id = req.body.user_id;
+
     try {
         pool.query(
             "select department from users where id = ?",
@@ -284,7 +361,7 @@ exports.postTurkishApplicationInfo = async (req, res, next) => {
                     "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id inner join personal_details pd on u.id = pd.user_id  where pd.nationality = 'T.C' and a.dept_name = ?",
                     [dept],
                     async (err, result) => {
-                        
+
                         for (var i = 0; i < result.length; i++) {
                             var a = {
                                 name: result[i].firstname + ' ' + result[i].lastname,
@@ -292,13 +369,13 @@ exports.postTurkishApplicationInfo = async (req, res, next) => {
                                 program: result[i].program,
                                 email: result[i].email,
                                 agency_mail: result[i].agency_mail,
-                                stage : result[i].stage,
+                                stage: result[i].stage,
                                 user_id: result[i].user_id
                             };
                             applicationInfos.push(a);
                         }
-                    console.log(applicationInfos),
-                    res.status(201).send(applicationInfos)
+                        console.log(applicationInfos),
+                            res.status(201).send(applicationInfos)
                     },
                 );
             },
@@ -319,7 +396,7 @@ exports.postTurkishApplicationInfo = async (req, res, next) => {
 
 
 exports.postInternationalApplicationInfo = async (req, res, next) => {
-    var user_id = req.body.user_id ; 
+    var user_id = req.body.user_id;
     try {
         pool.query(
             "select department from users where id = ?",
@@ -330,7 +407,7 @@ exports.postInternationalApplicationInfo = async (req, res, next) => {
                     "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id inner join personal_details pd on u.id = pd.user_id  where pd.nationality = 'international' and a.dept_name = ?",
                     [dept],
                     async (err, result) => {
-                        
+
                         for (var i = 0; i < result.length; i++) {
                             var a = {
                                 name: result[i].firstname + ' ' + result[i].lastname,
@@ -338,13 +415,13 @@ exports.postInternationalApplicationInfo = async (req, res, next) => {
                                 program: result[i].program,
                                 email: result[i].email,
                                 agency_mail: result[i].agency_mail,
-                                stage : result[i].stage,
+                                stage: result[i].stage,
                                 user_id: result[i].user_id
                             };
                             applicationInfos.push(a);
                         }
-                    console.log(applicationInfos),
-                    res.status(201).send(applicationInfos)
+                        console.log(applicationInfos),
+                            res.status(201).send(applicationInfos)
                     },
                 );
             },

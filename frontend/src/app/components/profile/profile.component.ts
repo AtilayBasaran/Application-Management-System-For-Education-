@@ -4,7 +4,8 @@ import { TokenStorageService } from '../../services/token-storage.service';
 import { PasswordChangeService } from '../../services/password-change.service';
 import { ActivatedRoute , Router} from "@angular/router";
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { waitForAsync } from '@angular/core/testing';
 
 @Component({
   selector: 'app-profile',
@@ -13,27 +14,22 @@ import { HttpClient } from "@angular/common/http";
 })
 export class ProfileComponent implements OnInit {
   currentUser: any;
-  applicationInfo: any;
+  appInfo: any;
   changePassForm: FormGroup;
   errorMessage = '' ; 
   isChangePassFailed = false;
-
+  httpOptions: { headers: HttpHeaders } = {
+    headers: new HttpHeaders({ "Content-Type": "application/json" }),
+  };
   constructor(private token: TokenStorageService ,private _liveAnnouncer: LiveAnnouncer,private http: HttpClient, private passwordService : PasswordChangeService, private router: Router) { }
-  ngOnInit(): void {
-    this.applicationInfo = this.getApplicationInfos();
+  ngOnInit() : void{
     this.currentUser = this.token.getUser();
+    var apppInfo = this.getProfileApplicationDetail();
+    console.log(apppInfo);
     this.changePassForm = this.createFormGroup();
-    console.log(this.currentUser)
-  }
+    console.log('deneme')
 
-  getApplicationInfos() {
-    this.http.get('http://localhost:3000/home/getApplicationInfo').subscribe(data => {
-      this.applicationInfo = data;
-      console.log(data)
-      console.log('application infos')
-      console.log(this.applicationInfo)
-    });
-  }
+  };
 
   createFormGroup(): FormGroup {
     return new FormGroup({
@@ -44,7 +40,7 @@ export class ProfileComponent implements OnInit {
         matchValidator('password'),
       ]),
     });
-  }
+  };
   
 
   changePassword(): void {
@@ -66,9 +62,19 @@ export class ProfileComponent implements OnInit {
           this.errorMessage = err.error.message;
           this.isChangePassFailed = true;
         });
-  }
+  };
+
   reloadPage(): void {
     window.location.reload();
+  };
+
+  getProfileApplicationDetail() : any {
+    var user_id = this.token.getUser().id;
+    var user_infos ;
+    this.http.get('http://localhost:3000/home/getProfileApplicationDetail/'+user_id).subscribe(data => {
+      user_infos = data;
+    });
+    return user_infos;
   }
   
 }

@@ -114,8 +114,8 @@
             <!-- actions Column -->
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Evaluate </th>
-                <td mat-cell *matCellDef="let element"> <a href="/createApplication/{{element.id}}">
-                    <button mat-flat-button color="primary">Control</button></a> </td>
+                 <td mat-cell *matCellDef="let element"> 
+                    <button [disabled]="element.haveApplications == 0" [routerLink]="['/createApplication/', element.id]"  mat-flat-button color="primary">Control</button> </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

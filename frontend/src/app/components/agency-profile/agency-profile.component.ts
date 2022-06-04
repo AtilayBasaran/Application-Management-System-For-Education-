@@ -47,7 +47,7 @@ export class AgencyProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.userInfos = this.agencyUserDetails();
-    this.applicationInfos = this.getApplicationInfos();
+    this.applicationInfos = this.getAgencyApplicationInfos();
     this.signupForm = this.createFormGroup();
     this.currentUser = this.token.getUser();
     this.changePassForm = this.createFormGroup();
@@ -105,8 +105,10 @@ export class AgencyProfileComponent implements OnInit {
       console.log(this.userInfos)
     });
   }
-  getApplicationInfos() {
-    this.http.get('http://localhost:3000/home/getApplicationInfo').subscribe(data => {
+
+  getAgencyApplicationInfos() {
+    var email = this.token.getUser().email;
+    this.http.post('http://localhost:3000/home/getAgencyApplicationInfo',{email},this.httpOptions).subscribe(data => {
       this.applicationInfos = data;
       this.dataSource2 = new MatTableDataSource(this.applicationInfos);
       this.dataSource2.paginator = this.paginator2;
@@ -117,6 +119,7 @@ export class AgencyProfileComponent implements OnInit {
 
     });
   }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

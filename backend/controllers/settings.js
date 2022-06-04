@@ -4,7 +4,7 @@ const {
 const db = require('../util/database');
 const User = require('../models/user');
 
-const mysql = require('mysql2');
+const mysql = require('mysql');
 
 const config = require('../config/config.json');
 
@@ -43,13 +43,13 @@ exports.addCourse = async (req, res, next) => {
 };
 
 exports.userDetails = async (req, res, next) => {
-    
+
     try {
         const userInfos = [];
         pool.query(
             "SELECT * FROM users where is_delete = 0",
             async (err, result) => {
-                
+
                 for (var i = 0; i < result.length; i++) {
                     var a = {
                         id: result[i].id,
@@ -61,8 +61,8 @@ exports.userDetails = async (req, res, next) => {
                     userInfos.push(a);
                 }
 
-            console.log(userInfos),
-            res.status(201).send(userInfos)
+                console.log(userInfos),
+                    res.status(201).send(userInfos)
             },
         );
         return;
@@ -176,13 +176,13 @@ exports.updateHeadOfDept = async (req, res, next) => {
 };
 
 exports.courseDetails = async (req, res, next) => {
-    
+
     try {
         const courseInfos = [];
         pool.query(
             "SELECT * FROM course ",
             async (err, result) => {
-                
+
                 for (var i = 0; i < result.length; i++) {
                     var a = {
                         id: result[i].id,
@@ -192,8 +192,8 @@ exports.courseDetails = async (req, res, next) => {
                     courseInfos.push(a);
                 }
 
-            console.log(courseInfos),
-            res.status(201).send(courseInfos)
+                console.log(courseInfos),
+                    res.status(201).send(courseInfos)
             },
         );
         return;
@@ -238,15 +238,16 @@ exports.changeCourseName = async (req, res, next) => {
 };
 
 exports.agencyUserDetails = async (req, res, next) => {
-    
+
     try {
         var agency_email = req.body.agency_email;
-        const userInfos = [];
+        
+        var userInfos = [];
         pool.query(
-            "SELECT * FROM users where is_delete = 0 and agency_email = ?",
+            "select u.id, u.firstname, u.lastname, u.email, u.role, (CASE  WHEN a.id > 0 THEN true ELSE false END) as cas from users u left outer join applications a on u.id = a.user_id where u.agency_email = ? ",
             [agency_email],
             async (err, result) => {
-                
+
                 for (var i = 0; i < result.length; i++) {
                     var a = {
                         id: result[i].id,
@@ -254,19 +255,20 @@ exports.agencyUserDetails = async (req, res, next) => {
                         lastname: result[i].lastname,
                         email: result[i].email,
                         role: result[i].role,
+                        haveApplications: result[i].cas,
                     };
                     userInfos.push(a);
                 }
 
-            console.log(userInfos),
-            res.status(201).send(userInfos)
+                console.log(userInfos),
+                    res.status(201).send(userInfos)
             },
         );
         return;
     } catch (err) {
         if (!err.statusCode) {
             res.status(400).send({
-                message: "Course Insertion Failed!"
+                message: "Agency User Details Failed!"
             });
             return;
         }

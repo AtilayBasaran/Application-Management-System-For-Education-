@@ -40,7 +40,13 @@ router.post(
     '/changeStatus', homeController.changeStatus
 );
 
+router.post(
+    '/getAgencyApplicationInfo', homeController.getAgencyApplicationInfo
+);
 
+router.get(
+    '/getProfileApplicationDetail/:id', homeController.getProfileApplicationDetail
+);
 
 
 module.exports = router;
