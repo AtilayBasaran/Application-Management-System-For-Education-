@@ -4,7 +4,7 @@ const {
 const db = require('../util/database');
 const User = require('../models/user');
 
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 const config = require('../config/config.json');
 

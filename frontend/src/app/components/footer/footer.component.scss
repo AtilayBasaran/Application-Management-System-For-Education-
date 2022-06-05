@@ -2,3 +2,47 @@
     display: flex;
     flex-direction: row;
 }
+
+.img{
+    width: 100%; 
+    position: absolute;
+    margin-top: 0;
+}
+
+@media screen and (max-width: 1249px) {
+    .img{    
+        width: 100%; 
+        position: fixed;
+        margin-top: 0;
+    }
+
+}
+
+@media screen and (max-width: 1220px) {
+    .img{    
+        width: 100%; 
+        position: fixed;
+        margin-top: 0;
+    }
+
+}
+
+
+@media screen and (max-width: 748px) {
+    .img{    
+        width: 100%; 
+        position: fixed;
+        margin-top: 0;
+    }
+
+}
+
+
+@media screen and (max-width: 375px) {
+    .img{    
+        width: 100%; 
+        position: fixed;
+        margin-top: 0;
+    }
+
+}

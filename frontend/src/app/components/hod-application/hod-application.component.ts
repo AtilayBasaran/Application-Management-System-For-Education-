@@ -24,8 +24,7 @@ export class HodApplicationComponent implements OnInit {
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
   };
-  columnsToDisplay: string[] = ['name', 'register_date', 'program', 'email', 'agency_mail', 'stage', 'actions'];
-  userInfos: any;
+  columnsToDisplay: string[] = ['name', 'register_date', 'program', 'email', 'agency_mail', 'stage', 'actions', 'examine'];
   turkishApplicationInfos: any;
   internationalApplicationInfos: any;
   dataSource: MatTableDataSource<any>;
@@ -70,6 +69,15 @@ export class HodApplicationComponent implements OnInit {
 
   }
 
+  open2(user_id: any) {
+
+    const firstModal = this.modalService.open(NgbdModal5Content, { size: 'xl' });
+    firstModal.componentInstance.user_id = user_id;
+
+    firstModal.closed.subscribe(() => this.ngOnInit());
+
+  }
+
 
   getTurkishApplicationInfos() {
     var user_id = this.token.getUser().id;
@@ -79,10 +87,6 @@ export class HodApplicationComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.turkishApplicationInfos);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-
-
-      
-
       console.log('Application infos')
 
     });
@@ -110,6 +114,7 @@ export class NgbdModal3Content implements OnInit {
   @Input() user_id: any;
   fileInfos: any;
   showMe: boolean = false;
+  panelOpenState = false;
 
 
   httpOptions: { headers: HttpHeaders } = {
@@ -128,6 +133,7 @@ export class NgbdModal3Content implements OnInit {
   document_step = false;
   is_agreed = false;
   is_scientific = false;
+  isInterview = false;
   statusDetail !: FormGroup;
   courseInfos: any;
   selectedCourse: string;
@@ -209,6 +215,12 @@ export class NgbdModal3Content implements OnInit {
       if (this.courseDetails.invalid) { return }
       this.step++;
     }
+    else if(this.step == 4) {
+      this.step++;
+    }
+    else if(this.step == 5) {
+      this.step++;
+    }
 
 
   }
@@ -233,11 +245,17 @@ export class NgbdModal3Content implements OnInit {
       if (this.step == 4) {
         this.step--
       }
+      if (this.step == 5) {
+        this.step--
+      }
+      if (this.step == 6) {
+        this.step--
+      }
     }
 
   }
   submit() {
-    if (this.step == 4) {
+    if (this.step == 6) {
 
       if (this.schoolarShipForm.invalid) { return }
       console.log('selamlar')
@@ -394,4 +412,127 @@ export class NgbdModal4Content implements OnInit {
         err => {
         });
   }
+}
+
+@Component({
+  template: `
+  <form [formGroup]="schoolarShipForm" id="msform">
+  <h2 style="text-align: center; font-size:30px;">All Information</h2>
+      <mat-accordion>
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                  <mat-panel-title class="title" style="font-size:20px;">
+                      Documents
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <table class="table table-striped">
+                  <thead>
+                      <tr>
+                          <th scope="col">Title</th>
+                          <th scope="col">Document Name</th>
+                      </tr>
+                  </thead>
+                  <tbody *ngFor="let file of fileInfos">
+                  <tr>
+                      <td>
+                          <p>{{ file.title }}</p>
+                      </td>
+                      <td>
+                          <a href="{{ file.url }}">{{ file.name }}</a>
+                      </td>
+                  </tr>
+              </tbody>
+              </table>
+          </mat-expansion-panel>
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                  <mat-panel-title class="title" style="font-size:20px;">
+                      Status
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p> Application status :   </p>
+              <p> Scientific : </p>
+          </mat-expansion-panel>
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                  <mat-panel-title class="title" style="font-size:20px;">
+                      Add Course
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p> Course name :  </p>
+          </mat-expansion-panel>
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                  <mat-panel-title class="title" style="font-size:20px;">
+                      Interview
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p> Interview : </p>
+          </mat-expansion-panel>
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                  <mat-panel-title class="title" style="font-size:20px;">
+                      Schoolarship
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p> Schoolarship :  </p>
+          </mat-expansion-panel>
+      </mat-accordion>
+      </form>
+  `
+})
+
+export class NgbdModal5Content {
+  @Input() user_id: any;
+  fileInfos: any;
+  panelOpenState = false;
+
+
+  httpOptions: { headers: HttpHeaders } = {
+    headers: new HttpHeaders({ "Content-Type": "application/json" }),
+  };
+
+  schoolarShipForm !: FormGroup;
+
+  constructor(private modalService: NgbModal, public activeModal: NgbActiveModal, private uploadService: UploadFilesService, private http: HttpClient, private formBuilder: FormBuilder, private toastr: ToastrService) { }
+
+  ngOnInit(): void {
+    this.getUniqueUserFiles(this.user_id);
+
+
+    console.log(this.fileInfos)
+
+  }
+
+  // getCourseInfos() {
+  //   var user_id = this.user_id;
+  //   this.http.post('http://localhost:3000/app/getCourseInfos', { user_id }, this.httpOptions).subscribe(data => {
+  //     this.courseInfos = data;
+  //     console.log(data)
+
+  //     console.log('Course infos')
+
+  //     console.log(this.courseInfos)
+  //   });
+  // }
+  // getUserCourses(user_id: any) {
+  //   var user_id = this.user_id;
+  //   this.http.post('http://localhost:3000/app/getUserCourses', { user_id }, this.httpOptions).subscribe(data => {
+  //   this.userCourses = data;
+  //     console.log(data)
+  //   });
+  // }
+
+  getUniqueUserFiles(user_id: any): void {
+    this.http.post('http://localhost:3000/app/getUniqueUserFiles', { user_id }, this.httpOptions).subscribe(data => {
+      this.fileInfos = data;
+      console.log(data)
+
+      console.log('User File infos')
+
+      console.log(this.fileInfos)
+    });
+
+  }
+
 }

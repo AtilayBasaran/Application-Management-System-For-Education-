@@ -24,8 +24,7 @@ export class ProfileComponent implements OnInit {
   constructor(private token: TokenStorageService ,private _liveAnnouncer: LiveAnnouncer,private http: HttpClient, private passwordService : PasswordChangeService, private router: Router) { }
   ngOnInit() : void{
     this.currentUser = this.token.getUser();
-    var apppInfo = this.getProfileApplicationDetail();
-    console.log(apppInfo);
+    this.appInfo = this.getApplicationDetail();
     this.changePassForm = this.createFormGroup();
     console.log('deneme')
 
@@ -76,7 +75,12 @@ export class ProfileComponent implements OnInit {
     });
     return user_infos;
   }
-  
+
+  getApplicationDetail() {
+    this.http.get('http://localhost:3000/home/getApplicationInfo').subscribe(data => {
+      this.appInfo = data;
+    });
+  }
 }
 
 export function matchValidator(

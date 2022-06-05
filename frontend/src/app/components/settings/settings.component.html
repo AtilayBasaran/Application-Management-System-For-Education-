@@ -7,14 +7,14 @@
                         <div class="genel">
                             <div class="left_content">
                                 <ul class="table">
-                                    <li class="table-header">
+                                    <li style="list-style-type: none;" class="table-header">
                                         <div class="col col-1">Course Name</div>
                                         <div class="col col-2">Department Name</div>
                                         <div class="col col-3">Add Button</div>
                                     </li>
                                 </ul>
                                 <ul class="table">
-                                    <li class="table-row">
+                                    <li style="list-style-type: none;" class="table-row">
                                         <form class="table-form" [formGroup]="courseForm" (ngSubmit)="addCourse()" novalidate>
                                             <div class="col col-1"><textarea formControlName="courseName"></textarea>
                                             </div>
@@ -37,19 +37,21 @@
                         <div class="genel">
                             <div class="left_content">
                                 <ul class="table">
-                                    <li class="table-header">
+                                    <li style="list-style-type: none;" class="table-header">
                                         <div class="col col-1">Course Name</div>
                                         <div class="col col-2">Department Name</div>
                                         <div class="col col-3">Delete</div>
                                     </li>
                                 </ul>
                                 <ul class="table">
-                                    <li class="table-row" *ngFor="let course of courseInfos;">
+                                    <li style="list-style-type: none;" class="table-row" *ngFor="let course of courseInfos;">
+                                        <div class="table-form">
                                         <div class="col col-1">{{course.name}}</div>
                                         <div class="col col-2">{{course.dept_name}}</div>
                                         <div class="col col-3">
                                         <button class="btn-del" (click)="deleteCourse(course.id)" >Delete</button>
                                         </div>
+                                    </div>
                                     </li>
                                 </ul>
                             </div>
@@ -68,21 +70,19 @@
                             <div class="left_content">
                                 <ul class="table">
                                     <li class="table-header">
-                                        <div class="col col-1">Name</div>
-                                        <div class="col col-2">Surname</div>
-                                        <div class="col col-3">E-mail</div>
-                                        <div class="col col-4">Role</div>
-                                        <div class="col col-5">Change Buttons</div>
+                                        <div class="col col-1">Name Surname</div>
+                                        <div class="col col-2">E-mail</div>
+                                        <div class="col col-3">Role</div>
+                                        <div class="col col-4">Change Buttons</div>
                                     </li>
                                 </ul>
                                 <ul class="table">
                                     <li class="table-row" *ngFor="let user of userInfos;">
                                         <div *ngIf="user.role!='student'" class="table-form">
-                                        <div class="col col-1">{{user.firstname}}</div>
-                                        <div class="col col-2">{{user.lastname}}</div>
-                                        <div class="col col-3">{{user.email}}</div>
-                                        <div class="col col-4">{{user.role}}</div>
-                                        <div class="col col-5">
+                                        <div class="col col-1">{{user.firstname}} {{user.lastname}}</div>
+                                        <div class="col col-2">{{user.email}}</div>
+                                        <div class="col col-3">{{user.role}}</div>
+                                        <div class="col col-4">
                                         <button class="btn"  (click)="updateInstitute(user.id)">Institute</button>
                                         <button class="btn"  (click)="updateHeadOfDept(user.id)">HeadOfDept</button>
                                     </div>
@@ -101,21 +101,19 @@
                             <div class="left_content">
                                 <ul class="table">
                                     <li class="table-header">
-                                        <div class="col col-1">Name</div>
-                                        <div class="col col-2">Surname</div>
-                                        <div class="col col-3">E-mail</div>
-                                        <div class="col col-4">Role</div>
-                                        <div class="col col-5">Delete</div>
+                                        <div class="col col-1">Name Surname</div>
+                                        <div class="col col-2">E-mail</div>
+                                        <div class="col col-3">Role</div>
+                                        <div class="col col-4">Delete</div>
                                     </li>
                                 </ul>
                                 <ul class="table">
-                                    <li class="table-row" *ngFor="let user of userInfos;">
-                                        <div *ngIf="user.role!='student'" class="table-form">
-                                        <div class="col col-1">{{user.firstname}}</div>
-                                        <div class="col col-2">{{user.lastname}}</div>
-                                        <div class="col col-3">{{user.email}}</div>
-                                        <div class="col col-4">{{user.role}}</div>
-                                        <div class="col col-5">
+                                    <li style="list-style-type: none;" class="table-row" *ngFor="let user of userInfos;">
+                                        <div class="table-form">
+                                        <div class="col col-1">{{user.firstname}} {{user.lastname}}</div>
+                                        <div class="col col-2">{{user.email}}</div>
+                                        <div class="col col-3">{{user.role}}</div>
+                                        <div class="col col4">
                                         <button class="btn-del" (click)="deleteUser(user.id)" >Delete</button>
                                     </div>
                                     </div>
@@ -136,7 +134,7 @@
                         <div class="genel">
                             <div class="left_content">
                                 <ul class="table">
-                                    <li class="table-header">
+                                    <li style="list-style-type: none;" class="table-header">
                                         <div class="col col-1">Program Name</div>
                                         <div class="col col-2">Program Degree</div>
                                         <div class="col col-3">Initial Quota</div>
@@ -147,7 +145,8 @@
                                     </li>
                                 </ul>
                                 <ul class="table">
-                                    <li class="table-row" *ngFor="let program of programInfos;">
+                                    <li style="list-style-type: none;" class="table-row" *ngFor="let program of programInfos;">
+                                        <div class="table-form">
                                         <div class="col col-1">{{program.name}}</div>
                                         <div class="col col-2">{{program.degree}}</div>
                                         <div class="col col-3">10</div>
@@ -162,6 +161,7 @@
                                         <div class="col col-7">
                                         <button class="btn-del">Update</button>
                                     </div>
+                                </div>
                                     </li>
                                 </ul>
                             </div>

@@ -72,7 +72,7 @@ export class SignupComponent implements OnInit {
         console.log(data);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
-        this.router.navigate(["login"]);
+        this.router.navigate(["successRegister"]);
       },
       err => {
         this.errorMessage = err.error.message;
@@ -89,7 +89,7 @@ export class SignupComponent implements OnInit {
         console.log(data);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
-        this.router.navigate(["login"]);
+        this.router.navigate(["successRegister"]);
       },
       err => {
         this.errorMessage = err.error.message;

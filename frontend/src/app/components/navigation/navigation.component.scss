@@ -45,3 +45,36 @@
     flex-direction: row;
     margin-top: 13px;
 }
+
+@media screen and (max-width: 1249px) {
+    #app{    
+        width: 110%;
+    }
+
+}
+
+@media screen and (max-width: 783px) {
+    #app{    
+        width: 100%;
+        //tekrar bak buna
+    }
+
+}
+
+@media screen and (max-width: 477px) {
+    #app{    
+        width: min-content;
+    }
+    .logo{
+        height: 40px;
+        margin-top: 1rem;
+    }
+
+}
+
+@media screen and (max-width: 665px) {
+    #app{    
+        width: 100%;
+    }
+
+}

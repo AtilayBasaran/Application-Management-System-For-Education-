@@ -1,3 +1,4 @@
+    <div class="tablee">
     <form>
         <mat-form-field appearance="fill">
             <mat-label>Document Type</mat-label>
@@ -64,4 +65,5 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator #MatPaginator1 [pageSizeOptions]="[1, 5, 10]"></mat-paginator>
+    <mat-paginator #MatPaginator1 [pageSizeOptions]="[5, 15, 25]"></mat-paginator>
+</div>

@@ -1,0 +1,20 @@
+home page tablolar olsun +
+
+settings yukarı bar olsun +
+
+turuncu kutu değişecek profil içerisinde. +
+
+approved ettiğim veya reject ettiğim bilgileri göster.üzerine geldiğimde gösterebilir. basınca üzerinde açılıyor. bilgiyi göster.
+
+use case her program için her burs kategorisinde bir konjentan. kontenjan yanına yıl dönem ve kaç kişi olduğu.
+
+institu settings sayfasına bir tane daha kontenjan ekle. -> taslağı bitti fonksiyonsuz koyup gösterme var +
+
+veri nasıl işlenecek. trick burası. ben kabul dediğim anda sonra burs seçiyorum ya available kota olayı.
+en son bölüm başkanının approvela ile bitiricem.
+
+mülakat sorusu? evet veya hayır. evet dersem link gönderilsin. mail yerine öğrenci hesabında zoom linki gösterilsin. mail zaten yaptıysanız ok.
+
+final tez raporuna bu use caseleri ekle diğerlerine gerek yok.
+
+program seçsin radio buton at burs tipini seçsin input ekle(eklenecek kota için) submit butonu ekle kafii
