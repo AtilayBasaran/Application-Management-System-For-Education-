@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder, AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 import { TokenStorageService } from '../../services/token-storage.service';
 import { PasswordChangeService } from '../../services/password-change.service';
-import { ActivatedRoute , Router} from "@angular/router";
-import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { Router } from "@angular/router";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { waitForAsync } from '@angular/core/testing';
 
 @Component({
   selector: 'app-profile',
@@ -14,19 +12,21 @@ import { waitForAsync } from '@angular/core/testing';
 })
 export class ProfileComponent implements OnInit {
   currentUser: any;
-  appInfo: any;
+  appInfos: any;
+  deneme:any;
   changePassForm: FormGroup;
   errorMessage = '' ; 
   isChangePassFailed = false;
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
   };
-  constructor(private token: TokenStorageService ,private _liveAnnouncer: LiveAnnouncer,private http: HttpClient, private passwordService : PasswordChangeService, private router: Router) { }
+  constructor(private token: TokenStorageService ,private http: HttpClient, private passwordService : PasswordChangeService, private router: Router) { }
   ngOnInit() : void{
     this.currentUser = this.token.getUser();
-    this.appInfo = this.getApplicationDetail();
+    console.log('deneme');
+    this.deneme = this.getUserInfos();
     this.changePassForm = this.createFormGroup();
-    console.log('deneme')
+    console.log('hop'+this.currentUser)
 
   };
 
@@ -77,11 +77,26 @@ export class ProfileComponent implements OnInit {
   }
 
   getApplicationDetail() {
-    this.http.get('http://localhost:3000/home/getApplicationInfo').subscribe(data => {
-      this.appInfo = data;
+    var user_id = this.token.getUser().id;
+    this.http.post('http://localhost:3000/home/getProfileApplicationDetail',{user_id}, this.httpOptions ).subscribe(data => {
+      this.appInfos = data;
+      this.deneme = this.appInfos
+      console.log(this.deneme)
+    });
+  }
+  getUserInfos() {
+    this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
+      this.appInfos = data;
+      console.log(data)
+  
+      console.log('user infos')
+  
+      console.log(this.appInfos)
     });
   }
 }
+
+
 
 export function matchValidator(
   matchTo: string, 

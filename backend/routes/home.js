@@ -44,8 +44,8 @@ router.post(
     '/getAgencyApplicationInfo', homeController.getAgencyApplicationInfo
 );
 
-router.get(
-    '/getProfileApplicationDetail/:id', homeController.getProfileApplicationDetail
+router.post(
+    '/getProfileApplicationDetail', homeController.getProfileApplicationDetail
 );
 
 

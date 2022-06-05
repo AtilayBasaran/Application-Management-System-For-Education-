@@ -58,8 +58,8 @@ exports.getApplicationInfo = async (req, res, next) => {
 
 exports.getProfileApplicationDetail = async (req, res, next) => {
 
-   // try {
-        const user_id = req.params.id;
+    try {
+        const user_id = req.body.user_id;
         const applicationInfos = [];
         pool.query(
             "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id where a.user_id = ?",
@@ -83,7 +83,7 @@ exports.getProfileApplicationDetail = async (req, res, next) => {
             },
         );
         return;
-    /*} catch (err) {
+    } catch (err) {
         if (!err.statusCode) {
             res.status(400).send({
                 message: "Application Information Cannot Take!"
@@ -91,7 +91,7 @@ exports.getProfileApplicationDetail = async (req, res, next) => {
             return;
         }
         next(err);
-    }*/
+    }
 
 };
 

@@ -162,7 +162,21 @@ export class CreateApplicationComponent implements OnInit {
     }
     else if (this.step == 4) {
       this.upload_step = true;
-      this.step++;
+      if (this.agent_process) {
+        var user_id = this.agent_user_id;
+      } else {
+        var user_id = this.currentUser.id;
+      }
+      this.http.post('http://localhost:3000/app/isUploadMandatory',{user_id}, this.httpOptions).subscribe(data => {
+        console.log('dta : ' +data)
+        if (data == true){
+          this.step++;
+        }else{
+          this.toastr.error('You need to upload mandatory documents', 'Error')
+          return;
+        }
+      });
+      
     }
 
 
@@ -318,10 +332,10 @@ export class CreateApplicationComponent implements OnInit {
             } else {
               this.message = 'Could not upload the file!';
             }
-            this.currentFile = undefined;
+            // this.currentFile = undefined;
           });
       }
-      this.selectedFiles = undefined;
+      // this.selectedFiles = undefined;
     }
   }
 

@@ -676,3 +676,30 @@ exports.isCreateApplication = (req, res, next) => {
         next(err);
     }
 };
+
+exports.isUploadMandatory = (req, res, next) => {
+
+    try {
+        var user_id = req.body.user_id;
+
+        pool.query(
+            "SELECT count(id) as count FROM document where user_id = ? and title = 'Copy of Passport / ID Card (*)'",
+            [user_id],
+            async (err, result) => {
+
+                if (result[0].count != 0) {
+                    res.status(201).send('true');
+                }else{
+                    res.status(201).send('false');
+                }
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send('false');
+            return;
+        }
+        next(err);
+    }
+};

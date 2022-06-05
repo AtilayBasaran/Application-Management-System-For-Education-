@@ -70,7 +70,9 @@ router.post(
     '/isCreateApplication', appController.isCreateApplication
 );
 
-
+router.post(
+    '/isUploadMandatory', appController.isUploadMandatory
+);
 
 
 
