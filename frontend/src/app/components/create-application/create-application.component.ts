@@ -70,14 +70,19 @@ export class CreateApplicationComponent implements OnInit {
   ngOnInit() {
     console.log(this.isMakeChoice);
 
-    this.agent_user_id = this.route.snapshot.paramMap.get('id') || "";
-    if (this.agent_user_id != '') {
-      this.agent_process = true;
+    if (this.router.url === '/createApplication') {
+
+    } else {
+      this.agent_user_id = this.route.snapshot.paramMap.get('id') || "";
+      if (this.agent_user_id != '') {
+        this.agent_process = true;
+      }
     }
 
-    
     console.log(this.agent_user_id)
     console.log('Agent process = ' + this.agent_process)
+
+    this.currentUser = this.token.getUser();
 
     if (this.agent_process) {
       var user_id = this.agent_user_id;
@@ -86,7 +91,6 @@ export class CreateApplicationComponent implements OnInit {
     }
 
     this.fileInfos = this.uploadService.getFiles(user_id);
-    this.currentUser = this.token.getUser();
 
     this.personalDetails = this.formBuilder.group({
       name: ['', Validators.required],
@@ -296,7 +300,7 @@ export class CreateApplicationComponent implements OnInit {
       const file: File | null = this.selectedFiles.item(0);
       if (file) {
         this.currentFile = file;
-        this.uploadService.upload(this.currentFile, this.documentTitle,user_id).subscribe(
+        this.uploadService.upload(this.currentFile, this.documentTitle, user_id).subscribe(
           (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round(100 * event.loaded / event.total);
@@ -328,7 +332,7 @@ export class CreateApplicationComponent implements OnInit {
       var user_id = this.currentUser.id;
     }
     this.uploadService
-      .deleteFiles(document_url,user_id, file_name)
+      .deleteFiles(document_url, user_id, file_name)
       .subscribe(
         data => {
 
@@ -382,7 +386,7 @@ export class CreateApplicationComponent implements OnInit {
       console.log(file?.name)
       const fileName = file?.name
       if (this.documentTitle != 'Other Documents') {
-        var user_id ;
+        var user_id;
         if (this.agent_process) {
           user_id = this.agent_user_id;
         } else {
