@@ -58,14 +58,14 @@
                 </div>
 
                 <div *ngIf="is_agreed">
-                    <h2 class="tittle">Scientific sorusu</h2>
+                    <h2 class="tittle">Scientific Prep Decision</h2>
                     <mat-radio-group aria-labelledby="example-radio-group-label" formControlName='isScientific'
                         class="example-radio-group" [(ngModel)]="scientificOrNot">
                         <mat-radio-button class="degree-radio-button" value="Yes" (click)="isScientific('Yes')">
-                            Yes
+                            with scientific preparation
                         </mat-radio-button>
                         <mat-radio-button class="degree-radio-button" value="No" (click)="isScientific('No')">
-                            No
+                            without scientific preparation
                         </mat-radio-button>
                     </mat-radio-group>
                     <div *ngIf="status_step && statusDetail.controls.isScientific.errors">
@@ -125,7 +125,7 @@
 
         <form [formGroup]="schoolarShipForm" id="msform">
             <fieldset *ngIf="step == 4">
-                <h2>Interview</h2>
+                <h2>Do you want to send an interview</h2>
                 <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
                     <mat-radio-button class="degree-radio-button" value="Yes">
                         Yes
