@@ -351,6 +351,43 @@ exports.getQuotaDetail = async (req, res, next) => {
 
 };
 
+exports.getAllQuota = async (req, res, next) => {
+
+    try {
+        
+        var quotaInfos = [];
+        pool.query(
+            "select p.name, p.degree, q.percent , q.initial_quota, q.remaining_quota from programs p join quota q on p.id = q.program_id",
+            async (err, result) => {
+
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        name: result[i].name,
+                        degree: result[i].degree,
+                        percent: result[i].percent,
+                        initial_quota: result[i].initial_quota,
+                        remaining_quota: result[i].remaining_quota,
+                    };
+                    quotaInfos.push(a);
+                }
+
+                console.log(quotaInfos),
+                    res.status(201).send(quotaInfos)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Quota Details Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
 exports.changeQuota = async (req, res, next) => {
 
     

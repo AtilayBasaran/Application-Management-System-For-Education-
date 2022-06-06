@@ -190,6 +190,37 @@
                     </div>
                 </div>
             </mat-tab>
+            <mat-tab label="Quota Information">
+                <div class="homepage">
+                    <div class="form">
+                        <div class="genel">
+                            <div class="left_content">
+                                <ul class="table">
+                                    <li style="list-style-type: none;" class="table-header">
+                                        <div class="col col-1">Program Name</div>
+                                        <div class="col col-2">Program Degree</div>
+                                        <div class="col col-3">Scholarship</div>
+                                        <div class="col col-4">Initial Quota</div>
+                                        <div class="col col-5">Current Quota</div>
+                                    </li>
+                                </ul>
+                                <ul class="table">
+                                    <li style="list-style-type: none;" class="table-row"
+                                        *ngFor="let qp of quotaInfos;">
+                                        <div class="table-form">
+                                            <div class="col col-1">{{qp.name}}</div>
+                                            <div class="col col-2">{{qp.degree}}</div>
+                                            <div class="col col-3">{{qp.percent}}</div>
+                                            <div class="col col-4">{{qp.initial_quota}}</div>
+                                            <div class="col col-5">{{qp.remaining_quota}}</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
         </mat-tab-group>
     </mat-tab>
 </mat-tab-group>

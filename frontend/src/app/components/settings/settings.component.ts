@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class SettingsComponent implements OnInit {
 
   programInfos: any;
+  quotaInfos: any;
   userInfos: any;
   courseInfos: any;
   courseForm: FormGroup;
@@ -40,6 +41,7 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userInfos = this.getUserInfos();
+    this.quotaInfos = this.getQuotaInfos();
     this.programInfos = this.getProgram();
     this.courseInfos = this.getCourseInfos();
     this.courseForm = this.createFormGroup();
@@ -82,6 +84,17 @@ export class SettingsComponent implements OnInit {
       console.log('user infos')
 
       console.log(this.userInfos)
+    });
+  }
+
+  getQuotaInfos() {
+    this.http.get('http://localhost:3000/settings/getAllQuota').subscribe(data => {
+      this.quotaInfos = data;
+      console.log(data)
+
+      console.log('quota infos')
+
+      console.log(this.quotaInfos)
     });
   }
 

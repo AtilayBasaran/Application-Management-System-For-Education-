@@ -32,6 +32,10 @@ router.get(
 );
 
 router.get(
+    '/getAllQuota', settingsController.getAllQuota
+)
+
+router.get(
     '/deleteCourse/:course_id', settingsController.deleteCourse
 );
 
