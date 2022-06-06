@@ -14,6 +14,9 @@ export class ProfileComponent implements OnInit {
   currentUser: any;
   appInfos: any;
   deneme:any;
+  stage : String;
+  register_date : any;
+  agency_mail : any;
   changePassForm: FormGroup;
   errorMessage = '' ; 
   isChangePassFailed = false;
@@ -27,6 +30,7 @@ export class ProfileComponent implements OnInit {
     this.deneme = this.getUserInfos();
     this.changePassForm = this.createFormGroup();
     console.log('hop'+this.currentUser)
+    this.getApplicationDetail()
 
   };
 
@@ -80,9 +84,14 @@ export class ProfileComponent implements OnInit {
   getApplicationDetail() {
     var user_id = this.token.getUser().id;
     this.http.post('http://localhost:3000/home/getProfileApplicationDetail',{user_id}, this.httpOptions ).subscribe(data => {
-      this.appInfos = data;
-      this.deneme = this.appInfos
-      console.log(this.deneme)
+      let myString = JSON.stringify(data)
+      var jsonObj = JSON.parse(myString)
+      var profile_data = jsonObj[0]
+
+
+      this.stage = profile_data.stage
+      this.register_date = profile_data.register_date
+      this.agency_mail = profile_data.agency_mail
     });
   }
   getUserInfos() {

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
+import { FormGroup } from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,11 @@ export class SettingService {
   changeCourseName(courseId: String, courseName : String): Observable<any> {
     return this.http
       .post(`${this.url}/changeCourseName`,{courseId,courseName}, this.httpOptions);
+  }
+
+  changeQuota(quotaForm : any){
+    return this.http
+      .post(`${this.url}/changeQuota`,{quotaForm}, this.httpOptions);
   }
 
 }

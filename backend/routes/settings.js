@@ -47,5 +47,12 @@ router.post(
     '/agencyUserDetails', settingsController.agencyUserDetails
 );
 
+router.post(
+    '/getQuotaDetail', settingsController.getQuotaDetail
+);
+
+router.post(
+    '/changeQuota', settingsController.changeQuota
+);
 
 module.exports = router;

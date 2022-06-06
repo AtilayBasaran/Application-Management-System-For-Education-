@@ -149,7 +149,7 @@
                                         <div class="col col-6">Update Buttons</div>
                                     </li>
                                 </ul>
-                                <form [formGroup]="schoolarShipForm" id="msform">
+                                <form [formGroup]="quotaForm" id="msform" (ngSubmit)="changeQuota()">
                                     <ul class="table">
 
                                         <li style="list-style-type: none;" class="table-row">
@@ -157,26 +157,26 @@
                                                 <div class="col col-1">
                                                     <mat-form-field appearance="fill">
                                                         <mat-label>Program Type</mat-label>
-                                                        <mat-select matInput name="program">
-                                                          <mat-option *ngFor="let program of programInfos" [value]="program.name">
-                                                            {{program.name}}
+                                                        <mat-select matInput name="program" [(ngModel)]="quotaProgramChooice" formControlName='quotaProgramChooice' >
+                                                          <mat-option *ngFor="let program of programInfos" [value]="program.name" (click) = 'setProgram(program.name)' >
+                                                            {{program.name}} {{program.degree}}
                                                         </mat-option>
                                                         </mat-select>
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col col-2">
                                                     <mat-radio-group class="radio" aria-label="Select an option"
-                                                        [(ngModel)]="chooseSchoolar" formControlName='schoolarChoice'>
-                                                        <mat-radio-button value="0">0%</mat-radio-button>
-                                                        <mat-radio-button value="25">25%</mat-radio-button>
-                                                        <mat-radio-button value="50">50%</mat-radio-button>
-                                                        <mat-radio-button value="75">75%</mat-radio-button>
-                                                        <mat-radio-button value="100">100%</mat-radio-button>
+                                                        [(ngModel)]="chooseSchoolar" formControlName='quotaSchoolarChoice' [disabled]="programChooice == null " >
+                                                        <mat-radio-button value="0"  (click) = 'setScholar(0)' >0%</mat-radio-button>
+                                                        <mat-radio-button value="25" (click) = 'setScholar(25)'>25%</mat-radio-button>
+                                                        <mat-radio-button  value="50" (click) = 'setScholar(50)' >50%</mat-radio-button>
+                                                        <mat-radio-button  value="75" (click) = 'setScholar(75)' >75%</mat-radio-button>
+                                                        <mat-radio-button  value="100"(click) = 'setScholar(100)' >100%</mat-radio-button>
                                                     </mat-radio-group>
                                                 </div>
-                                                <div class="col col-3">10</div>
-                                                <div class="col col-4">5</div>
-                                                <div class="col col-5"><input style="height:25px" type="text"></div>
+                                                <div class="col col-3">{{initial_quota}}</div>
+                                                <div class="col col-4">{{remaining_quota}}</div>
+                                                <div class="col col-5"><input formControlName='quotaNumber' style="height:25px" type="text"></div>
 
                                                 <div class="col col-6">
                                                     <button class="btn-del">Update</button>

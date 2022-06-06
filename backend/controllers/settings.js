@@ -276,3 +276,126 @@ exports.agencyUserDetails = async (req, res, next) => {
     }
 
 };
+
+exports.getQuotaDetail = async (req, res, next) => {
+
+    try {
+        var program = req.body.program;
+        var scholar = req.body.scholar;
+        
+        var quotaInfos = [];
+        pool.query(
+            "select * from programs p inner join quota q on p.id = q.program_id where p.name = ? and q.percent = ?",
+            [program,scholar],
+            async (err, result) => {
+
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        initial_quota: result[i].initial_quota,
+                        remaining_quota: result[i].remaining_quota,
+                    };
+                    quotaInfos.push(a);
+                }
+
+                console.log(quotaInfos),
+                    res.status(201).send(quotaInfos)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Quota Details Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+exports.getQuotaDetail = async (req, res, next) => {
+
+    try {
+        var program = req.body.program;
+        var scholar = req.body.scholar;
+        
+        var quotaInfos = [];
+        pool.query(
+            "select * from programs p inner join quota q on p.id = q.program_id where p.name = ? and q.percent = ?",
+            [program,scholar],
+            async (err, result) => {
+
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        initial_quota: result[i].initial_quota,
+                        remaining_quota: result[i].remaining_quota,
+                    };
+                    quotaInfos.push(a);
+                }
+
+                console.log(quotaInfos),
+                    res.status(201).send(quotaInfos)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Quota Details Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+exports.changeQuota = async (req, res, next) => {
+
+    
+        var program = req.body.quotaProgramChooice;
+        var scholar = req.body.quotaSchoolarChoice;
+        var quotaNumber = Number(req.body.quotaNumber);
+        var initial_quota = Number(req.body.initial_quota);
+        var remaining_quota = Number(req.body.remaining_quota);
+        console.log(program)
+        console.log(scholar)
+        console.log(quotaNumber)
+        console.log(initial_quota)
+        console.log(remaining_quota)
+
+        var new_initial = initial_quota + quotaNumber
+        var new_remaining = remaining_quota + quotaNumber
+
+
+        try {
+        pool.query(
+            "select id from programs where name = ?",
+            [program],
+            async (err, result) => {
+                var id = result[0].id
+                db.execute(
+                    'UPDATE quota SET initial_quota = ? , remaining_quota = ? WHERE id =  ? and percent = ?;',
+                    [new_initial, new_remaining , id, scholar]
+                );
+                res.status(201).send({
+                    message: 'Quota changed Succesfully'
+                });
+            },
+        );
+        
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Update quota process Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+    
+
+};
+

@@ -4,7 +4,7 @@ import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { SettingService } from 'src/app/services/setting.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -23,8 +23,17 @@ export class SettingsComponent implements OnInit {
   chooseSchoolar: string;
   isAddCourseFailed = false;
   schoolarShipForm !: FormGroup;
+  quotaForm !: FormGroup;
+  programChooice: string;
+  scholarChooice: any;
+  quotaDetail : any;
+  initial_quota : any ;
+  remaining_quota : any;
+  quotaProgramChooice : String;
 
-
+  httpOptions: { headers: HttpHeaders } = {
+    headers: new HttpHeaders({ "Content-Type": "application/json" }),
+  };
   constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService, private formBuilder: FormBuilder) {
 
   }
@@ -35,6 +44,7 @@ export class SettingsComponent implements OnInit {
     this.courseInfos = this.getCourseInfos();
     this.courseForm = this.createFormGroup();
     this.courseNameForm = this.createNameForm();
+    this.quotaForm = this.createQuotaGroup();
 
     this.schoolarShipForm = this.formBuilder.group({
       schoolarChoice: [null, Validators.required]
@@ -47,6 +57,14 @@ export class SettingsComponent implements OnInit {
       deptName: new FormControl("", [
         Validators.required,
       ]),
+    });
+  }
+
+  createQuotaGroup(): FormGroup {
+    return new FormGroup({
+      quotaProgramChooice: new FormControl("", [Validators.required]),
+      quotaSchoolarChoice: new FormControl("", [Validators.required,]),
+      quotaNumber: new FormControl("", [ Validators.required,]),
     });
   }
 
@@ -76,6 +94,40 @@ export class SettingsComponent implements OnInit {
 
       console.log(this.programInfos)
     })
+  }
+
+  setProgram(program_name : string) {
+    this.programChooice = program_name ; 
+
+    console.log(this.programChooice)
+  }
+
+  setScholar(scholar : any) {
+    this.scholarChooice = scholar ; 
+
+    console.log(this.scholarChooice)
+
+    if(this.programChooice != null && this.scholarChooice != null){
+      var program = this.programChooice
+      var scholar = this.scholarChooice
+
+      this.http.post('http://localhost:3000/settings/getQuotaDetail', {program,scholar}).subscribe(data => {
+        var a = data;
+        let myString = JSON.stringify(data)
+        var jsonObj = JSON.parse(myString)
+        var quota_data = jsonObj[0]
+        this.initial_quota = quota_data.initial_quota
+        this.remaining_quota = quota_data.remaining_quota
+
+        console.log('Quota Details')
+  
+        console.log(this.quotaDetail)
+      });
+      console.log(this.initial_quota)
+    }
+
+    
+
   }
 
   getCourseInfos() {
@@ -153,6 +205,24 @@ export class SettingsComponent implements OnInit {
           this.errorMessage = err.error.message;
           this.isAddCourseFailed = true;
         });
+  }
+
+  changeQuota(): void {
+    console.log(this.remaining_quota + this.quotaForm.value.quotaNumber)
+    if(Number(this.remaining_quota) + Number(this.quotaForm.value.quotaNumber) < 0){
+      this.toastr.error('Quota cannot be smaller than 0', 'Error')
+      return;
+    }
+    var initial_quota = this.initial_quota;
+    var remaining_quota = this.remaining_quota;
+    var quotaNumber  = this.quotaForm.value.quotaNumber;
+    var quotaProgramChooice  = this.quotaForm.value.quotaProgramChooice;
+    var quotaSchoolarChoice  = this.quotaForm.value.quotaSchoolarChoice;
+    var scholarChooice = this.scholarChooice;
+    this.http.post('http://localhost:3000/settings/changeQuota',{quotaNumber, quotaProgramChooice, quotaSchoolarChoice, initial_quota, remaining_quota}).subscribe(data => {
+      console.log(data)
+      this.toastr.success('Quota changed successfully', 'Success')
+    });
   }
 
 
