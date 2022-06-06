@@ -43,6 +43,7 @@ export class ProfileComponent implements OnInit {
   
 
   changePassword(): void {
+    console.log('deneme')
     const email = this.currentUser.email;
     console.log(this.changePassForm.value.password);
     console.log(email)
