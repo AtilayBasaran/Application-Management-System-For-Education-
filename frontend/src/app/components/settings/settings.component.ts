@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { SettingService } from 'src/app/services/setting.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
 import { ToastrService } from 'ngx-toastr';
@@ -20,10 +20,12 @@ export class SettingsComponent implements OnInit {
   courseForm: FormGroup;
   courseNameForm: FormGroup;
   errorMessage = '';
+  chooseSchoolar: string;
   isAddCourseFailed = false;
+  schoolarShipForm !: FormGroup;
 
 
-  constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {
+  constructor(private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService, private formBuilder: FormBuilder) {
 
   }
 
@@ -33,6 +35,10 @@ export class SettingsComponent implements OnInit {
     this.courseInfos = this.getCourseInfos();
     this.courseForm = this.createFormGroup();
     this.courseNameForm = this.createNameForm();
+
+    this.schoolarShipForm = this.formBuilder.group({
+      schoolarChoice: [null, Validators.required]
+    })
   }
 
   createFormGroup(): FormGroup {

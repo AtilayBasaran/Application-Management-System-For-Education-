@@ -420,18 +420,34 @@ export class CreateApplicationComponent implements OnInit {
           },
             err => {
             })
+      }else{
+        var user_id;
+        if (this.agent_process) {
+          user_id = this.agent_user_id;
+        } else {
+          user_id = this.currentUser.id;
+        }
+        isPassTitle = true;
       }
       this.applicationService
         .controlDocumentName(fileName, user_id)
         .subscribe(data => {
+          console.log('buraya giriyor mu ?')
           console.log(data);
+
 
           if (data == true) {
             const modalRef = this.modalService.open(NgbdModalContent);
             modalRef.result.then((result) => {
+              console.log(result)
               if (result) {
                 if (result == 'true') {
                   isPassName = true
+                  if (isPassTitle && isPassName) {
+                    console.log('bu çalıştı mı ? ')
+                    this.upload();
+                  }
+                  return;
                 } else if (result == 'false') {
                   this.toastr.error('Document upload cancelled please upload new document', 'Error')
                 }
@@ -441,7 +457,10 @@ export class CreateApplicationComponent implements OnInit {
             isPassName = true;
           }
 
+          console.log('is pass name '+ isPassName)
+
           if (isPassTitle && isPassName) {
+            console.log('bu çalıştı mı ? ')
             this.upload();
           }
 

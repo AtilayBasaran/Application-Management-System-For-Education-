@@ -17,7 +17,7 @@ export class HeadOfDeptGuard implements CanActivate {
       
       this.userRole = this.token.getUser().roles;
       console.log('bak bakalım'+ this.userRole)
-      if (this.userRole == 'headOfDept') {
+      if (this.userRole == 'headOfDept' || this.userRole == 'institute') {
         return true;
       
       } else {

@@ -137,33 +137,39 @@
                                     <li style="list-style-type: none;" class="table-header">
                                         <div class="col col-1">Program Name</div>
                                         <div class="col col-2">Program Degree</div>
-                                        <div class="col col-3">Initial Quota</div>
-                                        <div class="col col-4">Current Quota</div>
-                                        <div class="col col-5">Change Quota</div>
-                                        <div class="col col-6">Choose Scholarship</div>
+                                        <div class="col col-3">Choose Scholarship</div>
+                                        <div class="col col-4">Initial Quota</div>
+                                        <div class="col col-5">Current Quota</div>
+                                        <div class="col col-6">Change Quota</div>
                                         <div class="col col-7">Update Buttons</div>
                                     </li>
                                 </ul>
+                                <form [formGroup]="schoolarShipForm" id="msform">
                                 <ul class="table">
+                                    
                                     <li style="list-style-type: none;" class="table-row" *ngFor="let program of programInfos;">
                                         <div class="table-form">
                                         <div class="col col-1">{{program.name}}</div>
                                         <div class="col col-2">{{program.degree}}</div>
-                                        <div class="col col-3">10</div>
-                                        <div class="col col-4">5</div>
-                                        <div class="col col-5"><textarea></textarea></div>
-                                        <div class="col col-6"><mat-radio-group class="radio" aria-label="Select an option">
-                                            <mat-radio-button value="1">25%</mat-radio-button>
-                                            <mat-radio-button value="2">50%</mat-radio-button>
-                                            <mat-radio-button value="3">75%</mat-radio-button>
-                                            <mat-radio-button value="4">100%</mat-radio-button>
+                                        <div class="col col-3">
+                                            <mat-radio-group class="radio" aria-label="Select an option" [(ngModel)]="chooseSchoolar" formControlName='schoolarChoice'>
+                                            <mat-radio-button value="0">0%</mat-radio-button>
+                                            <mat-radio-button value="25">25%</mat-radio-button>
+                                            <mat-radio-button value="50">50%</mat-radio-button>
+                                            <mat-radio-button value="75">75%</mat-radio-button>
+                                            <mat-radio-button value="100">100%</mat-radio-button>
                                         </mat-radio-group></div>
+                                        <div class="col col-4">10</div>
+                                        <div class="col col-5">5</div>
+                                        <div class="col col-6"><textarea></textarea></div>
+                                        
                                         <div class="col col-7">
                                         <button class="btn-del">Update</button>
                                     </div>
                                 </div>
                                     </li>
                                 </ul>
+                            </form>
                             </div>
                         </div>
                     </div>
