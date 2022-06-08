@@ -6,9 +6,9 @@
         <!-- progressbar -->
         <ul id="progressbar">
             <li [ngClass]="step>=1 ? 'active ' : 'inactive'">Documents</li>
-            <li [ngClass]="step>=2 ? 'active' : 'inactive'">Status</li>
-            <li [ngClass]="step>=3 && is_scientific ? 'active' : 'inactive'">Add course</li>
-            <li [ngClass]="step>=4 ? 'active' : 'inactive'">Interview</li>
+            <li [ngClass]="step>=2 ? 'active' : 'inactive'">Interview</li>
+            <li [ngClass]="step>=3 ? 'active' : 'inactive'">Status</li>
+            <li [ngClass]="step>=4 && is_scientific ? 'active' : 'inactive'">Add course</li>
             <li [ngClass]="step>=5 ? 'active' : 'inactive'">Schoolarship</li>
             <li [ngClass]="step>=6 ? 'active' : 'inactive'">All Information</li>
         </ul>
@@ -43,7 +43,7 @@
 
 
         <form [formGroup]="statusDetail" id="msform">
-            <fieldset *ngIf="step == 2">
+            <fieldset *ngIf="step == 3">
 
                 <h2 class="tittle">Do you agree this application?</h2>
                 <mat-radio-group aria-labelledby="example-radio-group-label" formControlName='isAgree'
@@ -77,7 +77,7 @@
 
 
         <form [formGroup]="courseDetails" id="msform">
-            <fieldset *ngIf="step == 3">
+            <fieldset *ngIf="step == 4">
                 <h2>Courses</h2>
 
                 <mat-form-field appearance="fill">
@@ -124,7 +124,7 @@
         </form>
 
         <form [formGroup]="schoolarShipForm" id="msform">
-            <fieldset *ngIf="step == 4">
+            <fieldset *ngIf="step == 2">
                 <h2>Do you want to send an interview</h2>
                 <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
                     <mat-radio-button class="degree-radio-button" value="Yes">
@@ -145,6 +145,9 @@
                 <h2>Schoolarship sorusu</h2>
                 <mat-radio-group aria-labelledby="example-radio-group-label" formControlName='schoolarChoice'
                     class="example-radio-group" [(ngModel)]="chooseSchoolar">
+                    <mat-radio-button class="degree-radio-button" value="0">
+                        0%
+                    </mat-radio-button>
                     <mat-radio-button class="degree-radio-button" value="25">
                         25%
                     </mat-radio-button>
@@ -236,12 +239,12 @@
         value="Previous">Previous</button>
     <button *ngIf="step == 6" (click)="submit()" type="submit" name="submit" class="progresss btn-progress"
         value="Submit">Submit</button>
-    <button *ngIf="step != 6 && step != 2" (click)="next()" type="button" name="next" class="progresss btn-progress"
+    <button *ngIf="step != 6 && step != 3" (click)="next()" type="button" name="next" class="progresss btn-progress"
         value="Next">Next</button>
     <div *ngIf="agreeOrNot != null ">
-        <button *ngIf="step == 2 && is_agreed" (click)="next()" type="button" name="next" class="progresss btn-progress"
+        <button *ngIf="step == 3 && is_agreed" (click)="next()" type="button" name="next" class="progresss btn-progress"
             value="Next">Next</button>
-        <button *ngIf="step == 2 && !is_agreed" (click)="reject(user_id)" type="button" name="reject"
+        <button *ngIf="step == 3 && !is_agreed" (click)="reject(user_id)" type="button" name="reject"
             class="progresss btn-progress" value="Reject">Reject</button>
     </div>
 </div>

@@ -195,8 +195,10 @@ export class NgbdModal3Content implements OnInit {
       this.document_step = true;
       this.step++;
     }
-
-    else if (this.step == 2) {
+    else if(this.step == 2) {
+      this.step++;
+    }
+    else if (this.step == 3) {
       this.status_step = true;
       if (this.statusDetail.invalid) { return }
       if (this.is_scientific) {
@@ -205,17 +207,12 @@ export class NgbdModal3Content implements OnInit {
         this.getUserCourses(this.user_id);
         console.log(this.courseInfos)
       } else {
-        this.step = 4;
+        this.step = 5;
       }
-
-
     }
-    else if (this.step == 3) {
+    else if (this.step == 4) {
       this.addCourse_step = true;
       if (this.courseDetails.invalid) { return }
-      this.step++;
-    }
-    else if(this.step == 4) {
       this.step++;
     }
     else if(this.step == 5) {
@@ -226,7 +223,7 @@ export class NgbdModal3Content implements OnInit {
   }
 
   previous() {
-    if (this.step == 4 && !this.is_scientific) {
+    if (this.step == 5 && !this.is_scientific) {
       this.step -= 2;
     } else {
       
@@ -235,14 +232,14 @@ export class NgbdModal3Content implements OnInit {
         this.document_step = false;
       }
       if (this.step == 2) {
-        this.status_step = false;
         this.step--
       }
       if (this.step == 3) {
-        this.addCourse_step = false;
+        this.status_step = false;
         this.step--
       }
       if (this.step == 4) {
+        this.addCourse_step = false;
         this.step--
       }
       if (this.step == 5) {
@@ -258,7 +255,6 @@ export class NgbdModal3Content implements OnInit {
     if (this.step == 6) {
 
       if (this.schoolarShipForm.invalid) { return }
-      console.log('selamlar')
       this.approveApplication()
     }
   }

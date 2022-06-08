@@ -10,7 +10,7 @@
                                     <li style="list-style-type: none;" class="table-header">
                                         <div class="col col-1">Course Name</div>
                                         <div class="col col-2">Department Name</div>
-                                        <div class="col col-3">Add Button</div>
+                                        <div class="col col-3">Operation</div>
                                     </li>
                                 </ul>
                                 <ul class="table">
@@ -41,7 +41,7 @@
                                     <li style="list-style-type: none;" class="table-header">
                                         <div class="col col-1">Course Name</div>
                                         <div class="col col-2">Department Name</div>
-                                        <div class="col col-3">Delete</div>
+                                        <div class="col col-3">Operation</div>
                                     </li>
                                 </ul>
                                 <ul class="table">
@@ -76,7 +76,7 @@
                                         <div class="col col-1">Name Surname</div>
                                         <div class="col col-2">E-mail</div>
                                         <div class="col col-3">Role</div>
-                                        <div class="col col-4">Change Buttons</div>
+                                        <div class="col col-4">Operation</div>
                                     </li>
                                 </ul>
                                 <ul class="table">
@@ -109,7 +109,7 @@
                                         <div class="col col-1">Name Surname</div>
                                         <div class="col col-2">E-mail</div>
                                         <div class="col col-3">Role</div>
-                                        <div class="col col-4">Delete</div>
+                                        <div class="col col-4">Operation</div>
                                     </li>
                                 </ul>
                                 <ul class="table">
@@ -144,9 +144,9 @@
                                         <div class="col col-1">Program Name</div>
                                         <div class="col col-2">Choose Scholarship</div>
                                         <div class="col col-3">Initial Quota</div>
-                                        <div class="col col-4">Current Quota</div>
+                                        <div class="col col-4">Available Quota</div>
                                         <div class="col col-5">Change Quota</div>
-                                        <div class="col col-6">Update Buttons</div>
+                                        <div class="col col-6">Operation</div>
                                     </li>
                                 </ul>
                                 <form [formGroup]="quotaForm" id="msform" (ngSubmit)="changeQuota()">
@@ -191,6 +191,10 @@
                 </div>
             </mat-tab>
             <mat-tab label="Quota Information">
+                <!-- <mat-form-field appearance="standard">
+                    <mat-label>Filter</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Filter" #input>
+                </mat-form-field> -->
                 <div class="homepage">
                     <div class="form">
                         <div class="genel">
@@ -201,7 +205,7 @@
                                         <div class="col col-2">Program Degree</div>
                                         <div class="col col-3">Scholarship</div>
                                         <div class="col col-4">Initial Quota</div>
-                                        <div class="col col-5">Current Quota</div>
+                                        <div class="col col-5">Available Quota</div>
                                     </li>
                                 </ul>
                                 <ul class="table">
