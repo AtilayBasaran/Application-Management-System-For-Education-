@@ -23,6 +23,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -107,7 +108,8 @@ import { AuthorizedComponent } from './components/authorized/authorized.componen
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     NgbModule,
-    MatExpansionModule
+    MatExpansionModule,
+    Ng2SearchPipeModule
   ],
   providers: [authInterceptorProviders,LoginGuardGuard,ProfileGuard],
   bootstrap: [AppComponent]

@@ -6,7 +6,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { ToastrService } from 'ngx-toastr';
-import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-settings',
@@ -15,7 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class SettingsComponent implements OnInit {
 
-  dataSource: MatTableDataSource<any>;
+  searchText: any;
   programInfos: any;
   quotaInfos: any;
   userInfos: any;
@@ -78,10 +77,6 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
 
   getUserInfos() {
     this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
@@ -97,7 +92,6 @@ export class SettingsComponent implements OnInit {
   getQuotaInfos() {
     this.http.get('http://localhost:3000/settings/getAllQuota').subscribe(data => {
       this.quotaInfos = data;
-      this.dataSource = new MatTableDataSource(this.quotaInfos);
       console.log(data)
 
       console.log('quota infos')
