@@ -770,3 +770,36 @@ exports.sendInterviewRequest = (req, res, next) => {
         next(err);
     }
 };
+
+
+
+exports.getProgramQuotaInfos = (req, res, next) => {
+
+    try {
+        var programQuotaInfo = []
+        var user_id = req.body.user_id;
+
+        pool.query(
+            "select q.percent, q.remaining_quota from applications a inner join programs p on a.program = p.name inner join quota q on p.id = q.program_id where a.user_id = ?",
+            [user_id],
+            async (err, result) => {
+
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        percent: result[i].percent,
+                        remaining_quota: result[i].remaining_quota,
+                    };
+                    programQuotaInfo.push(a);
+                }
+                res.status(201).send(programQuotaInfo)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send('false');
+            return;
+        }
+        next(err);
+    }
+};

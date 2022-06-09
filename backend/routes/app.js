@@ -78,6 +78,10 @@ router.post(
     '/sendInterviewRequest', appController.sendInterviewRequest
 );
 
+router.post(
+    '/getProgramQuotaInfos', appController.getProgramQuotaInfos
+);
+
 
 
 module.exports = router;

@@ -147,7 +147,16 @@
                     <p *ngIf="schoolar.schoolarChoice.errors?.required">Schoolar is required</p>
                 </div>
                 <h2>Schoolarship sorusu</h2>
-                <mat-radio-group aria-labelledby="example-radio-group-label" formControlName='schoolarChoice'
+               
+                <mat-radio-group aria-labelledby="example-radio-group-label" formControlName = 'schoolarChoice' class="example-radio-group"
+                [(ngModel)]="chooseSchoolar">
+                <mat-radio-button class="example-radio-button" *ngFor="let quota of programQuotaInfo" [value]="quota.percent" [disabled]="quota.remaining_quota == 0" >
+                  {{quota.percent}}% {{quota.remaining_quota}}
+                </mat-radio-button>
+              </mat-radio-group>
+               
+               
+                <!-- <mat-radio-group aria-labelledby="example-radio-group-label" formControlName='schoolarChoice'
                     class="example-radio-group" [(ngModel)]="chooseSchoolar">
                     <mat-radio-button class="degree-radio-button" value="0">
                         0%
@@ -164,7 +173,11 @@
                     <mat-radio-button class="degree-radio-button" value="100">
                         100%
                     </mat-radio-button>
-                </mat-radio-group>
+                </mat-radio-group> -->
+
+
+
+
             </fieldset>
         </form>
 

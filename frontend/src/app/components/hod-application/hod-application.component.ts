@@ -142,6 +142,7 @@ export class NgbdModal3Content implements OnInit {
   courseDetails !: FormGroup;
   schoolarShipForm !: FormGroup;
   userCourses: any;
+  programQuotaInfo: any;
 
   step = 1;
   constructor(private modalService: NgbModal, public activeModal: NgbActiveModal, private uploadService: UploadFilesService, private http: HttpClient, private formBuilder: FormBuilder, private toastr: ToastrService) { }
@@ -217,6 +218,9 @@ export class NgbdModal3Content implements OnInit {
     else if (this.step == 3) {
       this.status_step = true;
       if (this.statusDetail.invalid) { return }
+
+      this.getprogramQuotaInfos();
+
       if (this.is_scientific) {
         this.step++;
         this.getCourseInfos();
@@ -299,8 +303,16 @@ export class NgbdModal3Content implements OnInit {
 
   }
 
-  denemeMethod() {
-console.log(this.interviewForm.value.isInterviewAgree)
+  getprogramQuotaInfos() {
+    var user_id = this.user_id;
+    this.http.post('http://localhost:3000/app/getProgramQuotaInfos', { user_id }, this.httpOptions).subscribe(data => {
+      this.programQuotaInfo = data;
+      console.log(data)
+
+      console.log('Course infos')
+
+      console.log(this.programQuotaInfo)
+    });
   }
 
   approveApplication() {
