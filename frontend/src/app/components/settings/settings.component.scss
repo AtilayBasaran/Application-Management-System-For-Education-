@@ -81,6 +81,30 @@
     flex-basis: 12%;
 }
 
+.col-10 {
+    flex-basis: 15%;
+}
+
+.col-20 {
+    flex-basis: 15%;
+}
+
+.col-30 {
+    flex-basis: 16%;
+}
+
+.col-40 {
+    flex-basis: 10%;
+}
+
+.col-50 {
+    flex-basis: 15%;
+}
+
+.col-60 {
+    flex-basis: 12%;
+}
+
 
 .form {
     margin: 2rem;
@@ -123,4 +147,8 @@ a {
 
 .filter{
     padding-top: 10px;
+}
+
+.deneme{
+    position: absolute !important;
 }
