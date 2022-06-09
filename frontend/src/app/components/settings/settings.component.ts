@@ -140,9 +140,6 @@ export class SettingsComponent implements OnInit {
       });
       console.log(this.initial_quota)
     }
-
-    
-
   }
 
   getCourseInfos() {

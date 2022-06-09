@@ -581,11 +581,25 @@ exports.approveApplication = (req, res, next) => {
         var user_id = req.body.user_id;
 
         pool.query(
-            "SELECT id FROM applications where user_id = ?",
+            "SELECT id, program FROM applications where user_id = ?",
             [user_id],
             async (err, result) => {
                 var app_id = result[0].id;
+                var program_name = result[0].program;
 
+                pool.query(
+                    "select q.id, q.remaining_quota from programs p inner join quota q on p.id = q.program_id where p.name = ? and q.percent = ?",
+                    [program_name, schoolar],
+                    async (err, result) => {
+                        var q_id = result[0].id
+                        var last_quota = result[0].remaining_quota
+                        var new_quota = last_quota - 1
+                        db.execute(
+                            "UPDATE quota set remaining_quota = ? where id = ? ",
+                            [new_quota,q_id]);
+                
+                    },
+                );
                 db.execute(
                     "UPDATE applications set stage = 'Approved' where id = ?",
                     [app_id]);
@@ -597,6 +611,8 @@ exports.approveApplication = (req, res, next) => {
                     'INSERT INTO approved_applications (app_id, scholarship, approve_date, is_delete) VALUES (?, ?, ?, ?)',
                     [app_id, schoolar, formatted, 0]
                 );
+
+                
 
                 res.status(201).send('true');
 
