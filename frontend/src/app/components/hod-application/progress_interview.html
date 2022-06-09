@@ -1,0 +1,217 @@
+<div class="modal-header">
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="row">
+    <div class="col-md-12 col-md-offset-3">
+        <!-- progressbar -->
+        <ul id="progressbar">
+            <li [ngClass]="step>=1 ? 'active' : 'inactive'">Status</li>
+            <li [ngClass]="step>=2 && is_scientific ? 'active' : 'inactive'">Add course</li>
+            <li [ngClass]="step>=3 ? 'active' : 'inactive'">Schoolarship</li>
+            <li [ngClass]="step>=4 ? 'active' : 'inactive'">All Information</li>
+        </ul>
+
+        <form [formGroup]="statusDetail" id="msform">
+            <fieldset *ngIf="step == 1">
+
+                <h2 class="tittle">Do you agree this application?</h2>
+                <mat-radio-group aria-labelledby="example-radio-group-label" formControlName='isAgree'
+                    class="example-radio-group" [(ngModel)]="agreeOrNot">
+                    <mat-radio-button class="app-radio-button" value="Agree" (click)="isAgree('Agree')"> Agree
+                    </mat-radio-button>
+                    <mat-radio-button class="app-radio-button" value="Reject" (click)="isAgree('Reject')">Reject
+                    </mat-radio-button>
+                </mat-radio-group>
+                <div *ngIf="status_step && statusDetail.controls.isAgree.errors">
+                    <div *ngIf="status.isAgree.errors?.required">Agree is required</div>
+                </div>
+
+                <div *ngIf="is_agreed">
+                    <h2 class="tittle">Scientific Prep Decision</h2>
+                    <mat-radio-group aria-labelledby="example-radio-group-label" formControlName='isScientific'
+                        class="example-radio-group" [(ngModel)]="scientificOrNot">
+                        <mat-radio-button class="degree-radio-button" value="Yes" (click)="isScientific('Yes')">
+                            with scientific preparation
+                        </mat-radio-button>
+                        <mat-radio-button class="degree-radio-button" value="No" (click)="isScientific('No')">
+                            without scientific preparation
+                        </mat-radio-button>
+                    </mat-radio-group>
+                    <div *ngIf="status_step && statusDetail.controls.isScientific.errors">
+                        <div *ngIf="status.isScientific.errors?.required">*required</div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+
+
+        <form [formGroup]="courseDetails" id="msform">
+            <fieldset *ngIf="step == 2">
+                <h2>Courses</h2>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Course Name</mat-label>
+                    <mat-select [(ngModel)]="selectedCourse" matInput name="course" formControlName="selectedCourse">
+                        <mat-option *ngFor="let course of courseInfos" [value]="course.name">
+                            {{course.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div *ngIf="addCourse_step && courseDetails.controls.selectedCourse.errors">
+                    <p *ngIf="course.selectedCourse.errors?.required">Course is required</p>
+                </div>
+                <p> Selected program: {{selectedCourse}} </p>
+
+                <button mat-flat-button color="primary" (click)="addCourse(selectedCourse , user_id)">Add
+                    course</button>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Course Name</th>
+                            <th scope="col">Department Name</th>
+                            <th scope="col">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let userCourse of userCourses">
+                        <tr>
+                            <td>
+                                <p>{{ userCourse.name }}</p>
+                            </td>
+                            <td>
+                                <p>{{ userCourse.dept_name }}</p>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary"
+                                    (click)="removeCourse(userCourse.name , userCourse.app_id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </fieldset>
+        </form>
+
+        <form [formGroup]="schoolarShipForm" id="msform">
+            <fieldset *ngIf="step == 3">
+                <div *ngIf=" schoolarShipForm.controls.schoolarChoice.errors">
+                    <p *ngIf="schoolar.schoolarChoice.errors?.required">Schoolar is required</p>
+                </div>
+                <h2>Schoolarship sorusu</h2>
+                <mat-radio-group aria-labelledby="example-radio-group-label" formControlName = 'schoolarChoice' class="example-radio-group"
+                [(ngModel)]="chooseSchoolar">
+                <mat-radio-button class="example-radio-button" *ngFor="let quota of programQuotaInfo" [value]="quota.percent" [disabled]="quota.remaining_quota == 0" >
+                {{quota.percent}}% {{quota.remaining_quota}}
+                </mat-radio-button>
+            </mat-radio-group>
+
+                <!-- <mat-radio-group aria-labelledby="example-radio-group-label" formControlName='schoolarChoice'
+                    class="example-radio-group" [(ngModel)]="chooseSchoolar">
+                    <mat-radio-button class="degree-radio-button" value="0">
+                        0%
+                    </mat-radio-button>
+                    <mat-radio-button class="degree-radio-button" value="25">
+                        25%
+                    </mat-radio-button>
+                    <mat-radio-button class="degree-radio-button" value="50">
+                        50%
+                    </mat-radio-button>
+                    <mat-radio-button class="degree-radio-button" value="75">
+                        75%
+                    </mat-radio-button>
+                    <mat-radio-button class="degree-radio-button" value="100">
+                        100%
+                    </mat-radio-button>
+                </mat-radio-group> -->
+
+
+
+
+            </fieldset>
+        </form>
+
+        <form [formGroup]="schoolarShipForm" id="msform">
+            <fieldset *ngIf="step == 4">
+                <h2>All Information</h2>
+                <mat-accordion>
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="title">
+                                Documents
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Document Name</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let file of fileInfos">
+                                <tr>
+                                    <td>
+                                        <p>{{ file.title }}</p>
+                                    </td>
+                                    <td>
+                                        <a href="{{ file.url }}">{{ file.name }}</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="title">
+                                Status
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <p> Application status : {{statusDetail.value.isAgree}} </p>
+                        <p> Scientific : {{statusDetail.value.isScientific}} </p>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="title">
+                                Add Course
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <p> Course name : {{courseDetails.value.selectedCourse}} </p>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="title">
+                                Interview
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <p> Interview : </p>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="title">
+                                Schoolarship
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <p> Schoolarship : </p>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </fieldset>
+        </form>
+
+    </div>
+</div>
+
+<div class=" modal-footer">
+    <button type="button" class="progresss btn-progress" (click)="activeModal.close('Close click')">Close</button>
+    <button *ngIf="step != 1"  (click)="previous()" type="button" name="previous" class="progresss btn-progress"
+        value="Previous">Previous</button>
+    <button *ngIf="step == 4" (click)="submit()" type="submit" name="submit" class="progresss btn-progress"
+        value="Submit">Submit</button>
+    <button *ngIf="step != 4 && step != 1" (click)="next()" type="button" name="next"
+        class="progresss btn-progress" value="Next">Next</button>
+
+    <div *ngIf="agreeOrNot != null ">
+        <button *ngIf="step == 1 && is_agreed" (click)="next()" type="button" name="next" class="progresss btn-progress"
+            value="Next">Next</button>
+        <button *ngIf="step == 1 && !is_agreed" (click)="reject(user_id)" type="button" name="reject"
+            class="progresss btn-progress" value="Reject">Reject</button>
+    </div>
+</div>
