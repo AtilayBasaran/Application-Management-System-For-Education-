@@ -19,6 +19,9 @@ export class SettingsComponent implements OnInit {
   quotaInfos: any;
   userInfos: any;
   courseInfos: any;
+  schoolarInfos: any;
+
+  quotaCourseInfos : any;
   courseForm: FormGroup;
   courseNameForm: FormGroup;
   errorMessage = '';
@@ -32,6 +35,10 @@ export class SettingsComponent implements OnInit {
   initial_quota : any ;
   remaining_quota : any;
   quotaProgramChooice : String;
+  quotaYearChooice : any;
+  quotaSemesterChooice : any;
+  programQuotaInfos : any;
+  yearInfo : any;
 
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
@@ -46,6 +53,7 @@ export class SettingsComponent implements OnInit {
     this.programInfos = this.getProgram();
     this.courseInfos = this.getCourseInfos();
     this.courseForm = this.createFormGroup();
+    this.yearInfo = this.getYearInfo();
     this.courseNameForm = this.createNameForm();
     this.quotaForm = this.createQuotaGroup();
 
@@ -65,6 +73,8 @@ export class SettingsComponent implements OnInit {
 
   createQuotaGroup(): FormGroup {
     return new FormGroup({
+      quotaYearChooice: new FormControl("", [Validators.required]),
+      quotaSemesterChooice: new FormControl("", [Validators.required]),
       quotaProgramChooice: new FormControl("", [Validators.required]),
       quotaSchoolarChoice: new FormControl("", [Validators.required,]),
       quotaNumber: new FormControl("", [ Validators.required,]),
@@ -111,8 +121,45 @@ export class SettingsComponent implements OnInit {
     })
   }
 
+  getYearInfo() {
+    this.http.get('http://localhost:3000/programs/getYearInfo').subscribe(data => {
+      this.yearInfo = data;
+      console.log(data)
+
+      console.log('Year infos')
+
+      console.log(this.yearInfo)
+    })
+  }
+
+  getProgramQuotaInfos(year : any , semester : any) {
+    this.http.post('http://localhost:3000/programs/getProgramQuotaInfos',{year, semester} ,this.httpOptions).subscribe(data => {
+      this.programQuotaInfos = data;
+      console.log(data)
+
+      console.log('Program Quota infos')
+
+      console.log(this.programQuotaInfos)
+    })
+  }
+
+  getSchoolarInfos() {
+    var academic_year = this.quotaYearChooice
+    var semester = this.quotaSemesterChooice
+    var program = this.programChooice  
+    this.http.post('http://localhost:3000/settings/getSchoolarInfos',{academic_year, semester, program} ,this.httpOptions).subscribe(data => {
+      this.schoolarInfos = data;
+      console.log(data)
+
+      console.log('Program Schoolar infos')
+
+      console.log(this.schoolarInfos)
+    })
+  }
+
   setProgram(program_name : string) {
     this.programChooice = program_name ; 
+    this.getSchoolarInfos()
 
     console.log(this.programChooice)
   }
@@ -150,6 +197,19 @@ export class SettingsComponent implements OnInit {
       console.log('Course Details')
 
       console.log(this.courseInfos)
+    });
+  }
+
+  getQuotaProgramInfos() {
+    var academic_year = this.quotaYearChooice
+    var semester = this.quotaSemesterChooice
+    this.http.post('http://localhost:3000/programs/getQuotaProgramInfos', {academic_year,semester},this.httpOptions).subscribe(data => {
+      this.quotaCourseInfos = data;
+      console.log(data)
+
+      console.log('Program Details')
+
+      console.log(this.quotaCourseInfos)
     });
   }
 
@@ -221,20 +281,27 @@ export class SettingsComponent implements OnInit {
 
   changeQuota(): void {
     console.log(this.remaining_quota + this.quotaForm.value.quotaNumber)
-    if(Number(this.remaining_quota) + Number(this.quotaForm.value.quotaNumber) < 0){
-      this.toastr.error('Quota cannot be smaller than 0', 'Error')
+    if(Number(this.quotaForm.value.quotaNumber) <= 0){
+      this.toastr.error('Quota cannot be smaller or equal than 0', 'Error')
       return;
     }
-    var initial_quota = this.initial_quota;
-    var remaining_quota = this.remaining_quota;
-    var quotaNumber  = this.quotaForm.value.quotaNumber;
     var quotaProgramChooice  = this.quotaForm.value.quotaProgramChooice;
     var quotaSchoolarChoice  = this.quotaForm.value.quotaSchoolarChoice;
-    var scholarChooice = this.scholarChooice;
-    this.http.post('http://localhost:3000/settings/changeQuota',{quotaNumber, quotaProgramChooice, quotaSchoolarChoice, initial_quota, remaining_quota}).subscribe(data => {
+    var quotaSemesterChooice = this.quotaForm.value.quotaSemesterChooice;
+    var quotaYearChooice = this.quotaForm.value.quotaYearChooice;
+    var quotaNumber = this.quotaForm.value.quotaNumber;
+
+    console.log(quotaProgramChooice)
+    console.log(quotaSchoolarChoice)
+    console.log(quotaSemesterChooice)
+    console.log(quotaYearChooice)
+    console.log(quotaNumber)
+    
+    /*
+    this.http.post('http://localhost:3000/settings/changeQuota',{quotaProgramChooice, quotaSchoolarChoice, quotaSemesterChooice,quotaYearChooice, quotaNumber}).subscribe(data => {
       console.log(data)
       this.toastr.success('Quota changed successfully', 'Success')
-    });
+    });*/
   }
 
 

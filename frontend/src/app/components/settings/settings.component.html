@@ -141,9 +141,9 @@
                             <div class="left_content">
                                 <ul class="table">
                                     <li style="list-style-type: none;" class="table-header">
-                                        <div class="col col-10">Program Name</div>
-                                        <div class="col col-20">Year</div>
-                                        <div class="col col-30">Semester</div>
+                                        <div class="col col-10">Year</div>
+                                        <div class="col col-20">Semester</div>
+                                        <div class="col col-30">Program Name</div>
                                         <div class="col col-40">Schoolarship</div>
                                         <div class="col col-50">Set Quota</div>
                                         <div class="col col-60">Operation</div>
@@ -157,14 +157,12 @@
                                                 <div class="col col-10">
                                                     <div class="deneme">
                                                     <mat-form-field appearance="fill">
-                                                        <mat-label>Program Type</mat-label>
-                                                        <mat-select matInput name="program"
-                                                            [(ngModel)]="quotaProgramChooice"
-                                                            formControlName='quotaProgramChooice'>
-                                                            <mat-option *ngFor="let program of programInfos"
-                                                                [value]="program.name"
-                                                                (click)='setProgram(program.name)'>
-                                                                {{program.name}} {{program.degree}}
+                                                        <mat-label>Year</mat-label>
+                                                        <mat-select matInput name="year"
+                                                        [(ngModel)]="quotaYearChooice"
+                                                        formControlName='quotaYearChooice'>
+                                                            <mat-option *ngFor="let year of yearInfo" [value]="year.academic_year">
+                                                                {{year.academic_year}}
                                                             </mat-option>
                                                         </mat-select>
                                                     </mat-form-field>
@@ -173,10 +171,17 @@
                                                 <div class="col col-20">
                                                     <div class="deneme">
                                                     <mat-form-field appearance="fill">
-                                                        <mat-label>Year</mat-label>
-                                                        <mat-select>
-                                                            <mat-option>
-                                                                2022-2023
+                                                        <mat-label>Semester</mat-label>
+                                                        <mat-select matInput name="semester"
+                                                        [(ngModel)]="quotaSemesterChooice"
+                                                        formControlName='quotaSemesterChooice'
+                                                        [disabled] = "quotaYearChooice == null"
+                                                        >
+                                                            <mat-option value = "fall" (click)='getQuotaProgramInfos()' >
+                                                                Fall
+                                                            </mat-option>
+                                                            <mat-option value ="spring" (click)='getQuotaProgramInfos()' >
+                                                                Spring
                                                             </mat-option>
                                                         </mat-select>
                                                     </mat-form-field>
@@ -184,40 +189,45 @@
                                                 </div>
                                                 <div class="col col-30">
                                                     <div class="deneme">
-                                                    <mat-form-field appearance="fill">
-                                                        <mat-label>Semester</mat-label>
-                                                        <mat-select>
-                                                            <mat-option>
-                                                                Fall
-                                                            </mat-option>
-                                                            <mat-option>
-                                                                Spring
-                                                            </mat-option>
-                                                        </mat-select>
-                                                    </mat-form-field>
+                                                        <mat-form-field appearance="fill">
+                                                            <mat-label>Program Type</mat-label>
+                                                            <mat-select matInput name="program"
+                                                                [(ngModel)]="quotaProgramChooice"
+                                                                formControlName='quotaProgramChooice'
+                                                                [disabled] = "quotaSemesterChooice == null || quotaYearChooice == null">
+                                                                <mat-option *ngFor="let program of quotaCourseInfos"
+                                                                    [value]="program.name"
+                                                                    (click)='setProgram(program.name)'>
+                                                                    {{program.name}} {{program.degree}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
                                                 </div>
                                                 </div>
                                                 <div class="col col-40">
                                                     <mat-radio-group class="radio" aria-label="Select an option"
                                                         [(ngModel)]="chooseSchoolar"
                                                         formControlName='quotaSchoolarChoice'
-                                                        [disabled]="programChooice == null ">
-                                                        <mat-radio-button value="0" (click)='setScholar(0)'>0%
+                                                        [disabled]="programChooice == null "
+                                                        *ngFor="let schoolar of schoolarInfos"
+                                                        >
+                                                        <mat-radio-button  [value]="schoolar.percent" [disabled] = "!schoolar.canUpdated">
+                                                            {{schoolar.percent}}%
                                                         </mat-radio-button>
-                                                        <mat-radio-button value="25" (click)='setScholar(25)'>25%
+                                                        <!-- <mat-radio-button value="25" (click)='setScholar(25)'>25%
                                                         </mat-radio-button>
                                                         <mat-radio-button value="50" (click)='setScholar(50)'>50%
                                                         </mat-radio-button>
                                                         <mat-radio-button value="75" (click)='setScholar(75)'>75%
                                                         </mat-radio-button>
                                                         <mat-radio-button value="100" (click)='setScholar(100)'>100%
-                                                        </mat-radio-button>
+                                                        </mat-radio-button> -->
                                                     </mat-radio-group>
                                                 </div>
                                                 <div class="col col-50"><input formControlName='quotaNumber'
                                                         style="height:25px" type="text"></div>
                                                 <div class="col col-60">
-                                                    <button class="btn-del">Update</button>
+                                                    <button class="btn-del" type = "submit">Update</button>
                                                 </div>
                                             </div>
                                         </li>

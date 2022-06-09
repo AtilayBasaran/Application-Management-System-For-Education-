@@ -59,4 +59,10 @@ router.post(
     '/changeQuota', settingsController.changeQuota
 );
 
+router.post(
+    '/getSchoolarInfos', settingsController.getSchoolarInfos
+);
+
+
+
 module.exports = router;

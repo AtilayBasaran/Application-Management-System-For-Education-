@@ -17,5 +17,15 @@ router.get(
     '/getAllProgram', programController.getAllProgram
 );
 
+router.get(
+    '/getYearInfo', programController.getYearInfo
+);
+
+router.post(
+    '/getQuotaProgramInfos', programController.getQuotaProgramInfos
+);
+
+
+
 
 module.exports = router;

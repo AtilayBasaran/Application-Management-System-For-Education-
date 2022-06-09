@@ -393,28 +393,27 @@ exports.changeQuota = async (req, res, next) => {
     
         var program = req.body.quotaProgramChooice;
         var scholar = req.body.quotaSchoolarChoice;
+
+        var year = req.body.quotaYearChooice;
+        var semester = req.body.quotaSemesterChooice;
+
         var quotaNumber = Number(req.body.quotaNumber);
-        var initial_quota = Number(req.body.initial_quota);
-        var remaining_quota = Number(req.body.remaining_quota);
         console.log(program)
         console.log(scholar)
+        console.log(year)
+        console.log(semester)
         console.log(quotaNumber)
-        console.log(initial_quota)
-        console.log(remaining_quota)
-
-        var new_initial = initial_quota + quotaNumber
-        var new_remaining = remaining_quota + quotaNumber
 
 
         try {
         pool.query(
-            "select id from programs where name = ?",
-            [program],
+            "select id from programs where name = ? and academic_year = ? and semester = ?",
+            [program,year,semester],
             async (err, result) => {
                 var id = result[0].id
                 db.execute(
-                    'UPDATE quota SET initial_quota = ? , remaining_quota = ? WHERE id =  ? and percent = ?;',
-                    [new_initial, new_remaining , id, scholar]
+                    'UPDATE quota SET initial_quota = ? , remaining_quota = ? WHERE program_id =  ? and percent = ?;',
+                    [quotaNumber, quotaNumber , id, scholar]
                 );
                 res.status(201).send({
                     message: 'Quota changed Succesfully'
@@ -435,4 +434,46 @@ exports.changeQuota = async (req, res, next) => {
     
 
 };
+
+exports.getSchoolarInfos = async (req, res, next) => {
+
+    try {
+        var academic_year = req.body.academic_year;
+        var semester = req.body.semester;
+        var program = req.body.program;
+        var scholarInfos = [];
+        pool.query(
+            "select q.percent, q.initial_quota, q.remaining_quota, (CASE WHEN q.initial_quota = 0 THEN true ELSE false END) as canUpdated from programs p inner join quota q on p.id = q.program_id where p.name = ? and p.academic_year = ? and p.semester = ?",
+            [program,academic_year,semester],
+            async (err, result) => {
+
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        percent: result[i].percent,
+                        initial_quota: result[i].initial_quota,
+                        remaining_quota: result[i].remaining_quota,
+                        canUpdated: result[i].canUpdated,
+                    };
+                    scholarInfos.push(a);
+                }
+
+                console.log(scholarInfos),
+                    res.status(201).send(scholarInfos)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send({
+                message: "Schoolar Failed!"
+            });
+            return;
+        }
+        next(err);
+    }
+
+};
+
+
+
 
