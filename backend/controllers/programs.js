@@ -74,6 +74,9 @@ exports.getAllProgram = async (req, res, next) => {
                         language: result[i].language,
                         duration: result[i].duration,
                         campus : result[i].campus,
+                        department : result[i].department,
+                        academic_year : result[i].academic_year,
+                        semester : result[i].semester
                     };
                     programInfos.push(a);
                 }
