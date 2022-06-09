@@ -123,18 +123,20 @@ export class NgbdModal3Content implements OnInit {
   choices: string[] = ['Agree', 'Reject'];
   agreeOrNot: string;
   scientificOrNot: string;
-
+  interviewAgree: string;
   chooseSchoolar: string;
 
   status_step = false;
+  interview_step = false;
   addCourse_step = false;
   upload_step = false;
   education_step = false;
   document_step = false;
   is_agreed = false;
   is_scientific = false;
-  isInterview = false;
+  is_interview = false;
   statusDetail !: FormGroup;
+  interviewForm !: FormGroup;
   courseInfos: any;
   selectedCourse: string;
   courseDetails !: FormGroup;
@@ -164,9 +166,14 @@ export class NgbdModal3Content implements OnInit {
       schoolarChoice: [null, Validators.required]
     })
 
+    this.interviewForm = this.formBuilder.group({
+      isInterviewAgree: [null, Validators.required]
+    })
+
   }
 
   get status() { return this.statusDetail.controls; }
+  get interview() { return this.interviewForm.controls; }
   get course() { return this.courseDetails.controls; }
   get schoolar() { return this.schoolarShipForm.controls; }
 
@@ -188,6 +195,13 @@ export class NgbdModal3Content implements OnInit {
       this.is_scientific = false;
     }
   }
+  changeInterview(choice: any): void {
+    if (choice == 'Yes') {
+      this.is_interview = true;
+    } else if (choice == 'No') {
+      this.is_interview = false;
+    }
+  }
 
   next() {
 
@@ -196,6 +210,8 @@ export class NgbdModal3Content implements OnInit {
       this.step++;
     }
     else if(this.step == 2) {
+      this.interview_step = true;
+      if (this.interviewForm.invalid) { return }
       this.step++;
     }
     else if (this.step == 3) {
@@ -267,6 +283,24 @@ export class NgbdModal3Content implements OnInit {
     secondModal.componentInstance.user_id = user_id;
     secondModal.closed.subscribe(() => this.activeModal.close('true'));
 
+  }
+
+  sendInterviewRequest(user_id: any) {
+    console.log(user_id)
+
+    this.http.post('http://localhost:3000/app/sendInterviewRequest', { user_id }, this.httpOptions).subscribe(data => {
+
+      if(data == true){
+        this.toastr.success('Interview Request Sended Successfully', 'Success')
+        this.activeModal.close();
+      }
+  
+      });
+
+  }
+
+  denemeMethod() {
+console.log(this.interviewForm.value.isInterviewAgree)
   }
 
   approveApplication() {

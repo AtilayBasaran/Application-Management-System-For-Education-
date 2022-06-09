@@ -45,7 +45,7 @@
             <!-- actions Column -->
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Evaluate </th>
-                <td mat-cell *matCellDef="let element"> <button [disabled]="element.stage != 'HeadOfDept'"
+                <td mat-cell *matCellDef="let element"> <button [disabled]="element.stage != 'HeadOfDept' && element.stage != 'Interview' " 
                         mat-flat-button color="primary" (click)="open(element.user_id)">Control</button> </td>
             </ng-container>
 

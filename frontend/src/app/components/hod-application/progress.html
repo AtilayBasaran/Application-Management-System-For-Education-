@@ -123,17 +123,21 @@
             </fieldset>
         </form>
 
-        <form [formGroup]="schoolarShipForm" id="msform">
+        <form [formGroup]="interviewForm" id="msform">
             <fieldset *ngIf="step == 2">
                 <h2>Do you want to send an interview</h2>
-                <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
-                    <mat-radio-button class="degree-radio-button" value="Yes">
+                <mat-radio-group aria-labelledby="example-radio-group-label" formControlName='isInterviewAgree'
+                class="example-radio-group" [(ngModel)]="interviewAgree">
+                    <mat-radio-button class="degree-radio-button" value="Yes" (click)="changeInterview('Yes')">
                         Yes
                     </mat-radio-button>
-                    <mat-radio-button class="degree-radio-button" value="No">
+                    <mat-radio-button class="degree-radio-button" value="No" (click)="changeInterview('No')">
                         No
                     </mat-radio-button>
                 </mat-radio-group>
+                <div *ngIf="interview_step && interviewForm.controls.isInterviewAgree.errors">
+                    <div *ngIf="interview.isInterviewAgree.errors?.required">* Required</div>
+                </div>
             </fieldset>
         </form>
 
@@ -239,8 +243,16 @@
         value="Previous">Previous</button>
     <button *ngIf="step == 6" (click)="submit()" type="submit" name="submit" class="progresss btn-progress"
         value="Submit">Submit</button>
-    <button *ngIf="step != 6 && step != 3" (click)="next()" type="button" name="next" class="progresss btn-progress"
+    <button *ngIf="step != 6 && step != 3 && step != 2" (click)="next()" type="button" name="next" class="progresss btn-progress"
         value="Next">Next</button>
+        
+        <div *ngIf="interviewAgree != null ">
+        <button *ngIf="step == 2 && is_interview" (click)="sendInterviewRequest(user_id)" type="button" name="sendRequest"
+        class="progresss btn-progress" value="sendRequest">Send Request</button>
+        <button *ngIf="step == 2 && !is_interview" (click)="next()" type="button" name="sendRequest"
+        class="progresss btn-progress" value="sendRequest">next</button>
+    </div>
+
     <div *ngIf="agreeOrNot != null ">
         <button *ngIf="step == 3 && is_agreed" (click)="next()" type="button" name="next" class="progresss btn-progress"
             value="Next">Next</button>

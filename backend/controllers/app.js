@@ -1,7 +1,9 @@
 const {
     validationResult
 } = require('express-validator');
+
 const db = require('../util/database');
+
 const User = require('../models/user');
 
 const mysql = require('mysql2');
@@ -9,6 +11,8 @@ const mysql = require('mysql2');
 const config = require('../config/config.json');
 
 var dateTime = require('node-datetime');
+
+var nodemailer = require("nodemailer");
 
 const pool = mysql.createPool({
     host: config.host,
@@ -692,6 +696,69 @@ exports.isUploadMandatory = (req, res, next) => {
                 }else{
                     res.status(201).send('false');
                 }
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send('false');
+            return;
+        }
+        next(err);
+    }
+};
+
+exports.sendInterviewRequest = (req, res, next) => {
+
+    try {
+        var user_id = req.body.user_id;
+
+        pool.query(
+            "SELECT email from users where id = ?",
+            [user_id],
+            async (err, result) => {
+                var email = result[0].email
+
+
+
+
+                var transporter = nodemailer.createTransport({
+                    service: "hotmail",
+                    
+                    auth: {
+                        user: "applicationdestek@hotmail.com",
+                        pass: "application123",
+                    },
+                    tls: {
+                        rejectUnauthorized: false,
+                    },
+                });
+                var mailOptions = {
+                    from: "applicationdestek@hotmail.com",
+                    to: email,
+                    subject: "Interview Invitation",
+                    text: "An interview will be held for your application with the department chair you applied for. You will be contacted as soon as possible about the place and time of the interview.",
+                };
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log("Email sent: " + info.response);
+                    }
+                });
+
+                db.execute(
+                    "UPDATE applications set stage = 'Interview' where user_id = ?",
+                    [user_id]);
+
+                db.execute(
+                    "UPDATE applications set interview_req = true where user_id = ?",
+                    [user_id]);
+
+
+                res.status(201).send('true');
+
+
             },
         );
         return;

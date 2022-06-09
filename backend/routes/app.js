@@ -74,6 +74,9 @@ router.post(
     '/isUploadMandatory', appController.isUploadMandatory
 );
 
+router.post(
+    '/sendInterviewRequest', appController.sendInterviewRequest
+);
 
 
 
