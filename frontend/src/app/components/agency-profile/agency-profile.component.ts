@@ -38,7 +38,7 @@ export class AgencyProfileComponent implements OnInit {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
   };
 
-  constructor(private authService: AuthService,private token: TokenStorageService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {}
+  constructor(private authService: AuthService,private token: TokenStorageService,private passwordService : PasswordChangeService, private settingService: SettingService, private _liveAnnouncer: LiveAnnouncer, private router: Router, private http: HttpClient, private toastr: ToastrService) {}
 
   @ViewChild('matsort1', {static: true}) sort: MatSort;
   @ViewChild('MatPaginator1', {static: true}) paginator: MatPaginator; 
@@ -131,6 +131,30 @@ export class AgencyProfileComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  changePassword(): void {
+    const email = this.currentUser.email;
+    console.log(this.changePassForm.value.password);
+    console.log(email)
+    this.passwordService
+      .changePassword(email, this.changePassForm.value.password, this.changePassForm.value.passwordConfirm)
+      .subscribe(
+        data => {
+          console.log(data);
+          this.isChangePassFailed = false;
+          this.router.navigate(['successRegister'])
+          .then(() => {
+          window.location.reload();
+        });
+        },
+        err => {
+          this.errorMessage = err.error.message;
+          this.isChangePassFailed = true;
+        });
+  }
+  reloadPage(): void {
+    window.location.reload();
   }
 
 }

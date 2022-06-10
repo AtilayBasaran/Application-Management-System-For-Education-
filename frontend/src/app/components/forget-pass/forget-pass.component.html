@@ -1,15 +1,17 @@
 <div class="container">
+  <div class="pass">
   <form [formGroup]="forgetForm" (ngSubmit)="forgetPass()" novalidate>
     <mat-form-field>
       <mat-label>Email</mat-label>
       <input matInput id="email" name="email" placeholder="Ex. Jon" formControlName="email" />
       <mat-error *ngIf="!forgetForm.get('email')?.errors?.required">You must insert valid e-mail </mat-error>
     </mat-form-field>
-    <button color="accent" [disabled]="!forgetForm.valid" mat-raised-button type="submit">
+    <button color="primary" [disabled]="!forgetForm.valid" mat-raised-button type="submit">
       <span>Send</span>
     </button>
     <div class="alert alert-warning" *ngIf="isForgetFailed">
       Failed! <br />{{ errorMessage }}
     </div>
   </form>
+</div>
 </div>

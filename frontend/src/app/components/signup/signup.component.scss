@@ -1,17 +1,26 @@
 mat-form-field {
     width: 100%;
   }
+
+  .container{
+    display: flex;
+    height: 400px;
+    position: relative;
+    border: 5px solid #fbb400;
+    border-radius: 1.5rem;
+    box-shadow: 5px 15px #fbb400; 
+    flex-direction: column;
+    margin: 170px auto;
+  }
+
+  .signup{
+    margin: auto;
+    width: 30%;
+  }
   
   button {
     float: right;
     width: 200px;
-  }
-
-  .container{
-    max-width: 25%;
-    margin: 120px auto;
-    display: flex;
-    flex-direction: column;
   }
 
   .sign{

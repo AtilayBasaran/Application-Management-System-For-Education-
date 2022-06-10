@@ -1,0 +1,33 @@
+çıktı gibi hazırlık ama istenmeyebilir poster için dedi
+current yerine available quota ++++++++++++++++++++++++++
+sıfırdan bir şey ekliyorum başlangıçta quotayı set etmesi+++++++++++++++++++++++++
+bunlarda yıl ve dönem bilgisi var mı?? --> yıl ve dönem eklenecek quota meselesine. tarih yıl ve dönem bazında.++++++++++++++++++++++++++++++++++
+hangi dönem ve hangi yıl olduğunu settingsten ayarlanacak.+++++++++++++++++++++
+(Anlık quota update i kaldır.++++++++++++++++++++++++)
+
+o testleri kendimiz yapıyoruz. Şu an test yaptık. a çıkmadı dedik test. bu çalıştığında beklenen ne sonuç ne oldu. bunları documente et. bunlar test senaryosu aslında.
+update buttons yerine operation yaz.++++++++++++++++++++++++++++++++
+quota information kısmına filter ekle. search önemli consistency sağlanır tablo görünümünde+++++++++++++
+
+settings içerisinde current quota dediğim şey düşecek.
+headofdept accept dediği an düşecek.
+schoolarship 0 koy. ++++++++++++++++++++++++++++++++++
+interview 2. stepte olacak. ++++++++++++++++++++++++++++++
+
+status interviewdan sonra ++++++++++++++++++++++++++++++
+interview no dersem bu gelsin.
+
+dokümanlardan sonra ++++++++++++++++++++++++++++++++++++
+interview istiyor muyum? birinci adım +++++++++++++++++++++++++++
+no dersem accept reject sorusu ile devam et.ders burs. kapanıyor+++++++++++++++++
+
+interview istiyor muyum?+++++++++++++++++++
+yes dersem daha fazla soru sormuyorum?? interviewdan sonra accept reject daha sonra kaldığım yerden devam ediyorum.++++++++++++++++++
+
+interview aşamasında kaldığımı bilebilir miyim?+++++++++++++++++++++
+
+schololar datadan çek available kotayı bas. scholarship yanında kotayı göreyim.
+
+cuma öğleden sonra 12den sonra toplantı
+
+

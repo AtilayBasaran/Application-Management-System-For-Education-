@@ -10,7 +10,7 @@
             <h1>Agency Email:</h1>
             <h1>{{currentUser.email}}</h1>
         </div>
-        <form class="form-table" [formGroup]="changePassForm"  novalidate>
+        <form class="form-table" [formGroup]="changePassForm" (ngSubmit)="changePassword()" novalidate>
             <mat-form-field>
                 <mat-label>Password</mat-label>
                 <input id="password" name="password" matInput type="password" formControlName="password" />

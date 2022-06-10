@@ -66,39 +66,6 @@
     </mat-tab>
     <mat-tab label="Users">
         <mat-tab-group>
-            <mat-tab label="Change User Role">
-                <div class="homepage">
-                    <div class="form">
-                        <div class="genel">
-                            <div class="left_content">
-                                <ul class="table">
-                                    <li class="table-header">
-                                        <div class="col col-1">Name Surname</div>
-                                        <div class="col col-2">E-mail</div>
-                                        <div class="col col-3">Role</div>
-                                        <div class="col col-4">Operation</div>
-                                    </li>
-                                </ul>
-                                <ul class="table">
-                                    <li class="table-row" *ngFor="let user of userInfos;">
-                                        <div *ngIf="user.role!='student'" class="table-form">
-                                            <div class="col col-1">{{user.firstname}} {{user.lastname}}</div>
-                                            <div class="col col-2">{{user.email}}</div>
-                                            <div class="col col-3">{{user.role}}</div>
-                                            <div class="col col-4">
-                                                <button class="btn"
-                                                    (click)="updateInstitute(user.id)">Institute</button>
-                                                <button class="btn"
-                                                    (click)="updateHeadOfDept(user.id)">HeadOfDept</button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </mat-tab>
             <mat-tab label="Delete User">
                 <div class="homepage">
                     <div class="form">

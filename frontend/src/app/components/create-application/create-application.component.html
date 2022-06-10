@@ -27,7 +27,7 @@
           <div *ngIf="personal_step && personalDetails.controls.address.errors">
             <div *ngIf="personal.address.errors?.required">Address is required</div>
           </div>
-          <input type="text" formControlName="phone" name="phone" placeholder="Phone" />
+          <input type="number" class="phone-input" formControlName="phone" name="phone" placeholder="Phone" />
           <div *ngIf="personal_step && personalDetails.controls.phone.errors">
             <div *ngIf="personal.phone.errors?.required">Phone is required</div>
           </div>
@@ -47,13 +47,13 @@
             <div *ngIf="personal.nationality.errors?.required">Nationality is required</div>
           </div>
           <div *ngIf="isTurkishStudent">
-            <input type="text" formControlName="id_number" name="id_number" placeholder="TC kimlik no" />
+            <input type="number" formControlName="id_number" name="id_number" placeholder="TC kimlik no"  maxlength="11"/>
             <div *ngIf="personal_step && personalDetails.controls.id_number.errors">
               <div *ngIf="personal.id_number.errors?.required">TC is required</div>
             </div>
           </div>
           <div *ngIf="!isTurkishStudent">
-            <input type="text" formControlName="id_number" name="id_number" placeholder="Passport Number" />
+            <input type="text" formControlName="id_number" name="id_number" placeholder="Passport Number" maxlength="11"/>
             <div *ngIf="personal_step && personalDetails.controls.id_number.errors">
               <div *ngIf="personal.id_number.errors?.required">Passport is required</div>
             </div>
@@ -160,7 +160,7 @@
           <div *ngIf="education_step && educationalDetails.controls.total_marks.errors">
             <div *ngIf="education.total_marks.errors?.required">Total marks is required</div>
           </div>
-          <input type="text" formControlName="graduation_year" placeholder="Graduation Year" />
+          <input type="number" formControlName="graduation_year" placeholder="Graduation Year" />
           <div *ngIf="education_step && educationalDetails.controls.graduation_year.errors">
             <div *ngIf="education.graduation_year.errors?.required">Graduation year is required</div>
           </div>
@@ -168,7 +168,7 @@
           <div *ngIf="education_step && educationalDetails.controls.language_profiency.errors">
             <div *ngIf="education.language_profiency.errors?.required">Language proficiency is required</div>
           </div>
-          <input type="text" formControlName="exam_score" placeholder="Language Exam Score" />
+          <input type="number" formControlName="exam_score" placeholder="Language Exam Score" />
           <div *ngIf="education_step && educationalDetails.controls.exam_score.errors">
             <div *ngIf="education.exam_score.errors?.required">Language exam score is required</div>
           </div>

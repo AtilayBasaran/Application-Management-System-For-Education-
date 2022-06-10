@@ -1,6 +1,7 @@
 <mat-tab-group mat-align-tabs="center">
   <mat-tab label="For Student">
 <div class="container">
+  <div class="signup">
 <form *ngIf="!isSuccessful" [formGroup]="signupForm"  novalidate>
 
     <mat-form-field>
@@ -61,10 +62,12 @@
     Your registration is successful!
   </div>
 </div>
+</div>
 </mat-tab>
 
 <mat-tab label="For Agency">
   <div class="container">
+    <div class="signup">
   <form *ngIf="!isSuccessful" [formGroup]="agencySignupForm" novalidate>
   
       <mat-form-field>
@@ -119,5 +122,6 @@
       Your registration is successful!
     </div>
   </div>
+</div>
   </mat-tab> 
 </mat-tab-group>
