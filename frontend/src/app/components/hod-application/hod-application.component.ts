@@ -60,12 +60,22 @@ export class HodApplicationComponent implements OnInit {
     this.dataSource2.filter = filterValue.trim().toLocaleLowerCase();
   }
 
-  open(user_id: any) {
+  open(user_id: any , user_stage : any) {
+    if(user_stage == 'HeadOfDept'){
+      const headModal = this.modalService.open(NgbdModal3Content, { size: 'xl' });
+      headModal.componentInstance.user_id = user_id;
+  
+      headModal.closed.subscribe(() => this.ngOnInit());
+    }else if(user_stage == 'Interview'){
+      const interviewModal = this.modalService.open(NgbdModal7Content, { size: 'xl' });
+      interviewModal.componentInstance.user_id = user_id;
+  
+      interviewModal.closed.subscribe(() => this.ngOnInit());
+    }else{
+      this.toastr.success('Interview Request Sended Successfully', 'Success')
+    }
 
-    const firstModal = this.modalService.open(NgbdModal3Content, { size: 'xl' });
-    firstModal.componentInstance.user_id = user_id;
 
-    firstModal.closed.subscribe(() => this.ngOnInit());
 
   }
 
