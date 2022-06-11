@@ -18,7 +18,8 @@ export class AgencyGuard implements CanActivate {
       this.userRole = this.token.getUser().roles;
 
       if (this.userRole == 'agency') {
-        return true;
+        this.router.navigate(["/agencyProfile"]);
+        return false;
       
       } else {
         this.router.navigate(["/authorized"]);

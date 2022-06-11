@@ -18,9 +18,10 @@ export class SettingsComponent implements OnInit {
   programInfos: any;
   quotaInfos: any;
   userInfos: any;
+  settingUserInfo: any;
   courseInfos: any;
   schoolarInfos: any;
-
+  
   quotaCourseInfos : any;
   courseForm: FormGroup;
   courseNameForm: FormGroup;
@@ -49,6 +50,7 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userInfos = this.getUserInfos();
+    this.settingUserInfo = this.getSettingUserInfo();
     this.quotaInfos = this.getQuotaInfos();
     this.programInfos = this.getProgram();
     this.courseInfos = this.getCourseInfos();
@@ -96,6 +98,17 @@ export class SettingsComponent implements OnInit {
       console.log('user infos')
 
       console.log(this.userInfos)
+    });
+  }
+
+  getSettingUserInfo() {
+    this.http.get('http://localhost:3000/settings/settingsUserDetails').subscribe(data => {
+      this.settingUserInfo = data;
+      console.log(data)
+
+      console.log('setting user infos')
+
+      console.log(this.settingUserInfo)
     });
   }
 
@@ -297,11 +310,11 @@ export class SettingsComponent implements OnInit {
     console.log(quotaYearChooice)
     console.log(quotaNumber)
     
-    /*
+    
     this.http.post('http://localhost:3000/settings/changeQuota',{quotaProgramChooice, quotaSchoolarChoice, quotaSemesterChooice,quotaYearChooice, quotaNumber}).subscribe(data => {
       console.log(data)
       this.toastr.success('Quota changed successfully', 'Success')
-    });*/
+    });
   }
 
 

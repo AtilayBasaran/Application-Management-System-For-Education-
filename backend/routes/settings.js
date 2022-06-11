@@ -24,6 +24,10 @@ router.get(
 );
 
 router.get(
+    '/settingsUserDetails', settingsController.settingsUserDetails
+);
+
+router.get(
     '/courseDetails', settingsController.courseDetails
 );
 
