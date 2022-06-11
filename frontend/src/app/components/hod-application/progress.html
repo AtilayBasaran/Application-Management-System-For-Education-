@@ -143,16 +143,24 @@
 
         <form [formGroup]="schoolarShipForm" id="msform">
             <fieldset *ngIf="step == 5">
-                <div *ngIf=" schoolarShipForm.controls.schoolarChoice.errors">
-                    <p *ngIf="schoolar.schoolarChoice.errors?.required">Schoolar is required</p>
-                </div>
                 <h2>Schoolarship sorusu</h2>
+                <table id="tableFormat">
+                    <tr>
+                        <th>Schoolarship-Quota</th>
+                    </tr>
                 <mat-radio-group aria-labelledby="example-radio-group-label" formControlName = 'schoolarChoice' class="example-radio-group"
                 [(ngModel)]="chooseSchoolar">
-                <mat-radio-button class="example-radio-button" *ngFor="let quota of programQuotaInfo" [value]="quota.percent" [disabled]="quota.remaining_quota == 0" >
-                {{quota.percent}}% {{quota.remaining_quota}}
-                </mat-radio-button>
+                <tr>
+                    <th style="display: flex; flex-direction:column">                
+                    <mat-radio-button class="example-radio-button" *ngFor="let quota of programQuotaInfo" [value]="quota.percent" [disabled]="quota.remaining_quota == 0" >
+                    {{quota.percent}}% {{quota.remaining_quota}}
+                    </mat-radio-button></th>
+                </tr>
             </mat-radio-group>
+            <div *ngIf=" schoolarShipForm.controls.schoolarChoice.errors">
+                <p *ngIf="schoolar.schoolarChoice.errors?.required">* Schoolar is required</p>
+            </div>
+        </table>
 
                 <!-- <mat-radio-group aria-labelledby="example-radio-group-label" formControlName='schoolarChoice'
                     class="example-radio-group" [(ngModel)]="chooseSchoolar">

@@ -24,7 +24,7 @@ export class HodApplicationComponent implements OnInit {
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
   };
-  columnsToDisplay: string[] = ['name', 'register_date', 'program', 'email', 'agency_mail', 'stage', 'actions', 'examine', 'interview'];
+  columnsToDisplay: string[] = ['name', 'register_date', 'program', 'email', 'agency_mail', 'stage', 'actions', 'examine'];
   turkishApplicationInfos: any;
   internationalApplicationInfos: any;
   dataSource: MatTableDataSource<any>;
@@ -255,6 +255,7 @@ export class NgbdModal3Content implements OnInit {
       this.step++;
     }
     else if(this.step == 5) {
+      if (this.schoolarShipForm.invalid) { return }
       this.step++;
     }
 
@@ -720,6 +721,7 @@ export class NgbdModal7Content implements OnInit {
       this.step++;
     }
     else if(this.step == 3) {
+      if (this.schoolarShipForm.invalid) { return }
       this.step++;
     }
   }

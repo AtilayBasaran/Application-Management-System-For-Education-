@@ -60,14 +60,6 @@
                 </td>
             </ng-container>
 
-            <!-- interview Column -->
-            <ng-container matColumnDef="interview">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Interview </th>
-                <td mat-cell *matCellDef="let element">
-                    <button mat-flat-button color="primary" (click)="open3(element.user_id)">Interview</button>
-                </td>
-            </ng-container>
-
             <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
             <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
 
@@ -132,14 +124,6 @@
                     mat-flat-button 
                     [disabled]="element.stage != 'Approved' && element.stage != 'Rejected' " 
                     color="primary" (click)="open2(element.user_id)">Examine</button>
-                </td>
-            </ng-container>
-
-            <!-- interview Column -->
-            <ng-container matColumnDef="interview">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Interview </th>
-                <td mat-cell *matCellDef="let element">
-                    <button mat-flat-button color="primary" (click)="open3(element.user_id)">Interview</button>
                 </td>
             </ng-container>
 

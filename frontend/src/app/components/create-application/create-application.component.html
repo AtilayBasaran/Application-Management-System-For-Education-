@@ -27,7 +27,7 @@
           <div *ngIf="personal_step && personalDetails.controls.address.errors">
             <div *ngIf="personal.address.errors?.required">Address is required</div>
           </div>
-          <input type="number" class="phone-input" formControlName="phone" name="phone" placeholder="Phone" />
+          <input type="number" class="phone-input" formControlName="phone" name="phone" placeholder="Phone" maxlength="15" />
           <div *ngIf="personal_step && personalDetails.controls.phone.errors">
             <div *ngIf="personal.phone.errors?.required">Phone is required</div>
           </div>
@@ -168,7 +168,7 @@
           <div *ngIf="education_step && educationalDetails.controls.language_profiency.errors">
             <div *ngIf="education.language_profiency.errors?.required">Language proficiency is required</div>
           </div>
-          <input type="number" formControlName="exam_score" placeholder="Language Exam Score" />
+          <input type="number" formControlName="exam_score" placeholder="Language Exam Score" maxlength="3"/>
           <div *ngIf="education_step && educationalDetails.controls.exam_score.errors">
             <div *ngIf="education.exam_score.errors?.required">Language exam score is required</div>
           </div>
