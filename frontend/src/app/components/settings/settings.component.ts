@@ -94,9 +94,7 @@ export class SettingsComponent implements OnInit {
     this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
       this.userInfos = data;
       console.log(data)
-
       console.log('user infos')
-
       console.log(this.userInfos)
     });
   }
@@ -270,7 +268,9 @@ export class SettingsComponent implements OnInit {
           this.ngOnInit()
         },
         err => {
+          var errorMes = err.error.message;
           this.errorMessage = err.error.message;
+          this.toastr.error(errorMes, 'Error')
           this.isAddCourseFailed = true;
         });
   }

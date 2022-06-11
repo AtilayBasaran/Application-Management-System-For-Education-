@@ -12,7 +12,13 @@ export class ProfileGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       if (this.tokenStorage.getToken()) {
-        return true;
+        var userRole = this.tokenStorage.getUser().roles;
+        if(userRole == 'student'){
+          return true;
+        }else{
+          this.router.navigate(["/authorized"]);
+        return false;
+        }
       } else {
         this.router.navigate(["/authorized"]);
         return false;

@@ -22,13 +22,27 @@ exports.addCourse = async (req, res, next) => {
         var courseName = req.body.courseName;
         var deptName = req.body.deptName;
 
-        db.execute(
-            'INSERT INTO course (name, dept_name) VALUES (?, ?)',
-            [courseName, deptName]
+        pool.query(
+            "SELECT count(*) as count FROM course where name = ?",
+            [courseName],
+            async (err, result) => {
+                if(result[0].count == 0){
+                    db.execute(
+                        'INSERT INTO course (name, dept_name) VALUES (?, ?)',
+                        [courseName, deptName]
+                    );
+                    res.status(201).send({
+                        message: 'Course Inserted Succesfully'
+                    });
+                }else{
+                    res.status(400).send({
+                        message: 'This Course Already Inserted'
+                    });
+                }
+
+                
+            },
         );
-        res.status(201).send({
-            message: 'Course Inserted Succesfully'
-        });
         return;
     } catch (err) {
         if (!err.statusCode) {
@@ -277,7 +291,7 @@ exports.agencyUserDetails = async (req, res, next) => {
 
     try {
         var agency_email = req.body.agency_email;
-        
+
         var userInfos = [];
         pool.query(
             "select u.id, u.firstname, u.lastname, u.email, u.role, (CASE  WHEN a.id > 0 THEN true ELSE false END) as cas from users u left outer join applications a on u.id = a.user_id where u.agency_email = ? ",
@@ -318,11 +332,11 @@ exports.getQuotaDetail = async (req, res, next) => {
     try {
         var program = req.body.program;
         var scholar = req.body.scholar;
-        
+
         var quotaInfos = [];
         pool.query(
             "select * from programs p inner join quota q on p.id = q.program_id where p.name = ? and q.percent = ?",
-            [program,scholar],
+            [program, scholar],
             async (err, result) => {
 
                 for (var i = 0; i < result.length; i++) {
@@ -355,11 +369,11 @@ exports.getQuotaDetail = async (req, res, next) => {
     try {
         var program = req.body.program;
         var scholar = req.body.scholar;
-        
+
         var quotaInfos = [];
         pool.query(
             "select * from programs p inner join quota q on p.id = q.program_id where p.name = ? and q.percent = ?",
-            [program,scholar],
+            [program, scholar],
             async (err, result) => {
 
                 for (var i = 0; i < result.length; i++) {
@@ -390,7 +404,7 @@ exports.getQuotaDetail = async (req, res, next) => {
 exports.getAllQuota = async (req, res, next) => {
 
     try {
-        
+
         var quotaInfos = [];
         pool.query(
             "select p.name, p.degree, q.percent , q.initial_quota, q.remaining_quota from programs p join quota q on p.id = q.program_id",
@@ -426,37 +440,37 @@ exports.getAllQuota = async (req, res, next) => {
 
 exports.changeQuota = async (req, res, next) => {
 
-    
-        var program = req.body.quotaProgramChooice;
-        var scholar = req.body.quotaSchoolarChoice;
 
-        var year = req.body.quotaYearChooice;
-        var semester = req.body.quotaSemesterChooice;
+    var program = req.body.quotaProgramChooice;
+    var scholar = req.body.quotaSchoolarChoice;
 
-        var quotaNumber = Number(req.body.quotaNumber);
-        console.log(program)
-        console.log(scholar)
-        console.log(year)
-        console.log(semester)
-        console.log(quotaNumber)
+    var year = req.body.quotaYearChooice;
+    var semester = req.body.quotaSemesterChooice;
+
+    var quotaNumber = Number(req.body.quotaNumber);
+    console.log(program)
+    console.log(scholar)
+    console.log(year)
+    console.log(semester)
+    console.log(quotaNumber)
 
 
-        try {
+    try {
         pool.query(
             "select id from programs where name = ? and academic_year = ? and semester = ?",
-            [program,year,semester],
+            [program, year, semester],
             async (err, result) => {
                 var id = result[0].id
                 db.execute(
                     'UPDATE quota SET initial_quota = ? , remaining_quota = ? WHERE program_id =  ? and percent = ?;',
-                    [quotaNumber, quotaNumber , id, scholar]
+                    [quotaNumber, quotaNumber, id, scholar]
                 );
                 res.status(201).send({
                     message: 'Quota changed Succesfully'
                 });
             },
         );
-        
+
         return;
     } catch (err) {
         if (!err.statusCode) {
@@ -467,7 +481,7 @@ exports.changeQuota = async (req, res, next) => {
         }
         next(err);
     }
-    
+
 
 };
 
@@ -480,7 +494,7 @@ exports.getSchoolarInfos = async (req, res, next) => {
         var scholarInfos = [];
         pool.query(
             "select q.percent, q.initial_quota, q.remaining_quota, (CASE WHEN q.initial_quota = 0 THEN true ELSE false END) as canUpdated from programs p inner join quota q on p.id = q.program_id where p.name = ? and p.academic_year = ? and p.semester = ?",
-            [program,academic_year,semester],
+            [program, academic_year, semester],
             async (err, result) => {
 
                 for (var i = 0; i < result.length; i++) {
@@ -509,7 +523,3 @@ exports.getSchoolarInfos = async (req, res, next) => {
     }
 
 };
-
-
-
-

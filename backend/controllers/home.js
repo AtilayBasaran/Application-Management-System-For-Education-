@@ -24,7 +24,7 @@ exports.getApplicationInfo = async (req, res, next) => {
     try {
         const applicationInfos = [];
         pool.query(
-            "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id ",
+            "select u.firstname, u.lastname ,  DATE_FORMAT(a.register_date, '%Y-%M-%D') as register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id ",
             async (err, result) => {
 
                 for (var i = 0; i < result.length; i++) {
@@ -62,7 +62,7 @@ exports.getProfileApplicationDetail = async (req, res, next) => {
         const user_id = req.body.user_id;
         const applicationInfos = [];
         pool.query(
-            "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id where a.user_id = ?",
+            "select u.firstname, u.lastname ,  DATE_FORMAT(a.register_date, '%Y-%M-%D') as register_date , a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id where a.user_id = ?",
             [user_id],
             async (err, result) => {
 
@@ -100,7 +100,7 @@ exports.getAgencyApplicationInfo = async (req, res, next) => {
     try {
         const applicationInfos = [];
         pool.query(
-            "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id where a.agency_mail = ?",
+            "select u.firstname, u.lastname , DATE_FORMAT(a.register_date, '%Y-%M-%D') as register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id where a.agency_mail = ?",
             [agency_email],
             async (err, result) => {
 
@@ -138,7 +138,7 @@ exports.getTurkishApplicationInfo = async (req, res, next) => {
     try {
         const applicationInfos = [];
         pool.query(
-            "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id inner join personal_details pd on u.id = pd.user_id  where pd.nationality = 'T.C'",
+            "select u.firstname, u.lastname ,  DATE_FORMAT(a.register_date, '%Y-%M-%D') as register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id inner join personal_details pd on u.id = pd.user_id  where pd.nationality = 'T.C'",
             async (err, result) => {
 
                 for (var i = 0; i < result.length; i++) {
@@ -176,7 +176,7 @@ exports.getInternationalApplicationInfo = async (req, res, next) => {
     try {
         const applicationInfos = [];
         pool.query(
-            "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id inner join personal_details pd on u.id = pd.user_id  where pd.nationality = 'international'",
+            "select u.firstname, u.lastname  , DATE_FORMAT(a.register_date, '%Y-%M-%D') as register_date ,a.program , u.email, a.agency_mail, a.stage, a.user_id  from applications a inner join users u on a.user_id = u.id inner join personal_details pd on u.id = pd.user_id  where pd.nationality = 'international'",
             async (err, result) => {
 
                 for (var i = 0; i < result.length; i++) {
@@ -358,7 +358,7 @@ exports.postTurkishApplicationInfo = async (req, res, next) => {
             async (err, result) => {
                 var dept = result[0].department
                 pool.query(
-                    "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id inner join personal_details pd on u.id = pd.user_id  where pd.nationality = 'T.C' and a.dept_name = ?",
+                    "select u.firstname, u.lastname , DATE_FORMAT(a.register_date, '%Y-%M-%D') as register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id inner join personal_details pd on u.id = pd.user_id  where pd.nationality = 'T.C' and a.dept_name = ?",
                     [dept],
                     async (err, result) => {
 
@@ -404,7 +404,7 @@ exports.postInternationalApplicationInfo = async (req, res, next) => {
             async (err, result) => {
                 var dept = result[0].department
                 pool.query(
-                    "select u.firstname, u.lastname , a.register_date, a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id inner join personal_details pd on u.id = pd.user_id  where pd.nationality = 'international' and a.dept_name = ?",
+                    "select u.firstname, u.lastname ,  DATE_FORMAT(a.register_date, '%Y-%M-%D') as register_date , a.program , u.email, a.agency_mail, a.stage, a.user_id from applications a inner join users u on a.user_id = u.id inner join personal_details pd on u.id = pd.user_id  where pd.nationality = 'international' and a.dept_name = ?",
                     [dept],
                     async (err, result) => {
 

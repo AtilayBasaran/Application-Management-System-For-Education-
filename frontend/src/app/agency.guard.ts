@@ -18,8 +18,7 @@ export class AgencyGuard implements CanActivate {
       this.userRole = this.token.getUser().roles;
 
       if (this.userRole == 'agency') {
-        this.router.navigate(["/agencyProfile"]);
-        return false;
+        return true;
       
       } else {
         this.router.navigate(["/authorized"]);
@@ -28,7 +27,8 @@ export class AgencyGuard implements CanActivate {
       }
 
     } else {
-      return true;
+      this.router.navigate(["/login"]);
+      return false;
     }
   }
   

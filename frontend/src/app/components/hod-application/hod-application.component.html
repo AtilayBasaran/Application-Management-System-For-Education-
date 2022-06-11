@@ -54,7 +54,9 @@
             <ng-container matColumnDef="examine">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Examine </th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-flat-button color="primary" (click)="open2(element.user_id)">Examine</button>
+                    <button mat-flat-button color="primary" 
+                    [disabled]="element.stage != 'Approved' && element.stage != 'Rejected' " 
+                    (click)="open2(element.user_id)">Examine</button>
                 </td>
             </ng-container>
 
@@ -118,7 +120,7 @@
             <!-- actions Column -->
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Evaluate </th>
-                <td mat-cell *matCellDef="let element"> <button [disabled]="element.stage != 'HeadOfDept'"
+                <td mat-cell *matCellDef="let element"> <button [disabled]="element.stage != 'HeadOfDept' && element.stage != 'Interview' "
                         mat-flat-button color="primary" (click)="open(element.user_id , element.stage)">Control</button> </td>
             </ng-container>
 
@@ -126,7 +128,10 @@
             <ng-container matColumnDef="examine">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Examine </th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-flat-button color="primary" (click)="open2(element.user_id)">Examine</button>
+                    <button
+                    mat-flat-button 
+                    [disabled]="element.stage != 'Approved' && element.stage != 'Rejected' " 
+                    color="primary" (click)="open2(element.user_id)">Examine</button>
                 </td>
             </ng-container>
 

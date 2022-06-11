@@ -222,7 +222,7 @@ export class CreateApplicationComponent implements OnInit {
           })
 
       this.applicationService
-        .addPersonalInfo(this.personalDetails.value)
+        .addPersonalInfo(user_id, this.personalDetails.value)
         .subscribe(
           data => {
             console.log(data);
@@ -234,7 +234,7 @@ export class CreateApplicationComponent implements OnInit {
           })
 
       this.applicationService
-        .addEducationalInfo(this.educationalDetails.value)
+        .addEducationalInfo(user_id , this.educationalDetails.value)
         .subscribe(data => {
           console.log(data);
           this.isErrorOccured = false;
