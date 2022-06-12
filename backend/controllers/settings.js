@@ -132,10 +132,37 @@ exports.deleteUser = async (req, res, next) => {
     try {
         const userid = req.params.userid;
         console.log(userid);
+        pool.query(
+            "select q.percent, q.program_id, q.remaining_quota from applications a inner join programs p on a.program = p.name inner join approved_applications aa on a.id = aa.app_id inner join quota q on p.id = q.program_id and aa.scholarship = q.percent where a.user_id = ?",
+            [userid],
+            async (err, result) => {
+                var percent = result[0].percent
+                var program_id = result[0].program_id
+                var remaining_quota = result[0].remaining_quota
+                var new_remaining = Number(remaining_quota)+1
+                db.execute(
+                    'UPDATE quota SET remaining_quota = ? WHERE percent = ? and program_id = ?;',
+                    [new_remaining, percent ,program_id]
+                );
         db.execute(
             'DELETE FROM users WHERE id = ?;',
             [userid]
         );
+        db.execute(
+            'DELETE FROM educational_details WHERE user_id = ?;',
+            [userid]
+        );
+        db.execute(
+            'DELETE FROM personal_details WHERE user_id = ?;',
+            [userid]
+        );
+
+        
+
+            },
+        );
+
+
         res.status(201).send({
             message: 'User deleted Succesfully'
         });
@@ -156,7 +183,6 @@ exports.deleteCourse = async (req, res, next) => {
 
     try {
         const course_id = req.params.course_id;
-        console.log(course_id);
         db.execute(
             'DELETE FROM course WHERE id = ?;',
             [course_id]
@@ -180,7 +206,6 @@ exports.deleteCourse = async (req, res, next) => {
 exports.updateInstitute = async (req, res, next) => {
     try {
         const userid = req.params.userid;
-        console.log(userid);
         db.execute(
             'UPDATE users SET role = ? WHERE id = ?;',
             ['institute', userid]
@@ -264,8 +289,6 @@ exports.changeCourseName = async (req, res, next) => {
         const courseId = req.body.courseId;
         const courseName = req.body.courseName;
 
-        console.log(courseId)
-        console.log(courseName)
 
         db.execute(
             'UPDATE course SET name = ? WHERE id = ?;',
@@ -448,11 +471,7 @@ exports.changeQuota = async (req, res, next) => {
     var semester = req.body.quotaSemesterChooice;
 
     var quotaNumber = Number(req.body.quotaNumber);
-    console.log(program)
-    console.log(scholar)
-    console.log(year)
-    console.log(semester)
-    console.log(quotaNumber)
+
 
 
     try {

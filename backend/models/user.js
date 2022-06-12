@@ -21,11 +21,6 @@ module.exports = class User {
     var dt = dateTime.create();
     var formatted = dt.format('Y-m-d H:M:S');
 
-    console.log(user.firstname);
-    console.log(user.lastname);
-    console.log(user.email);
-    console.log(user.password);
-    console.log(formatted);
 
     return db.execute(
       'INSERT INTO users (firstname, lastname, email, password, register_date, is_delete, role) VALUES (?, ?, ?, ?, ?, ?, ?)',

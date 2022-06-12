@@ -21,7 +21,6 @@ export class SettingService {
     private router: Router) { }
 
   addCourse(courseName: String, deptName : String): Observable<any> {
-    console.log(courseName + ' ' + deptName)
     return this.http
       .post(`${this.url}/addCourse`,{courseName,deptName}, this.httpOptions);
   }

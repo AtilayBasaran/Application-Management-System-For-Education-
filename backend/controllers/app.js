@@ -34,17 +34,6 @@ exports.addPersonal = async (req, res, next) => {
         var nationality = req.body.personalInfo.nationality;
         var id_number = req.body.personalInfo.id_number;
 
-        console.log('Personal Info tarafı ------------')
-        console.log(user_id)
-        console.log(name)
-        console.log(email)
-        console.log(address)
-        console.log(phone)
-        console.log(country)
-        console.log(nationality)
-        console.log(id_number)
-        console.log('Personal Info tarafı ------------')
-
 
         db.execute(
             'INSERT INTO personal_details (user_id, name, email, address, phone, country, nationality, id_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
@@ -81,19 +70,6 @@ exports.addEducational = async (req, res, next) => {
         var language_profiency = req.body.eduInfo.language_profiency;
         var exam_score = req.body.eduInfo.exam_score;
 
-        console.log('----------------------------')
-
-        console.log(user_id)
-        console.log(blue_card)
-        console.log(dual_citizen)
-        console.log(highest_qualification)
-        console.log(university)
-        console.log(total_marks)
-        console.log(graduation_year)
-        console.log(language_profiency)
-        console.log(exam_score)
-
-        console.log('----------------------------')
 
         db.execute(
             'INSERT INTO educational_details (user_id, blue_card, dual_citizen, high_q, university, total_marks, graduation_year, language_prof, exam_score) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
@@ -143,7 +119,6 @@ exports.addAddress = async (req, res, next) => {
 };
 
 exports.createMainApp = async (req, res, next) => {
-    console.log(req.body.degreeType)
     var user_id = req.body.user_id;
     var program_type = req.body.programType;
     var degreeType = req.body.degreeType;
@@ -169,21 +144,13 @@ exports.createMainApp = async (req, res, next) => {
                     async (err, result) => {
                         var agency_email = result[0].agency_email
 
-                pool.query('INSERT INTO applications (user_id, dept_name, register_date, agency_mail, stage, is_delete, interview_req, degree, program) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                    [user_id, dept_name, register_date, agency_email, stage, is_delete, interview_req, degreeType, program_type],
-                    function (err, rows) {
-                        if (err) throw err;
+                        pool.query('INSERT INTO applications (user_id, dept_name, register_date, agency_mail, stage, is_delete, interview_req, degree, program) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                            [user_id, dept_name, register_date, agency_email, stage, is_delete, interview_req, degreeType, program_type],
+                            function (err, rows) {
+                                if (err) throw err;
 
-
-                        console.log(user_id);
-                        console.log(dept_name);
-                        console.log(register_date);
-                        console.log(agency_email);
-                        console.log(stage);
-                        console.log(is_delete);
-                        console.log(interview_req);
-                    });
-                },
+                            });
+                    },
                 );
             },
         );
@@ -380,10 +347,6 @@ exports.addCourse = async (req, res, next) => {
         var course_name = req.body.course_name;
         var user_id = req.body.user_id;
 
-        console.log('----------------------------')
-
-        console.log('id : ' + user_id)
-        console.log('course_name : ' + course_name)
 
         pool.query(
             "SELECT id FROM course where name = ?",
@@ -392,7 +355,6 @@ exports.addCourse = async (req, res, next) => {
 
 
                 var course_id = result[0].id;
-                console.log('ilk query içi : ' + course_id)
 
                 pool.query(
                     "SELECT id FROM applications where user_id = ?",
@@ -400,7 +362,6 @@ exports.addCourse = async (req, res, next) => {
                     async (err, result) => {
                         var app_id = result[0].id;
 
-                        console.log('ikinci query içi : ' + app_id)
 
                         db.execute(
                             'INSERT INTO app_course (app_id, course_id) VALUES (?, ?)',
@@ -433,10 +394,6 @@ exports.removeCourse = async (req, res, next) => {
         var course_name = req.body.course_name;
         var user_id = req.body.user_id;
 
-        console.log('----------------------------')
-
-        console.log('id : ' + user_id)
-        console.log('course_name : ' + course_name)
 
         pool.query(
             "SELECT id FROM course where name = ?",
@@ -445,15 +402,12 @@ exports.removeCourse = async (req, res, next) => {
 
 
                 var course_id = result[0].id;
-                console.log('ilk query içi : ' + course_id)
 
                 pool.query(
                     "SELECT id FROM applications where user_id = ?",
                     [user_id],
                     async (err, result) => {
                         var app_id = result[0].id;
-
-                        console.log('ikinci query içi : ' + app_id)
 
                         db.execute(
                             'DELETE from app_course where app_id = ? and course_id = ?',
@@ -543,8 +497,6 @@ exports.controlAdded = (req, res, next) => {
                     async (err, result) => {
                         var app_id = result[0].id;
 
-                        console.log('ikinci query içi : ' + app_id)
-
                         pool.query(
                             "SELECT count(*) as count FROM app_course where app_id = ? and course_id = ? ",
                             [app_id, course_id],
@@ -596,8 +548,8 @@ exports.approveApplication = (req, res, next) => {
                         var new_quota = last_quota - 1
                         db.execute(
                             "UPDATE quota set remaining_quota = ? where id = ? ",
-                            [new_quota,q_id]);
-                
+                            [new_quota, q_id]);
+
                     },
                 );
                 db.execute(
@@ -612,7 +564,7 @@ exports.approveApplication = (req, res, next) => {
                     [app_id, schoolar, formatted, 0]
                 );
 
-                
+
 
                 res.status(201).send('true');
 
@@ -634,8 +586,7 @@ exports.rejectApplication = (req, res, next) => {
     try {
         var reject_reason = req.body.reject_reason;
         var user_id = req.body.user_id;
-        console.log(reject_reason)
-        console.log(user_id)
+
 
         pool.query(
             "SELECT id FROM applications where user_id = ?",
@@ -679,12 +630,19 @@ exports.isCreateApplication = (req, res, next) => {
             "SELECT count(id) as count FROM applications where user_id = ?",
             [user_id],
             async (err, result) => {
-
-                if (result[0].count != 0) {
-                    res.status(201).send('true');
-                }else{
-                    res.status(201).send('false');
-                }
+                var count_one = result[0].count
+                pool.query(
+                    "SELECT count(id) as count FROM users where agency_email != '' and id = ?",
+                    [user_id],
+                    async (err, result2) => {
+                        count_agency = result2[0].count
+                        if (count_one != 0 || count_agency != 0 ) {
+                            res.status(201).send('true');
+                        } else {
+                            res.status(201).send('false');
+                        }
+                    },
+                );
             },
         );
         return;
@@ -709,7 +667,7 @@ exports.isUploadMandatory = (req, res, next) => {
 
                 if (result[0].count != 0) {
                     res.status(201).send('true');
-                }else{
+                } else {
                     res.status(201).send('false');
                 }
             },
@@ -740,7 +698,7 @@ exports.sendInterviewRequest = (req, res, next) => {
 
                 var transporter = nodemailer.createTransport({
                     service: "hotmail",
-                    
+
                     auth: {
                         user: "applicationdestek@hotmail.com",
                         pass: "application123",

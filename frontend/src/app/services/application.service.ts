@@ -27,14 +27,11 @@ export class ApplicationService {
   ) {}
 
   addPersonalInfo(user_id : any , personalInfo: Omit<personalDetails, "email">) : Observable<personalDetails>{
-    /*var user_id = this.token.getUser().id;
-    console.log('buradaki id', user_id)*/
     return this.http
       .post<personalDetails>(`${this.url}/addPersonal`, {personalInfo,user_id}, this.httpOptions);
   }
 
   addEducationalInfo(user_id : any, eduInfo: Omit<educationalDetails, "university">) : Observable<educationalDetails>{
-    /*var user_id = this.token.getUser().id;*/
     return this.http
       .post<educationalDetails>(`${this.url}/addEducational`, {eduInfo,user_id}, this.httpOptions);
   }

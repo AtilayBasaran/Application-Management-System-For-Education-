@@ -42,7 +42,6 @@ export class ApplicationGuard implements CanActivate {
   }
 
   isCreateApplication(): any {
-    console.log('çalışıyor mu ? ')
     var user_id = this.tokenStorage.getUser().id;
 
   }

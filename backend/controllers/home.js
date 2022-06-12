@@ -210,7 +210,6 @@ exports.getInternationalApplicationInfo = async (req, res, next) => {
 exports.acceptDocument = async (req, res, next) => {
     var user_id = req.body.user_id;
     var file_name = req.body.file_name;
-    console.log('Approve document infos : ', user_id, file_name)
 
     try {
         db.execute(
@@ -296,7 +295,6 @@ exports.changeStatus = async (req, res, next) => {
                     is_all_approved = false;
                 }
                 if (is_all_approved) {
-                    console.log('Edilmiş')
                     db.execute(
                         "UPDATE applications set stage = 'HeadOfDept' where user_id = ?",
                         [user_id]);

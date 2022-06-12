@@ -31,13 +31,11 @@ export class AuthService {
       .post<User>(`${this.url}/signup`, user, this.httpOptions);
   }
   agencysignup(signupForm : any){
-    console.log('agency signup')
     return this.http.post(`${this.url}/agencySignup`, signupForm, this.httpOptions);
 
   }
 
   createUser(signupForm : any, agency_email : any){
-    console.log('agency signup')
 
     return this.http.post(`${this.url}/createUser`, {signupForm,agency_email}, this.httpOptions);
 

@@ -20,19 +20,16 @@ export class PasswordChangeService {
     private router: Router
   ) {}
   changePassword(email : String, password: String, passwordConfirm : String): Observable<any> {
-    console.log('Change Password Servisinin içi ')
     return this.http
       .post(`${this.url}/changepass`,{email,password,passwordConfirm}, this.httpOptions);
   }
 
   forgetPassword(email : String): Observable<any> {
-    console.log('Forget Password Servisinin içi ')
     return this.http
       .post(`${this.url}/forgetpass`,{email}, this.httpOptions);
   }
 
   newPassword(email : String,password: String, passwordConfirm : String): Observable<any> {
-    console.log('New Password Servisinin içi ')
     return this.http
       .post(`${this.url}/newpass`,{email,password,passwordConfirm}, this.httpOptions);
   }

@@ -22,11 +22,6 @@ export class HomePageService {
   getProgramInfos(degree : string) {
     this.http.get('http://localhost:3000/home/getApplicationInfo', this.httpOptions).subscribe(data => {
       this.applicationInfos = data;
-      console.log(data)
-
-      console.log('Application infos')
-
-      console.log(this.applicationInfos)
     });
   }
 
@@ -43,7 +38,6 @@ export class HomePageService {
   }
 
   changeStatus(user_id : any) {
-    console.log('Change status servis içinden tetiklendi')
     return this.http.post('http://localhost:3000/home/changeStatus',{user_id}, this.httpOptions);
   }
 

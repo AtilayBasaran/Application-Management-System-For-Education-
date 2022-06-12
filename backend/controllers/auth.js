@@ -70,7 +70,6 @@ exports.signup = async (req, res, next) => {
 exports.agencySignup = async (req, res, next) => {
 
   try {
-    console.log('agency signup')
 
 
     pool.query("select count(*) as count from users where email = ?",

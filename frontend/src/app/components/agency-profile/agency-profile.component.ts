@@ -82,6 +82,7 @@ export class AgencyProfileComponent implements OnInit {
         this.isSuccessful = true;
         this.isSignUpFailed = false;
         this.toastr.success('User Created Successfully', 'Success')
+        window.location.reload();
       },
       err => {
         this.errorMessage = err.error.message;
