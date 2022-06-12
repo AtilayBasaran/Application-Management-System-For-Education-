@@ -23,7 +23,7 @@ export class HiProfileComponent implements OnInit {
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
   };
-  columnsToDisplay: string[] = ['name', 'register_date', 'program', 'email', 'agency_mail', 'stage', 'examine'];
+  columnsToDisplay: string[] = ['name', 'register_date', 'program', 'email', 'agency_mail', 'stage'];
   turkishApplicationInfos: any;
   internationalApplicationInfos: any;
   dataSource: MatTableDataSource<any>;
@@ -92,21 +92,19 @@ export class HiProfileComponent implements OnInit {
     window.location.reload();
   }
 
-  getTurkishApplicationInfos() {
-    var user_id = this.token.getUser().id;
-    this.http.post('http://localhost:3000/home/postTurkishApplicationInfo',{user_id}, this.httpOptions).subscribe(data => {
-
-      this.turkishApplicationInfos = data;
-      this.dataSource = new MatTableDataSource(this.turkishApplicationInfos);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      console.log('Application infos')
-
-    });
-  }
+    getTurkishApplicationInfos() {
+      this.http.get('http://localhost:3000/home/getTurkishApplicationInfo').subscribe(data => {
+        this.turkishApplicationInfos = data;
+        this.dataSource = new MatTableDataSource(this.turkishApplicationInfos);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        console.log('Application infos')
+  
+      });
+    }
+  
   getInternationalApplicationInfos() {
-    var user_id = this.token.getUser().id;
-      this.http.post('http://localhost:3000/home/postInternationalApplicationInfo',{user_id}, this.httpOptions).subscribe(data => {
+      this.http.get('http://localhost:3000/home/getInternationalApplicationInfo').subscribe(data => {
         this.internationalApplicationInfos = data;
         this.dataSource2 = new MatTableDataSource(this.internationalApplicationInfos);
         this.dataSource2.paginator = this.paginator2;
@@ -115,6 +113,7 @@ export class HiProfileComponent implements OnInit {
     });
         
     }
+  
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -240,25 +239,6 @@ export class NgbdModal6Content {
     console.log(this.fileInfos)
 
   }
-
-  // getCourseInfos() {
-  //   var user_id = this.user_id;
-  //   this.http.post('http://localhost:3000/app/getCourseInfos', { user_id }, this.httpOptions).subscribe(data => {
-  //     this.courseInfos = data;
-  //     console.log(data)
-
-  //     console.log('Course infos')
-
-  //     console.log(this.courseInfos)
-  //   });
-  // }
-  // getUserCourses(user_id: any) {
-  //   var user_id = this.user_id;
-  //   this.http.post('http://localhost:3000/app/getUserCourses', { user_id }, this.httpOptions).subscribe(data => {
-  //   this.userCourses = data;
-  //     console.log(data)
-  //   });
-  // }
 
   getUniqueUserFiles(user_id: any): void {
     this.http.post('http://localhost:3000/app/getUniqueUserFiles', { user_id }, this.httpOptions).subscribe(data => {
