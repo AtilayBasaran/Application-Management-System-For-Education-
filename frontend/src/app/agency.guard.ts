@@ -14,12 +14,10 @@ export class AgencyGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     if (this.token.getToken()) {
-      
-      this.userRole = this.token.getUser().roles;
-
+      const userRole = this.token.getUser();
+      this.userRole = userRole.roles;
       if (this.userRole == 'agency') {
         return true;
-      
       } else {
         this.router.navigate(["/authorized"]);
 
@@ -27,7 +25,7 @@ export class AgencyGuard implements CanActivate {
       }
 
     } else {
-      this.router.navigate(["/login"]);
+      this.router.navigate(["/authorized"]);
       return false;
     }
   }

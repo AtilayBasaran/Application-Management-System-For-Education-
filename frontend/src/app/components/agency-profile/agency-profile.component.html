@@ -3,12 +3,10 @@
     <div class="information">
         <h1 class="stat">User Information</h1>
         <div class="Agencyname">
-            <h1>Agency Name:</h1>
-            <h1>{{currentUser.firstname}} {{currentUser.lastname}}</h1>
+            <h1>Agency Name: {{currentUser.firstname}} {{currentUser.lastname}}</h1>
         </div>
         <div class="Agencyemail">
-            <h1>Agency Email:</h1>
-            <h1>{{currentUser.email}}</h1>
+            <h1>Agency Email: {{currentUser.email}}</h1>
         </div>
         <form class="form-table" [formGroup]="changePassForm" (ngSubmit)="changePassword()" novalidate>
             <mat-form-field>

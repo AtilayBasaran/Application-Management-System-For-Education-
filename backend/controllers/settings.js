@@ -61,7 +61,7 @@ exports.userDetails = async (req, res, next) => {
     try {
         const userInfos = [];
         pool.query(
-            "SELECT * FROM users where is_delete = 0",
+            "SELECT * FROM users",
             async (err, result) => {
 
                 for (var i = 0; i < result.length; i++) {
@@ -133,8 +133,8 @@ exports.deleteUser = async (req, res, next) => {
         const userid = req.params.userid;
         console.log(userid);
         db.execute(
-            'UPDATE users SET is_delete = ? WHERE id = ?;',
-            [1, userid]
+            'DELETE FROM users WHERE id = ?;',
+            [userid]
         );
         res.status(201).send({
             message: 'User deleted Succesfully'

@@ -16,7 +16,7 @@ export class ProfileGuard implements CanActivate {
         if(userRole == 'student'){
           return true;
         }else{
-          this.router.navigate(["/authorized"]);
+          this.router.navigate(["/agencyProfile"]);
         return false;
         }
       } else {
