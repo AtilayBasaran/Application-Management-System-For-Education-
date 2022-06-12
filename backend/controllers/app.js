@@ -819,3 +819,105 @@ exports.getProgramQuotaInfos = (req, res, next) => {
         next(err);
     }
 };
+
+exports.getApprovedUserInfo = (req, res, next) => {
+
+    try {
+        var approvedUserInfo = []
+        var user_id = req.body.user_id;
+
+        pool.query(
+            "select * from applications a inner join approved_applications aa on a.id = aa.app_id where a.stage = 'Approved' and a.user_id = ?",
+            [user_id],
+            async (err, result) => {
+
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        stage: result[i].stage,
+                        degree: result[i].degree,
+                        program: result[i].program,
+                        register_date: result[i].register_date,
+                        scholarship: result[i].scholarship,
+                        approve_date: result[i].approve_date,
+                    };
+                    approvedUserInfo.push(a);
+                }
+                res.status(201).send(approvedUserInfo)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send('false');
+            return;
+        }
+        next(err);
+    }
+};
+
+exports.getRejectedUserInfo = (req, res, next) => {
+
+    try {
+        var rejectedUserInfo = []
+        var user_id = req.body.user_id;
+
+        pool.query(
+            "select * from applications a inner join rejected_applications aa on a.id = aa.app_id where a.stage = 'Rejected' and a.user_id = ?",
+            [user_id],
+            async (err, result) => {
+
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        stage: result[i].stage,
+                        degree: result[i].degree,
+                        program: result[i].program,
+                        register_date: result[i].register_date,
+                        reject_reason: result[i].reject_reason,
+                        reject_date: result[i].reject_date,
+                    };
+                    rejectedUserInfo.push(a);
+                }
+                res.status(201).send(rejectedUserInfo)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send('false');
+            return;
+        }
+        next(err);
+    }
+};
+
+exports.getApprovedUserCourses = (req, res, next) => {
+
+    try {
+        var approvedCourses = []
+        var user_id = req.body.user_id;
+
+        pool.query(
+            "select c.name , c.id, c.dept_name from applications a inner join app_course ac on a.id = ac.app_id inner join course c on ac.course_id = c.id where a.user_id = ?",
+            [user_id],
+            async (err, result) => {
+
+                for (var i = 0; i < result.length; i++) {
+                    var a = {
+                        courseName: result[i].name,
+                        courseId: result[i].id,
+                        deptName: result[i].dept_name,
+                    };
+                    approvedCourses.push(a);
+                }
+                res.status(201).send(approvedCourses)
+            },
+        );
+        return;
+    } catch (err) {
+        if (!err.statusCode) {
+            res.status(400).send('false');
+            return;
+        }
+        next(err);
+    }
+};

@@ -82,6 +82,18 @@ router.post(
     '/getProgramQuotaInfos', appController.getProgramQuotaInfos
 );
 
+router.post(
+    '/getApprovedUserInfo', appController.getApprovedUserInfo
+);
+
+router.post(
+    '/getRejectedUserInfo', appController.getRejectedUserInfo
+);
+
+router.post(
+    '/getApprovedUserCourses', appController.getApprovedUserCourses
+);
+
 
 
 module.exports = router;

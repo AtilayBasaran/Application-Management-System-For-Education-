@@ -79,10 +79,11 @@ export class HodApplicationComponent implements OnInit {
 
   }
 
-  open2(user_id: any) {
+  open2(user_id: any, user_stage: any) {
 
     const firstModal = this.modalService.open(NgbdModal5Content, { size: 'xl' });
     firstModal.componentInstance.user_id = user_id;
+    firstModal.componentInstance.user_stage = user_stage;
 
     firstModal.closed.subscribe(() => this.ngOnInit());
 
@@ -506,38 +507,23 @@ export class NgbdModal4Content implements OnInit {
               </tbody>
               </table>
           </mat-expansion-panel>
-          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" *ngFor="let user of userInfo">
               <mat-expansion-panel-header>
                   <mat-panel-title class="title" style="font-size:20px;">
                       Status
                   </mat-panel-title>
               </mat-expansion-panel-header>
-              <p> Application status :   </p>
-              <p> Scientific : </p>
+              <p> Application status :  {{user.stage}} </p>
+              <p *ngIf="!isRejected" > Schoolarship : {{user.scholarship}} </p>
+              <p *ngIf="isRejected" > Reject Reason : {{user.reject_reason}} </p>
           </mat-expansion-panel>
-          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" *ngIf="!isRejected" >
               <mat-expansion-panel-header>
                   <mat-panel-title class="title" style="font-size:20px;">
                       Add Course
                   </mat-panel-title>
               </mat-expansion-panel-header>
-              <p> Course name :  </p>
-          </mat-expansion-panel>
-          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
-                  <mat-panel-title class="title" style="font-size:20px;">
-                      Interview
-                  </mat-panel-title>
-              </mat-expansion-panel-header>
-              <p> Interview : </p>
-          </mat-expansion-panel>
-          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
-                  <mat-panel-title class="title" style="font-size:20px;">
-                      Schoolarship
-                  </mat-panel-title>
-              </mat-expansion-panel-header>
-              <p> Schoolarship :  </p>
+              <p *ngFor="let course of userCourses"> Course name : {{course.courseName}} </p>
           </mat-expansion-panel>
       </mat-accordion>
       </form>
@@ -546,8 +532,13 @@ export class NgbdModal4Content implements OnInit {
 
 export class NgbdModal5Content {
   @Input() user_id: any;
+  @Input() user_stage: any;
   fileInfos: any;
+  isRejected = false;
   panelOpenState = false;
+  userInfo : any;
+  userCourses : any;
+
 
 
   httpOptions: { headers: HttpHeaders } = {
@@ -561,29 +552,23 @@ export class NgbdModal5Content {
   ngOnInit(): void {
     this.getUniqueUserFiles(this.user_id);
 
+    if(this.user_stage == 'Approved'){
+      this.isRejected = false;
+      this.getApprovedUserInfo(this.user_id);
+      this.getApprovedUserCourses(this.user_id);
+
+    }else if(this.user_stage == 'Rejected'){
+      this.isRejected = true;
+      this.getRejectedUserInfo(this.user_id);
+    }else{
+
+    }
+
 
     console.log(this.fileInfos)
 
   }
 
-  // getCourseInfos() {
-  //   var user_id = this.user_id;
-  //   this.http.post('http://localhost:3000/app/getCourseInfos', { user_id }, this.httpOptions).subscribe(data => {
-  //     this.courseInfos = data;
-  //     console.log(data)
-
-  //     console.log('Course infos')
-
-  //     console.log(this.courseInfos)
-  //   });
-  // }
-  // getUserCourses(user_id: any) {
-  //   var user_id = this.user_id;
-  //   this.http.post('http://localhost:3000/app/getUserCourses', { user_id }, this.httpOptions).subscribe(data => {
-  //   this.userCourses = data;
-  //     console.log(data)
-  //   });
-  // }
 
   getUniqueUserFiles(user_id: any): void {
     this.http.post('http://localhost:3000/app/getUniqueUserFiles', { user_id }, this.httpOptions).subscribe(data => {
@@ -593,6 +578,39 @@ export class NgbdModal5Content {
       console.log('User File infos')
 
       console.log(this.fileInfos)
+    });
+
+  }
+
+  getApprovedUserInfo(user_id: any): void {
+    this.http.post('http://localhost:3000/app/getApprovedUserInfo', { user_id }, this.httpOptions).subscribe(data => {
+      this.userInfo = data;
+      console.log(data)
+
+      console.log('Approved User infos')
+    });
+
+  }
+
+  getApprovedUserCourses(user_id: any): void {
+    this.http.post('http://localhost:3000/app/getApprovedUserCourses', { user_id }, this.httpOptions).subscribe(data => {
+      this.userCourses = data;
+      console.log(data)
+
+      console.log('User course infos')
+    });
+
+  }
+
+
+
+  getRejectedUserInfo(user_id: any): void {
+    this.http.post('http://localhost:3000/app/getRejectedUserInfo', { user_id }, this.httpOptions).subscribe(data => {
+      this.userInfo = data;
+      console.log(data)
+
+      console.log('Rejected User infos')
+
     });
 
   }

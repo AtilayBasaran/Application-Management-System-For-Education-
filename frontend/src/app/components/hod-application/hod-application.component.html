@@ -56,7 +56,7 @@
                 <td mat-cell *matCellDef="let element">
                     <button mat-flat-button color="primary" 
                     [disabled]="element.stage != 'Approved' && element.stage != 'Rejected' " 
-                    (click)="open2(element.user_id)">Examine</button>
+                    (click)="open2(element.user_id, element.stage)">Examine</button>
                 </td>
             </ng-container>
 
@@ -123,7 +123,7 @@
                     <button
                     mat-flat-button 
                     [disabled]="element.stage != 'Approved' && element.stage != 'Rejected' " 
-                    color="primary" (click)="open2(element.user_id)">Examine</button>
+                    color="primary" (click)="open2(element.user_id, element.stage)">Examine</button>
                 </td>
             </ng-container>
 
