@@ -118,9 +118,6 @@ export class CreateApplicationComponent implements OnInit {
       language_profiency: ['', Validators.required],
       exam_score: ['', Validators.required]
 
-      //language_profiency yoksa bunun required olmasına gerek yok diye düşündüm
-      // O zaman validators.required kısmını kaldır sadece satırın tamamını kaldırırdan aldığım veriye ulaşamam :kiss:
-
     });
 
     this.degreeDetails = this.formBuilder.group({
@@ -168,7 +165,6 @@ export class CreateApplicationComponent implements OnInit {
         var user_id = this.currentUser.id;
       }
       this.http.post('http://localhost:3000/app/isUploadMandatory',{user_id}, this.httpOptions).subscribe(data => {
-        console.log('dta : ' +data)
         if (data == true){
           this.step++;
         }else{
@@ -432,7 +428,6 @@ export class CreateApplicationComponent implements OnInit {
       this.applicationService
         .controlDocumentName(fileName, user_id)
         .subscribe(data => {
-          console.log('buraya giriyor mu ?')
           console.log(data);
 
 
@@ -444,7 +439,6 @@ export class CreateApplicationComponent implements OnInit {
                 if (result == 'true') {
                   isPassName = true
                   if (isPassTitle && isPassName) {
-                    console.log('bu çalıştı mı ? ')
                     this.upload();
                   }
                   return;
@@ -473,36 +467,6 @@ export class CreateApplicationComponent implements OnInit {
     }
 
 
-    /*
-    this.progress = 0;
-    if (this.selectedFiles) {
-      const file: File | null = this.selectedFiles.item(0);
-      if (file) {
-        this.currentFile = file;
-        this.uploadService.upload(this.currentFile, this.documentTitle).subscribe(
-          (event: any) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progress = Math.round(100 * event.loaded / event.total);
-            } else if (event instanceof HttpResponse) {
-              this.message = event.body.message;
-              this.fileInfos = this.uploadService.getFiles();
-              this.toastr.success('File Uploaded Successfully', 'Success')
-            }
-          },
-          (err: any) => {
-            console.log(err);
-            this.progress = 0;
-            if (err.error && err.error.message) {
-              this.message = err.error.message;
-            } else {
-              this.message = 'Could not upload the file!';
-            }
-            this.currentFile = undefined;
-          });
-      }
-      this.selectedFiles = undefined;
-    }
-    */
   }
 
 }

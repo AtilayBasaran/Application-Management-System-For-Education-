@@ -23,7 +23,6 @@ const upload = async (req, res) => {
         await uploadFile(req, res);
 
         const user_id = req.params.user_id;
-        console.log('parametreye buradan ulaşabiliyor muyum ? ')
 
         if (req.file == undefined) {
             return res.status(400).send({
@@ -35,10 +34,6 @@ const upload = async (req, res) => {
             message: "Uploaded the file successfully: " + req.file.originalname,
         });
     } catch (err) {
-        console.log(err);
-
-        
-        console.log('buraya mı düşüyorum');
 
         if (err.code == "LIMIT_FILE_SIZE") {
             return res.status(500).send({

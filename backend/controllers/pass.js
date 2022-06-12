@@ -11,7 +11,6 @@ const cryptr = new Cryptr("myTotalySecretKey");
 
 exports.changePass = async (req, res, next) => {
     const errors = validationResult(req);
-    console.log('nerdeyim ben')
     const user = await User.find(req.body.email);
     if (user[0].length = 0) {
         res.status(401).json({
@@ -23,15 +22,10 @@ exports.changePass = async (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const passwordConfirm = req.body.passwordConfirm;
-    console.log('-------------------')
-    console.log(email)
-    console.log(password)
-    console.log(passwordConfirm)
-    console.log('-------------------')
+
 
 
     try {
-        console.log('buraya kadar geliyor')
         const hashedPassword = await bcrypt.hash(password, 12);
         console.log(hashedPassword)
         console.log(email)
@@ -57,60 +51,56 @@ exports.changePass = async (req, res, next) => {
 exports.forgetPass = async (req, res, next) => {
     const errors = validationResult(req);
     const user = await User.find(req.body.email);
-    if (user[0].length = 0) {
+    if (user[0].length == 0) {
         res.status(401).json({
             message: "Invalid Email"
         });
         return;
-    }
-    const email = req.body.email;
-    console.log('-------------------')
-    console.log(email)
-    console.log('-------------------')
-
-    try {
-
-        var transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: "snolldestek@gmail.com",
-                pass: "snoll123",
-            },
-            tls: {
-                rejectUnauthorized: false,
-            },
-        });
-        const encryptedemail = cryptr.encrypt(email);
-        var mailOptions = {
-            from: "snolldestek@gmail.com",
-            to: email,
-            subject: "Şifre Sıfırlama",
-            text: "Şifre sıfırlama talebiniz tarafımızca alınmıştır takip eden bağlantıyı kullanarak şifrenizi sıfırlayabilirsiniz ->  http://localhost:4200/newPass/" +
-                encryptedemail +
-                "",
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log("Email sent: " + info.response);
-            }
-        });
-
-
-        res.status(201).send({
-            message: 'Email Succesfully Sended'
-        });
-        return;
-    } catch (err) {
-        if (!err.statusCode) {
-            res.status(400).send({
-                message: "Failed!"
+    } else {
+        const email = req.body.email;
+        try {
+            var transporter = nodemailer.createTransport({
+                service: "hotmail",
+                auth: {
+                    user: "applicationdestek@hotmail.com",
+                    pass: "application123",
+                },
+                tls: {
+                    rejectUnauthorized: false,
+                },
+            });
+            const encryptedemail = cryptr.encrypt(email);
+            var mailOptions = {
+                from: "applicationdestek@hotmail.com",
+                to: email,
+                subject: "Reset Password",
+                text: "Your password reset request has been received by us. You can reset your password using the following link. ->  http://localhost:4200/newPass/" +
+                    encryptedemail +
+                    "",
+            };
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log("Email sent: " + info.response);
+                }
+            });
+            res.status(201).send({
+                message: 'Email Succesfully Sended'
             });
             return;
+        } catch (err) {
+            if (!err.statusCode) {
+                res.status(400).send({
+                    message: "Failed!"
+                });
+                return;
+            }
+            next(err);
         }
-        next(err);
+        
     }
+
 };
 
 exports.newPass = async (req, res, next) => {
@@ -119,41 +109,33 @@ exports.newPass = async (req, res, next) => {
     const decryptedEmail = cryptr.decrypt(encryptedEmail);
     const password = req.body.password;
     const passwordConfirm = req.body.passwordConfirm;
-
-    console.log('decryptedEmail : ' + decryptedEmail)
     const user = await User.find(decryptedEmail);
 
-    if (user[0].length = 0) {
+    if (user[0].length == 0) {
         res.status(401).json({
             message: "Invalid Email"
         });
         return;
-    }
-    console.log('-------------------')
-    console.log(password)
-    console.log(passwordConfirm)
-    console.log('-------------------')
-
-    try {
-        console.log('buraya kadar geliyor')
-        const hashedPassword = await bcrypt.hash(password, 12);
-        console.log(hashedPassword)
-        console.log(decryptedEmail)
-        db.execute(
-            'UPDATE users SET password = ? WHERE email = ?;',
-            [hashedPassword, decryptedEmail]);
-
-        res.status(201).send({
-            message: 'Password Succesfully Changed'
-        });
-        return;
-    } catch (err) {
-        if (!err.statusCode) {
-            res.status(400).send({
-                message: "Failed!"
+    }else{
+        try {
+            const hashedPassword = await bcrypt.hash(password, 12);
+            db.execute(
+                'UPDATE users SET password = ? WHERE email = ?;',
+                [hashedPassword, decryptedEmail]);
+    
+            res.status(201).send({
+                message: 'Password Succesfully Changed'
             });
             return;
+        } catch (err) {
+            if (!err.statusCode) {
+                res.status(400).send({
+                    message: "Failed!"
+                });
+                return;
+            }
+            next(err);
         }
-        next(err);
     }
+
 };

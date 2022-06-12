@@ -32,7 +32,7 @@ export class ForgetPassComponent implements OnInit {
         data => {
           console.log(data);
           this.isForgetFailed = false;
-          this.router.navigate(['profile'])
+          this.router.navigate(['login'])
           .then(() => {
           window.location.reload();
         });
