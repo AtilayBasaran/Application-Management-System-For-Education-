@@ -133,17 +133,19 @@ exports.deleteUser = async (req, res, next) => {
         const userid = req.params.userid;
         console.log(userid);
         pool.query(
-            "select q.percent, q.program_id, q.remaining_quota from applications a inner join programs p on a.program = p.name inner join approved_applications aa on a.id = aa.app_id inner join quota q on p.id = q.program_id and aa.scholarship = q.percent where a.user_id = ?",
+            "select q.percent, q.program_id, q.remaining_quota, count(q.percent) as count from applications a inner join programs p on a.program = p.name inner join approved_applications aa on a.id = aa.app_id inner join quota q on p.id = q.program_id and aa.scholarship = q.percent where a.user_id = ?",
             [userid],
             async (err, result) => {
-                var percent = result[0].percent
-                var program_id = result[0].program_id
-                var remaining_quota = result[0].remaining_quota
-                var new_remaining = Number(remaining_quota)+1
-                db.execute(
-                    'UPDATE quota SET remaining_quota = ? WHERE percent = ? and program_id = ?;',
-                    [new_remaining, percent ,program_id]
-                );
+                if(result[0].count != 0){
+                    var percent = result[0].percent
+                    var program_id = result[0].program_id
+                    var remaining_quota = result[0].remaining_quota
+                    var new_remaining = Number(remaining_quota)+1
+                    db.execute(
+                        'UPDATE quota SET remaining_quota = ? WHERE percent = ? and program_id = ?;',
+                        [new_remaining, percent ,program_id]
+                    );
+                }
         db.execute(
             'DELETE FROM users WHERE id = ?;',
             [userid]
