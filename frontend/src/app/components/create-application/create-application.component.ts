@@ -80,7 +80,6 @@ export class CreateApplicationComponent implements OnInit {
     }
 
     console.log(this.agent_user_id)
-    console.log('Agent process = ' + this.agent_process)
 
     this.currentUser = this.token.getUser();
 
@@ -328,10 +327,8 @@ export class CreateApplicationComponent implements OnInit {
             } else {
               this.message = 'Could not upload the file!';
             }
-            // this.currentFile = undefined;
           });
       }
-      // this.selectedFiles = undefined;
     }
   }
 
@@ -364,8 +361,6 @@ export class CreateApplicationComponent implements OnInit {
     this.http.post('http://localhost:3000/app/getProgramInfo', { degree }, this.httpOptions).subscribe(data => {
       this.programs = data;
       console.log(data)
-
-      console.log('Program infos')
 
       console.log(this.programInfos)
     });

@@ -45,35 +45,3 @@
     flex-direction: row;
     margin-top: 13px;
 }
-
-@media screen and (max-width: 1249px) {
-    #app{    
-        width: 110%;
-    }
-
-}
-
-@media screen and (max-width: 766px) {
-    #app{    
-        width: fit-content;
-    }
-
-}
-
-@media screen and (max-width: 477px) {
-    #app{    
-        width: min-content;
-    }
-    .logo{
-        height: 40px;
-        margin-top: 1rem;
-    }
-
-}
-
-@media screen and (max-width: 690px) {
-    #app{    
-        width: fit-content;
-    }
-
-}

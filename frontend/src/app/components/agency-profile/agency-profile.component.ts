@@ -101,9 +101,6 @@ export class AgencyProfileComponent implements OnInit {
       this.dataSource.sort = this.sort;
       console.log(data)
 
-      console.log('user infos')
-
-      console.log(this.userInfos)
     });
   }
 
@@ -115,8 +112,6 @@ export class AgencyProfileComponent implements OnInit {
       this.dataSource2.paginator = this.paginator2;
       this.dataSource2.sort = this.sort2;
       console.log(data)
-
-      console.log('Application infos')
 
     });
   }

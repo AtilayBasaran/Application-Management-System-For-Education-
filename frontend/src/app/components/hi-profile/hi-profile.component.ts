@@ -98,7 +98,6 @@ export class HiProfileComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.turkishApplicationInfos);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        console.log('Application infos')
   
       });
     }
@@ -244,8 +243,6 @@ export class NgbdModal6Content {
     this.http.post('http://localhost:3000/app/getUniqueUserFiles', { user_id }, this.httpOptions).subscribe(data => {
       this.fileInfos = data;
       console.log(data)
-
-      console.log('User File infos')
 
       console.log(this.fileInfos)
     });

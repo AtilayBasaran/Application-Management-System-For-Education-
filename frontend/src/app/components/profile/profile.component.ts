@@ -26,10 +26,8 @@ export class ProfileComponent implements OnInit {
   constructor(private token: TokenStorageService ,private http: HttpClient, private passwordService : PasswordChangeService, private router: Router) { }
   ngOnInit() : void{
     this.currentUser = this.token.getUser();
-    console.log('deneme');
     this.deneme = this.getUserInfos();
     this.changePassForm = this.createFormGroup();
-    console.log('hop'+this.currentUser)
     this.getApplicationDetail()
 
   };
@@ -47,7 +45,6 @@ export class ProfileComponent implements OnInit {
   
 
   changePassword(): void {
-    console.log('deneme')
     const email = this.currentUser.email;
     console.log(this.changePassForm.value.password);
     console.log(email)
@@ -98,9 +95,6 @@ export class ProfileComponent implements OnInit {
     this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
       this.appInfos = data;
       console.log(data)
-  
-      console.log('user infos')
-  
       console.log(this.appInfos)
     });
   }

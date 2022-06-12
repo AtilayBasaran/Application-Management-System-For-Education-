@@ -59,9 +59,6 @@ export class ProgramsComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         console.log(data)
-  
-        console.log('Program infos')
-  
         console.log(this.programInfos)
       });
 
@@ -75,9 +72,6 @@ export class ProgramsComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         console.log(data)
-  
-        console.log('Program infos')
-  
         console.log(this.programInfos)
       });
 
@@ -91,9 +85,6 @@ export class ProgramsComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         console.log(data)
-  
-        console.log('Program infos')
-  
         console.log(this.programInfos)
       });
 
@@ -107,9 +98,6 @@ export class ProgramsComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         console.log(data)
-  
-        console.log('Program infos')
-  
         console.log(this.programInfos)
       });
 

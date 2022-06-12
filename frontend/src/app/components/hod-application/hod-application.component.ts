@@ -107,7 +107,6 @@ export class HodApplicationComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.turkishApplicationInfos);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log('Application infos')
 
     });
   }
@@ -330,8 +329,6 @@ export class NgbdModal3Content implements OnInit {
       this.programQuotaInfo = data;
       console.log(data)
 
-      console.log('Course infos')
-
       console.log(this.programQuotaInfo)
     });
   }
@@ -356,8 +353,6 @@ export class NgbdModal3Content implements OnInit {
       this.courseInfos = data;
       console.log(data)
 
-      console.log('Course infos')
-
       console.log(this.courseInfos)
     });
   }
@@ -374,7 +369,6 @@ export class NgbdModal3Content implements OnInit {
       this.http.post('http://localhost:3000/app/addCourse', { user_id, course_name }, this.httpOptions).subscribe(data => {
 
         this.getUserCourses(this.user_id);
-        console.log('Course infos')
         this.toastr.success('Course Added Successfully', 'Success')
   
       });
@@ -407,8 +401,6 @@ export class NgbdModal3Content implements OnInit {
     this.http.post('http://localhost:3000/app/getUniqueUserFiles', { user_id }, this.httpOptions).subscribe(data => {
       this.fileInfos = data;
       console.log(data)
-
-      console.log('User File infos')
 
       console.log(this.fileInfos)
     });
@@ -460,8 +452,6 @@ export class NgbdModal4Content implements OnInit {
   }
 
   rejectDocument(): void {
-    console.log('Reject Çalıştı')
-    console.log('reason = ' + this.rejectForm.value.reason)
     this.applicationService
       .rejectApplication(this.user_id, this.rejectForm.value.reason)
       .subscribe(data => {
@@ -575,8 +565,6 @@ export class NgbdModal5Content {
       this.fileInfos = data;
       console.log(data)
 
-      console.log('User File infos')
-
       console.log(this.fileInfos)
     });
 
@@ -587,7 +575,6 @@ export class NgbdModal5Content {
       this.userInfo = data;
       console.log(data)
 
-      console.log('Approved User infos')
     });
 
   }
@@ -597,7 +584,6 @@ export class NgbdModal5Content {
       this.userCourses = data;
       console.log(data)
 
-      console.log('User course infos')
     });
 
   }
@@ -608,8 +594,6 @@ export class NgbdModal5Content {
     this.http.post('http://localhost:3000/app/getRejectedUserInfo', { user_id }, this.httpOptions).subscribe(data => {
       this.userInfo = data;
       console.log(data)
-
-      console.log('Rejected User infos')
 
     });
 
@@ -806,8 +790,6 @@ export class NgbdModal7Content implements OnInit {
       this.programQuotaInfo = data;
       console.log(data)
 
-      console.log('Course infos')
-
       console.log(this.programQuotaInfo)
     });
   }
@@ -832,8 +814,6 @@ export class NgbdModal7Content implements OnInit {
       this.courseInfos = data;
       console.log(data)
 
-      console.log('Course infos')
-
       console.log(this.courseInfos)
     });
   }
@@ -850,7 +830,6 @@ export class NgbdModal7Content implements OnInit {
       this.http.post('http://localhost:3000/app/addCourse', { user_id, course_name }, this.httpOptions).subscribe(data => {
 
         this.getUserCourses(this.user_id);
-        console.log('Course infos')
         this.toastr.success('Course Added Successfully', 'Success')
   
       });
@@ -883,8 +862,6 @@ export class NgbdModal7Content implements OnInit {
     this.http.post('http://localhost:3000/app/getUniqueUserFiles', { user_id }, this.httpOptions).subscribe(data => {
       this.fileInfos = data;
       console.log(data)
-
-      console.log('User File infos')
 
       console.log(this.fileInfos)
     });
@@ -936,8 +913,6 @@ export class NgbdModal8Content implements OnInit {
   }
 
   rejectDocument(): void {
-    console.log('Reject Çalıştı')
-    console.log('reason = ' + this.rejectForm.value.reason)
     this.applicationService
       .rejectApplication(this.user_id, this.rejectForm.value.reason)
       .subscribe(data => {

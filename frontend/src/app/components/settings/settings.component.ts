@@ -94,7 +94,6 @@ export class SettingsComponent implements OnInit {
     this.http.get('http://localhost:3000/settings/userDetails').subscribe(data => {
       this.userInfos = data;
       console.log(data)
-      console.log('user infos')
       console.log(this.userInfos)
     });
   }
@@ -103,9 +102,6 @@ export class SettingsComponent implements OnInit {
     this.http.get('http://localhost:3000/settings/settingsUserDetails').subscribe(data => {
       this.settingUserInfo = data;
       console.log(data)
-
-      console.log('setting user infos')
-
       console.log(this.settingUserInfo)
     });
   }
@@ -114,9 +110,6 @@ export class SettingsComponent implements OnInit {
     this.http.get('http://localhost:3000/settings/getAllQuota').subscribe(data => {
       this.quotaInfos = data;
       console.log(data)
-
-      console.log('quota infos')
-
       console.log(this.quotaInfos)
     });
   }
@@ -125,9 +118,6 @@ export class SettingsComponent implements OnInit {
     this.http.get('http://localhost:3000/programs/getAllProgram').subscribe(data => {
       this.programInfos = data;
       console.log(data)
-
-      console.log('program infos')
-
       console.log(this.programInfos)
     })
   }
@@ -136,9 +126,6 @@ export class SettingsComponent implements OnInit {
     this.http.get('http://localhost:3000/programs/getYearInfo').subscribe(data => {
       this.yearInfo = data;
       console.log(data)
-
-      console.log('Year infos')
-
       console.log(this.yearInfo)
     })
   }
@@ -147,9 +134,6 @@ export class SettingsComponent implements OnInit {
     this.http.post('http://localhost:3000/programs/getProgramQuotaInfos',{year, semester} ,this.httpOptions).subscribe(data => {
       this.programQuotaInfos = data;
       console.log(data)
-
-      console.log('Program Quota infos')
-
       console.log(this.programQuotaInfos)
     })
   }
@@ -161,9 +145,6 @@ export class SettingsComponent implements OnInit {
     this.http.post('http://localhost:3000/settings/getSchoolarInfos',{academic_year, semester, program} ,this.httpOptions).subscribe(data => {
       this.schoolarInfos = data;
       console.log(data)
-
-      console.log('Program Schoolar infos')
-
       console.log(this.schoolarInfos)
     })
   }
@@ -191,9 +172,6 @@ export class SettingsComponent implements OnInit {
         var quota_data = jsonObj[0]
         this.initial_quota = quota_data.initial_quota
         this.remaining_quota = quota_data.remaining_quota
-
-        console.log('Quota Details')
-  
         console.log(this.quotaDetail)
       });
       console.log(this.initial_quota)
@@ -204,9 +182,6 @@ export class SettingsComponent implements OnInit {
     this.http.get('http://localhost:3000/settings/courseDetails').subscribe(data => {
       this.courseInfos = data;
       console.log(data)
-
-      console.log('Course Details')
-
       console.log(this.courseInfos)
     });
   }
@@ -217,9 +192,6 @@ export class SettingsComponent implements OnInit {
     this.http.post('http://localhost:3000/programs/getQuotaProgramInfos', {academic_year,semester},this.httpOptions).subscribe(data => {
       this.quotaCourseInfos = data;
       console.log(data)
-
-      console.log('Program Details')
-
       console.log(this.quotaCourseInfos)
     });
   }
